@@ -8,14 +8,14 @@ int my_random(int inf, int max)
 }
 
 template<class T>
-int index(std::vector<T>& v, T value) {
+int index(std::vector<T> v, T value) {
   // Retourne l'index de l'élément value dans le vecteur v
   int idx;
   int flag = 0;
-  if !(v->empty()) {
+  if (!(v.empty())) {
     int i=0;
-    while ((i < v->size()) && (!flag)) {
-      if (v->at(i) == value) {
+    while ((i<v.size()) && (!flag)) {
+      if (v[i] == value) {
         idx = i;
         flag = 1;
       }
@@ -23,18 +23,21 @@ int index(std::vector<T>& v, T value) {
     }
   }
   if (flag) {return idx;}
-  else {return -1;}
+  else
+  {
+    return -1;
+  }
 }
 
 template<class T>
-int maxIndex(std::vector<T>& v) {
+int maxIndex(std::vector<T> v) {
   // Retourne l'index de l'élément de valeur maximale du vecteur v
   int idx;
-  T m = v->front();
-  if !(v->empty()) {
-    for (int i=0 ; i<v->size() ; i++) {
+  T m = v[0];
+  if (!(v.empty())) {
+    for (int i=0 ; i<v.size() ; i++) {
       if (v[i] > m) {
-        m = v->at(i);
+        m = v[i];
         idx = i;
       }
     }

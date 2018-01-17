@@ -1,17 +1,18 @@
-
 #include "Game_AI.hpp"
+// #include "AI.hpp"
 
 
-Game_AI::Game_AI(int givenSize, int method = 0) : Game(givenSize)
+Game_AI::Game_AI(int givenSize/*, AI givenAI*/) : Game(givenSize)
 {
-  size = givenSize;
+  // size = givenSize; //inutile
+  // myAI = givenAI;
 
-  for (int k = 0 ; k < size ; k++)
-  {
-    fitnessGrid.push_back(std::vector<int>(size,0));
-  }
+  // for (int k = 0 ; k < size ; k++)
+  // {
+  //   fitnessGrid.push_back(std::vector<int>(size,0));
+  // }
 
-  initiate_fitness_grid(method);
+  // initiate_fitness_grid(method);
 
 }
 
@@ -128,45 +129,8 @@ int Game_AI::compute_fitness()
   {
     for (int i = 0; i < size; i++)
     {
-      fitness += grid[k][i] * fitnessGrid[k][i];
+      fitness += grid[k][i] * (myAI.fitnessGrid[k][i]);
     }
   }
   return (fitness);
-}
-
-void Game_AI::initiate_fitness_grid(int method = 0)
-// method = 0 : default grid
-// method = 1 : the grid defined by the user in the GUI -> à faire
-{
-  if (method == 0)
-  {
-      for (int k = 0; k < size; k++)
-      {
-        fitnessGrid[k][0] = 13+k;
-      }
-      for (int k = 0; k < size; k++)
-      {
-        fitnessGrid[k][1] = 12-k;
-      }
-      for (int k = 0; k < size; k++)
-      {
-        fitnessGrid[k][2] = 5+k;
-      }
-      for (int k = 0; k < size; k++)
-      {
-        fitnessGrid[k][3] = 4-k;
-      }
-  }
-
-  // il faudra écrire les autres modes possibles
-  else
-  {
-    for (int k = 0; k < size; k++)
-    {
-      for (int i = 0; i < size; i++)
-      {
-        fitnessGrid[k][i] = 0;
-      }
-    }
-  }
 }
