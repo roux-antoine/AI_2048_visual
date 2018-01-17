@@ -3,11 +3,12 @@
 #include <math.h>
 
 #include "learning.hpp"
-#include "ia.hpp"
+#include "AI.hpp"
+#include "tools.cpp"
 
 class GeneticLearning : public Learning {
 private:
-  std::vector<IA> generation;
+  std::vector<AI> generation;
   std::vector<float> fitnesses;
   int nbGeneration;
   int nbIndiv;
@@ -34,40 +35,42 @@ public:
     mutationProba = mutationP;
   }
   void execute() {
-    IA indiv;
+    fitnesses.clear();
+    generation.clear();
+
+    AI indiv;
     for (int i=0; i<nbIndiv; i++) {
-      indiv = IA();
+      indiv = AI();
       generation.push_back(indiv);
       fitnesses.push_back(0);
     }
     generationCounter = 0;
     while (generationCounter < nbGeneration) {
       generationCounter += 1;
-      std::cout << generationCounter;
+      std::cout << generationCounter << std::endl;
 
-    /*# if generationCounter < 5 :
-    #     selectionRate = 0.5
-    # elif generationCounter < 10:
-    #     selectionRate = 0.35
-    # else :
-    #     selectionRate = 0.2*/
+      /* if generationCounter < 5 :
+      selectionRate = 0.5
+      elif generationCounter < 10:
+      selectionRate = 0.35
+      else :
+      selectionRate = 0.2*/
 
-    this.evalutation();
-    indexes = myGeneration.select(selectionRate, 0)
-    print(indexes)
-    print(sum(myGeneration.fitnesses)/nbrOfIndividuals)
-    myGeneration.fitnesses = []
+      evalutation();
+      indexes = *selection(selectionRate, 0);
+      std::cout << indexes << std::endl;
+      //print(sum(myGeneration.fitnesses)/nbrOfIndividuals)
 
-    myGeneration.reproduce(indexes)
-    text_file = open("Output.txt", "w")
-    string = ""
-    for k in range(nbrOfIndividuals) :
-    for i in range(4) :
-    for j in range(4) :
-    string += str(myGeneration.individuals[k].fitnessGrid[i][j]) + " "
-    string += "\n"
-    string += "\n"
-  }
+      reproduction(indexes&);
+      /*text_file = open("Output.txt", "w")
+      string = ""
+      for k in range(nbrOfIndividuals) :
+      for i in range(4) :
+      for j in range(4) :
+      string += str(myGeneration.individuals[k].fitnessGrid[i][j]) + " "
+      string += "\n"
+      string += "\n"*/
+    }
   }
   int evalutation() {
     int currentFitness;
@@ -80,109 +83,90 @@ public:
       fitnesses.push_back(math::trunc(currentFitness / nbEvalPerIndiv)); // score moyen
     }
   }
-  void selection() {
+  std::vector<int>& selection() {
     //assert proportionOfBest + proportionOfOthers < 1
 
-        int nbrOfBest = math::trunc(nbIndiv * selectionRate);
-        int nbrOfOthers = math::trunc(nbIndiv * selectionOthers);
-        std::vector<int> indexes;
+    int nbrOfBest = math::trunc(nbIndiv * selectionRate);
+    int nbrOfOthers = math::trunc(nbIndiv * selectionOthers);
+    std::vector<int> indexes;
 
-        std::vector<int> listOfFitnesses = fitnesses;
+    std::vector<int> listOfFitnesses = fitnesses;
 
-        int currentMaxIndex;
-        for (int k=0 ; k<nbrOfBest ; k++) {
-          currentMaxIndex = maxIndex(listOfFitnesses);
-          indexes.push_back(currentMaxIndex);
-          listOfFitnesses[currentMaxIndex] = 0;
-        }
+    int currentMaxIndex;
+    for (int k=0 ; k<nbrOfBest ; k++) {
+      currentMaxIndex = maxIndex(listOfFitnesses&);
+      indexes.push_back(currentMaxIndex);
+      listOfFitnesses[currentMaxIndex] = 0;
+    }
 
+    int randomlySelected;
+    for (int k=0 ; k<nbrOfOthers ; k++) {
+      randomlySelected = my_random(0, nbIndiv-1);
+      while (index(indexes&,randomlySelected) != -1 ) {
+        //if already one of the best, try again
+        randomlySelected = my_random(0, nbIndiv-1);
+      }
+      indexes.push_back(randomlySelected);
+    }
 
-        for (int k=0 ; k<nbrOfOthers ; k++) {
-            randomlySelected = random.randint(0, self.sizeOfPopulation-1)
-            while randomlySelected in indexes : #if already one of the best, try again
-                randomlySelected = random.randint(0, self.sizeOfPopulation-1)
-            indexes.append(randomlySelected)
-          }
+    // we delete the individuals not selected
+    for (int k=0 ; k<nbIndiv ; k++) {
+      if (index(indexes&, k) == -1) {
+        generation[k] = null;
+      }
+    }
 
-        #we delete the individuals not selected
-        for k in range(self.sizeOfPopulation) :
-            if k not in indexes :
-                self.individuals[k] = 0
-
-        return(indexes)
+    return indexes&;
   }
-  void reproduction() {
+  void reproduction(std::vector<int>& indexes) {
     """ The reproduction phase
-            indexes = indexes of the selected
-            At the moment : randomly mates the selected to fill up the blanks -> TROP VIOLENT ??
-            Doesnt return anything
-        """
-        assert len(indexes) >= 2
+    indexes = indexes of the selected
+    At the moment : randomly mates the selected to fill up the blanks -> TROP VIOLENT ??
+    Doesnt return anything
+    """
+    //assert len(indexes) >= 2
 
-        numberOfMissing = self.sizeOfPopulation - len(indexes)
-        indexesOfMissing = []
-        for k in range(self.sizeOfPopulation) :
-            if k not in indexes :
-                indexesOfMissing.append(k)
-
-        for k in indexesOfMissing :
-            parent1 = random.choice(indexes)
-            parent2 = random.choice(indexes)
-            while (parent2 == parent1) :
-                parent2 = random.choice(indexes)
-
-            self.individuals[k] = Grid([[0, 0, 0, 0],
-                                        [0, 0, 0, 0],
-                                        [0, 0, 0, 0],
-                                        [0, 0, 0, 0]] ,
-
-                                          [[1, 0, 0, 0],
-                                          [0, 0, 0, 0],
-                                          [0, 0, 0, 0],
-                                          [0, 0, 0, 0]])
-            for i in range(4) :
-                for j in range(4) :
-                    self.individuals[k].fitnessGrid[i][j] = 0.5 * (self.individuals[parent1].fitnessGrid[i,j] + self.individuals[parent2].fitnessGrid[i,j])
-  }
-  void mutation() {
-    for k in indexes :
-            if random.randint(1, int(1/probability)) == 1 :
-                #in this case we add a small noise to the grid, proportional to the tile values
-                for i in range(4) :
-                    for j in range(4) :
-                        tileValue = self.individuals[k].grid[i,j]
-                        self.individuals[k].fitnessGrid[i][j] += random.randint(-0.05 * tileValue, 0.05 * tileValue) #valeurs random....
-  }
-}
-
-int index(std::vector<int> v, int value) {
-  int idx;
-  int flag = 0;
-  if !(v.empty()) {
-    int i=0;
-    while ((i<v.size()) && (!flag)) {
-      if (v[i] == value) {
-        idx = i;
-        flag = 1;
-      }
-      i++;
-    }
-  }
-  if (flag) {return idx;}
-  else {return -1;}
-}
-
-int maxIndex(std::vector<int> v) {
-  int idx;
-  int m = v[0];
-  if !(v.empty()) {
-    for (int i=0 ; i<v.size() ; i++) {
-      if (v[i] > m) {
-        m = v[i];
-        idx = i;
+    int numberOfMissing = nbIndiv - indexes->size();
+    std::vector<int> indexesOfMissing;
+    for (int k=0 ; k<nbIndiv ; k++) {
+      if (index(indexes, k) == -1) {
+        // if k is not indexes
+        indexesOfMissing.push_back(k);
       }
     }
-    return idx;
+
+    int k;
+    int parent1;
+    int parent2;
+    for (int idx=0 ; idx<indexesOfMissing.size() ; idx++) {
+      k = indexes[idx];
+      parent1 = indexes[my_random(0, indexes.size()-1)];
+      parent2 = indexes[my_random(0, indexes.size()-1)];
+
+
+      while (parent2 == parent1) {
+        parent2 = indexes[my_random(0, indexes.size()-1)];
+      }
+
+      for (int i=0 ; i<generation[k].gridDimension ; i++) {
+        for (int j=0 ; j<generation[k].gridDimension ; j++) {
+          generation[k].fitnessGrid[i][j] = 0.5 * (generation[parent1].fitnessGrid[i][j] + generation[parent2].fitnessGrid[i][j]);
+        }
+      }
+    }
   }
-  else {return -1;}
+
+  void mutation(std::vector<int>& indexes) {
+    int k;
+    for (int idx=0 ; idx<indexes.size() ; idx++) {
+      if (my_random(1, math::trunc(1/mutationProba)) == 1) {
+        //in this case we add a small noise to the grid, proportional to the tile values
+        for (int i=0 ; i<generation[k].gridDimension ; i++) {
+          for (int j=0 ; j<generation[k].gridDimension ; j++) {
+            generation[k].fitnessGrid[i][j] += 0.05 * my_random(-1,1) * generation[k].fitnessGrid[i][j]; //valeurs random....
+          }
+        }
+      }
+    }
+  }
 }

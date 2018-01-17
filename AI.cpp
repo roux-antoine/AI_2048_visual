@@ -1,17 +1,16 @@
 #include <vector>
 
-class IA {
+class AI {
 private:
   std::vector<float> fitnessGrid;
   float fitness;
   int gridDimension;
 
 public:
-  IA() {
+  AI() {
     gridDimension = 4;
   }
-  IA(int dim) {
+  AI(int dim) {
     gridDimension = dim;
   }
-  int chooseDirection() {return 0;}
 }

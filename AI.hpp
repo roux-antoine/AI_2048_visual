@@ -3,16 +3,15 @@
 
 #include <vector>
 
-class IA {
+class AI {
 private:
   std::vector<float> fitnessGrid;
   float fitness;
   int gridDimension;
 
 public:
-  IA();
-  IA(int);
-  int chooseDirection() {};
+  AI();
+  AI(int);
 };
 
 #endif
