@@ -4,6 +4,9 @@
 // #include <random>
 // #include "tools.cpp"
 
+#ifndef GAME_PLAYER_HPP
+#define GAME_PLAYER_HPP
+
 class Game_player : public Game
 {
 
@@ -25,3 +28,5 @@ private:
 
 
 };
+
+#endif

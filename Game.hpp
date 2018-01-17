@@ -5,6 +5,9 @@
 #include <random>
 #include "tools.cpp"
 
+#ifndef GAME_HPP
+#define GAME_HPP
+
 // faut il écrire un destructeur pour libérer la mémoire ??
 
 class Game
@@ -29,8 +32,7 @@ protected:
 
   void add_random_nbr();
 
-  std::vector<std::vector<int> > swipe_base(std::vector<std::vector<int> > givenGrid) const;
-  // swipes the given grid in the up direction, doing all the necessary additions
+
 
   void swipe(int direction);
   //directions : 0 = left, 1 = down, 2 = right, 3 = up
@@ -38,13 +40,24 @@ protected:
   virtual int get_direction();
   // in the daughters classes, calls the function that decides in which direction to swipe
 
-
 public:
 
   // ATTRIBUTES //
   std::vector<std::vector<int> > grid;
 
   // METHODS //
+
+  std::vector<std::vector<int> > swipe_up(std::vector<std::vector<int> > givenGrid) const;
+  // swipes the given grid in the up direction, doing all the necessary additions
+
+  std::vector<std::vector<int> > swipe_down(std::vector<std::vector<int> > givenGrid) const;
+  // swipes the given grid in the down direction, doing all the necessary additions
+
+  std::vector<std::vector<int> > swipe_left(std::vector<std::vector<int> > givenGrid) const;
+  // swipes the given grid in the down direction, doing all the necessary additions
+
+  std::vector<std::vector<int> > swipe_right(std::vector<std::vector<int> > givenGrid) const;
+  // swipes the given grid in the down direction, doing all the necessary additions
 
   Game(int givenSize);
 
@@ -68,9 +81,9 @@ public:
 
   void fill_test();
 
-  std::vector<std::vector<int> > rotate(std::vector<std::vector<int> > givenGrid, int angle) const;
-
   bool is_finished();
   // returns true if grid is full, false otherwise
 
 };
+
+#endif

@@ -42,17 +42,25 @@ void Game::fill_test()
 {
 
   grid[0][0] = 1;
-
-  grid[1][0] = 6;
-  grid[1][1] = 2;
-
+  grid[1][0] = 1;
   grid[2][0] = 1;
-  grid[2][1] = 8;
-  grid[2][2] = 1;
+  grid[3][0] = 1;
 
-  grid[3][0] = 3;
-  grid[3][1] = 4;
-  grid[3][2] = 5;
+  grid[0][1] = 1;
+  grid[1][1] = 0;
+  grid[2][1] = 0;
+  grid[3][1] = 1;
+
+  grid[0][2] = 1;
+  grid[1][2] = 2;
+  grid[2][2] = 1;
+  grid[3][2] = 0;
+
+  grid[0][3] = 1;
+  grid[1][3] = 1;
+  grid[2][3] = 1;
+  grid[3][3] = 1;
+
 
 }
 
@@ -296,100 +304,7 @@ bool Game::can_swipe(int direction) const
   }
 }
 
-std::vector<std::vector<int> > Game::rotate(std::vector<std::vector<int> > givenGrid, int angle) const
-//rotates clockwise
-//attention, il ne faut pas que givenGrid soit modifiée, car c'est la grille de jeu
-// du coup pour le moment la fonction fait des recopies et ne passe pas par des pointeurs
-{
-  std::vector<std::vector<int> > rotatedGrid = givenGrid;
-
-  if (angle == 90)
-  {
-    //transpose
-    for(int r = 0; r < size; r++)
-    {
-      for(int c = r; c < size; c++)
-      {
-        std::swap(rotatedGrid[r][c], rotatedGrid[c][r]);
-      }
-    }
-    //reverse elements on row order
-    for(int r = 0; r < size; r++)
-    {
-      for(int c =0; c < size/2; c++)
-      {
-        // std::swap(rotatedGrid[r][c], rotatedGrid[size-r-1][c]);
-        std::swap(rotatedGrid[r][c], rotatedGrid[r][size-c-1]);
-
-      }
-    }
-
-  }
-
-  if (angle == 180)
-  {
-    for (int counter = 0; counter < 2; counter ++)
-    {
-      //transpose
-      for(int r = 0; r < size; r++)
-      {
-        for(int c = r; c < size; c++)
-        {
-          std::swap(rotatedGrid[r][c], rotatedGrid[c][r]);
-        }
-      }
-      //reverse elements on row order
-      for(int r = 0; r < size; r++)
-      {
-        for(int c =0; c < size/2; c++)
-        {
-          // std::swap(rotatedGrid[r][c], rotatedGrid[r][size-c-1]);
-          std::swap(rotatedGrid[r][c], rotatedGrid[r][size-c-1]);
-
-        }
-      }
-    }
-  }
-
-  if (angle == 270)
-  {
-    for (int counter = 0; counter < 3; counter ++)
-    {
-      //transpose
-      for(int r = 0; r < size; r++)
-      {
-        for(int c = r; c < size; c++)
-        {
-          std::swap(rotatedGrid[r][c], rotatedGrid[c][r]);
-        }
-      }
-      //reverse elements on row order
-      for(int r = 0; r < size; r++)
-      {
-        for(int c =0; c < size/2; c++)
-        {
-          // std::swap(rotatedGrid[r][c], rotatedGrid[r][size-c-1]);
-          std::swap(rotatedGrid[r][c], rotatedGrid[r][size-c-1]);
-
-        }
-      }
-    }
-  }
-
-  // for (int k = 0; k < size; k++)
-  // {
-  //   for (int i = 0; i < size; i++)
-  //   {
-  //     printf("%d ", rotatedGrid[k][i]);
-  //   }
-  //   printf("\n" );
-  // }
-  // printf("\n" );
-
-  return rotatedGrid;
-}
-
-std::vector<std::vector<int> > Game::swipe_base(std::vector<std::vector<int> > givenGrid) const
+std::vector<std::vector<int> > Game::swipe_up(std::vector<std::vector<int> > givenGrid) const
 // swipes the given grid in the up direction, doing all the necessary additions
 {
 
@@ -439,6 +354,156 @@ std::vector<std::vector<int> > Game::swipe_base(std::vector<std::vector<int> > g
   return (givenGrid); // A CHANGER
 }
 
+std::vector<std::vector<int> > Game::swipe_down(std::vector<std::vector<int> > givenGrid) const
+// swipes the given grid in the up direction, doing all the necessary additions
+{
+
+  for (int columnNbr = 0; columnNbr < size; columnNbr++)
+  {
+    //we start by putting every tile up
+    for (int lineNbr = size-1; lineNbr >= 0; lineNbr--)
+    {
+      int counter = 0;
+      while ((givenGrid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = lineNbr; k >= 0 ; k--)
+        {
+          if (givenGrid[k][columnNbr] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingLine = lineNbr; remainingLine > 0; remainingLine--)
+          {
+            givenGrid[remainingLine][columnNbr] = givenGrid[remainingLine-1][columnNbr];
+          }
+          givenGrid[0][columnNbr] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int lineNbr = size-1; lineNbr > 0; lineNbr--)
+    {
+      if (givenGrid[lineNbr][columnNbr] == givenGrid[lineNbr-1][columnNbr])
+      {
+        givenGrid[lineNbr][columnNbr] *= 2;
+        for (int remainingLine = lineNbr-1; remainingLine > 0; remainingLine--)
+        {
+          givenGrid[remainingLine][columnNbr] = givenGrid[remainingLine-1][columnNbr];
+        }
+        givenGrid[0][columnNbr] = 0;
+      }
+    }
+  }
+  return (givenGrid); // A CHANGER
+}
+
+std::vector<std::vector<int> > Game::swipe_left(std::vector<std::vector<int> > givenGrid) const
+// swipes the given grid in the up direction, doing all the necessary additions
+{
+
+  for (int lineNbr = 0; lineNbr < size; lineNbr++)
+  {
+    //we start by putting every tile left
+    for (int columnNbr = 0; columnNbr < size; columnNbr++)
+    {
+      int counter = 0;
+      while ((givenGrid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = columnNbr; k < size; k++)
+        {
+          if (givenGrid[lineNbr][k] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingColumn = columnNbr; remainingColumn < size-1; remainingColumn++)
+          {
+            givenGrid[lineNbr][remainingColumn] = givenGrid[lineNbr][remainingColumn+1];
+          }
+          givenGrid[lineNbr][size-1] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int columnNbr = 0; columnNbr < size-1; columnNbr++)
+    {
+      if (givenGrid[lineNbr][columnNbr] == givenGrid[lineNbr][columnNbr+1])
+      {
+        givenGrid[lineNbr][columnNbr] *= 2;
+        for (int remainingColumn = columnNbr+1; remainingColumn < size-1; remainingColumn++)
+        {
+          givenGrid[lineNbr][remainingColumn] = givenGrid[lineNbr][remainingColumn+1];
+        }
+        givenGrid[lineNbr][size-1] = 0;
+      }
+    }
+  }
+  return (givenGrid); // A CHANGER
+}
+
+std::vector<std::vector<int> > Game::swipe_right(std::vector<std::vector<int> > givenGrid) const
+// swipes the given grid in the up direction, doing all the necessary additions
+{
+
+  for (int lineNbr = 0; lineNbr < size; lineNbr++)
+  {
+
+    //we start by putting every tile left
+    for (int columnNbr = size-1; columnNbr >= 0; columnNbr--)
+    {
+      int counter = 0;
+      while ((givenGrid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = columnNbr; k >=0 ; k--)
+        {
+          if (givenGrid[lineNbr][k] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingColumn = columnNbr; remainingColumn > 0; remainingColumn--)
+          {
+            givenGrid[lineNbr][remainingColumn] = givenGrid[lineNbr][remainingColumn-1];
+          }
+          givenGrid[lineNbr][0] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int columnNbr = size-1; columnNbr > 0; columnNbr--)
+    {
+      if (givenGrid[lineNbr][columnNbr] == givenGrid[lineNbr][columnNbr-1])
+      {
+        givenGrid[lineNbr][columnNbr] *= 2;
+        for (int remainingColumn = columnNbr-1; remainingColumn > 0; remainingColumn--)
+        {
+          givenGrid[lineNbr][remainingColumn] = givenGrid[lineNbr][remainingColumn-1];
+        }
+        givenGrid[lineNbr][0] = 0;
+      }
+    }
+  }
+  return (givenGrid); // A CHANGER
+}
 
 
 void Game::swipe(int direction)
@@ -446,25 +511,26 @@ void Game::swipe(int direction)
 {
   if (direction == 0)
   {
-    std::vector<std::vector<int> > rotated = rotate(grid, 90);
-    grid = rotate(swipe_base(rotated), 270);
+    grid = swipe_left(grid);
   }
 
   else if (direction == 1)
   {
-    std::vector<std::vector<int> > rotated = rotate(grid, 180);
-    grid = rotate(swipe_base(rotated), 180);
+    grid = swipe_down(grid);
   }
 
   else if (direction == 2)
   {
-    std::vector<std::vector<int> > rotated = rotate(grid, 270);
-    grid = rotate(swipe_base(rotated), 90);
+    grid = swipe_right(grid);
   }
 
+  else if (direction == 3)
+  {
+    grid = swipe_up(grid);
+  }
   else
   {
-    grid = swipe_base(grid);
+    //faire une exception ou qqch du genre
   }
 }
 

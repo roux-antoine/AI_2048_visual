@@ -1,19 +1,8 @@
 #include "Game_AI.hpp"
-// #include "AI.hpp"
 
-
-Game_AI::Game_AI(int givenSize/*, AI givenAI*/) : Game(givenSize)
+Game_AI::Game_AI(int givenSize, AI givenAI) : Game(givenSize)
 {
-  // size = givenSize; //inutile
-  // myAI = givenAI;
-
-  // for (int k = 0 ; k < size ; k++)
-  // {
-  //   fitnessGrid.push_back(std::vector<int>(size,0));
-  // }
-
-  // initiate_fitness_grid(method);
-
+  myAI = givenAI;
 }
 
 void Game_AI::play()
@@ -24,9 +13,6 @@ void Game_AI::play()
 
   while(!this->is_finished())
   {
-    // this->print();
-    // char input;
-    // std::cin >> input;
     int direction = get_direction();
     if (this->can_swipe(direction))
     {
@@ -34,13 +20,12 @@ void Game_AI::play()
       this->add_random_nbr();
     }
   }
-
-  // printf("Game finished !\n\n");
-  // this->print();
 }
 
 
 int Game_AI::get_direction()
+// chooses the directon in which to swipe
+// decides by computing the fitnesses of all the possible grids with two swipes in advance
 {
   // we simulate the possible moves
 
@@ -114,7 +99,6 @@ int Game_AI::get_direction()
     }
 
     return (direction);
-
   }
 
   return (-1); // a changer
