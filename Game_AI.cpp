@@ -86,15 +86,6 @@ int Game_AI::get_direction()
       }
     }
 
-    // for (int k = 0; k < size; k++)
-    // {
-    //   for (int i = 0; i < size; i++)
-    //   {
-    //     printf("%d ", fitnessValuesGrid[k][i]);
-    //   }
-    //   printf("\n");
-    // }
-
     //now we need to choose the direction according to the fitnessValuesGrid
 
     int maxArray[4] = {0, 0, 0, 0};
