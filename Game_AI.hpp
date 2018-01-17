@@ -19,6 +19,7 @@ public:
 
 
 
+
 private:
 
   std::vector<std::vector<int> > fitnessGrid;
