@@ -27,9 +27,6 @@ protected:
   // main loop in which the game is played
   // CODE DE TEST
 
-  bool is_finished();
-  // returns true if grid is full, false otherwise
-
   void add_random_nbr();
 
   std::vector<std::vector<int> > swipe_base(std::vector<std::vector<int> > givenGrid) const;
@@ -73,6 +70,7 @@ public:
 
   std::vector<std::vector<int> > rotate(std::vector<std::vector<int> > givenGrid, int angle) const;
 
-
+  bool is_finished();
+  // returns true if grid is full, false otherwise
 
 };
