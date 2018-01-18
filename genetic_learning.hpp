@@ -7,12 +7,11 @@
 
 #include "learning.hpp"
 #include "AI.hpp"
-#include "tools.cpp"
 
-class GeneticLearning : public Learning {
+class GeneticLearning /*: public Learning*/ {
 private:
-  std::vector<IA> generation;
-  std::vector<float> fitnesses;
+  std::vector<AI> generation;
+  std::vector<int> fitnesses;
   int nbGeneration;
   int nbIndiv;
   int nbEvalPerIndiv;
@@ -22,12 +21,14 @@ private:
 
 public:
   GeneticLearning();
-  GeneticLearning(int, int, int, double);
+  GeneticLearning(int, int, int, double, double, double);
   void execute();
-  int evalutation();
-  void selection();
-  void reproduction();
-  void mutation();
+  void evalutation();
+  std::vector<int>* selection();
+  void reproduction(std::vector<int>*);
+  void mutation(std::vector<int>*);
+  AI get_best_AI();
+  int get_best_fitness();
 };
 
 #endif

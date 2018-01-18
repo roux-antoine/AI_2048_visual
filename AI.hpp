@@ -9,7 +9,7 @@ class AI
 public:
 
   std::vector<std::vector<int> > fitnessGrid;
-  int fitness;
+  int fitness; //really need one?
   int gridDimension;
 
   AI();

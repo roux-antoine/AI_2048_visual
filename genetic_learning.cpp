@@ -2,9 +2,7 @@
 #include <vector>
 #include <math.h>
 
-#include "learning.hpp"
-#include "AI.hpp"
-#include "tools.cpp"
+#include "genetic_learning.hpp"
 
 GeneticLearning::GeneticLearning() {
   nbGeneration = 10;
@@ -34,7 +32,7 @@ void GeneticLearning::execute() {
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
-  generationCounter = 0;
+  int generationCounter = 0;
   while (generationCounter < nbGeneration) {
     generationCounter += 1;
     std::cout << generationCounter << std::endl;
@@ -45,13 +43,15 @@ void GeneticLearning::execute() {
     selectionRate = 0.35
     else :
     selectionRate = 0.2*/
-
+    std::cout << "evalutation" << std::endl;
     evalutation();
-    indexes = *selection(selectionRate, 0);
-    std::cout << indexes << std::endl;
+    std::cout << "selection" << std::endl;
+    std::vector<int>* indexes = selection();
+    //std::cout << *indexes << std::endl;
     //print(sum(myGeneration.fitnesses)/nbrOfIndividuals)
 
-    reproduction(indexes&);
+    std::cout << "reproduction" << std::endl;
+    reproduction(indexes);
     /*text_file = open("Output.txt", "w")
     string = ""
     for k in range(nbrOfIndividuals) :
@@ -63,60 +63,60 @@ void GeneticLearning::execute() {
   }
 }
 
-int GeneticLearning::evalutation() {
+void GeneticLearning::evalutation() {
   int currentFitness;
-  for (int k=0 ; k<sizeOfPopulation ; k++) {
+  for (int k=0 ; k<nbIndiv ; k++) {
     currentFitness = 0;
     for (int i=0 ; i<nbEvalPerIndiv ; i++) {
-      Game_AI game(generation[k]);
+      Game_AI game(generation[k].gridDimension, generation[k]);
       currentFitness += double_sum(game.grid);
     }
-    fitnesses.push_back(math::trunc(currentFitness / nbEvalPerIndiv)); // score moyen
+    fitnesses.push_back(trunc(currentFitness / nbEvalPerIndiv)); // score moyen
   }
 }
 
-std::vector<int>& GeneticLearning::selection() {
+std::vector<int>* GeneticLearning::selection() {
   //assert proportionOfBest + proportionOfOthers < 1
-
-  int nbrOfBest = math::trunc(nbIndiv * selectionRate);
-  int nbrOfOthers = math::trunc(nbIndiv * selectionOthers);
-  std::vector<int> indexes;
+  std::cout << "definitions" << std::endl;
+  int nbrOfBest = trunc(nbIndiv * selectionRate);
+  int nbrOfOthers = trunc(nbIndiv * selectionOthers);
+  std::vector<int>* indexes;
 
   std::vector<int> listOfFitnesses = fitnesses;
-
+  std::cout << "selection des meilleurs" << std::endl;
   int currentMaxIndex;
   for (int k=0 ; k<nbrOfBest ; k++) {
-    currentMaxIndex = maxIndex(listOfFitnesses&);
-    indexes.push_back(currentMaxIndex);
+    currentMaxIndex = max_index(&listOfFitnesses);
+    indexes->push_back(currentMaxIndex);
     listOfFitnesses[currentMaxIndex] = 0;
   }
-
+  std::cout << "selection aléatoire" << std::endl;
   int randomlySelected;
   for (int k=0 ; k<nbrOfOthers ; k++) {
     randomlySelected = my_random(0, nbIndiv-1);
-    while (index(indexes&,randomlySelected) != -1 ) {
+    while (index(indexes,randomlySelected) != -1 ) {
       //if already one of the best, try again
       randomlySelected = my_random(0, nbIndiv-1);
     }
-    indexes.push_back(randomlySelected);
+    indexes->push_back(randomlySelected);
   }
-
+  std::cout << "suppression des non selectionnes" << std::endl;
   // we delete the individuals not selected
   for (int k=0 ; k<nbIndiv ; k++) {
-    if (index(indexes&, k) == -1) {
-      generation[k] = null;
+    if (index(indexes, k) == -1) {
+      generation.erase(generation.begin() + k); // to have an iterator
     }
   }
 
-  return indexes&;
+  return indexes;
 }
 
-void GeneticLearning::reproduction(std::vector<int>& indexes) {
-  """ The reproduction phase
+void GeneticLearning::reproduction(std::vector<int>* indexes) {
+  /*  The reproduction phase
   indexes = indexes of the selected
   At the moment : randomly mates the selected to fill up the blanks -> TROP VIOLENT ??
   Doesnt return anything
-  """
+  """*/
   //assert len(indexes) >= 2
 
   int numberOfMissing = nbIndiv - indexes->size();
@@ -132,27 +132,27 @@ void GeneticLearning::reproduction(std::vector<int>& indexes) {
   int parent1;
   int parent2;
   for (int idx=0 ; idx<indexesOfMissing.size() ; idx++) {
-    k = indexes[idx];
-    parent1 = indexes[my_random(0, indexes.size()-1)];
-    parent2 = indexes[my_random(0, indexes.size()-1)];
+    k = indexes->at(idx);
+    parent1 = indexes->at(my_random(0, indexes->size()-1));
+    parent2 = indexes->at(my_random(0, indexes->size()-1));
 
 
     while (parent2 == parent1) {
-      parent2 = indexes[my_random(0, indexes.size()-1)];
+      parent2 = indexes->at(my_random(0, indexes->size()-1));
     }
 
     for (int i=0 ; i<generation[k].gridDimension ; i++) {
       for (int j=0 ; j<generation[k].gridDimension ; j++) {
-        generation[k].fitnessGrid[i][j] = 0.5 * (generation[parent1].fitnessGrid[i][j] + generation[parent2].fitnessGrid[i][j]);
+        generation[k].fitnessGrid[i][j] = trunc(0.5 * (generation[parent1].fitnessGrid[i][j] + generation[parent2].fitnessGrid[i][j]));
       }
     }
   }
 }
 
-void GeneticLearning::mutation(std::vector<int>& indexes) {
+void GeneticLearning::mutation(std::vector<int>* indexes) {
   int k;
-  for (int idx=0 ; idx<indexes.size() ; idx++) {
-    if (my_random(1, math::trunc(1/mutationProba)) == 1) {
+  for (int idx=0 ; idx<indexes->size() ; idx++) {
+    if (my_random(1, trunc(1/mutationProba)) == 1) {
       //in this case we add a small noise to the grid, proportional to the tile values
       for (int i=0 ; i<generation[k].gridDimension ; i++) {
         for (int j=0 ; j<generation[k].gridDimension ; j++) {
@@ -162,4 +162,11 @@ void GeneticLearning::mutation(std::vector<int>& indexes) {
     }
   }
 }
+
+AI GeneticLearning::get_best_AI() {
+  return generation[max_index(&fitnesses)];
+}
+
+int GeneticLearning::get_best_fitness() {
+  return fitnesses[max_index(&fitnesses)];
 }

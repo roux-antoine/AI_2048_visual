@@ -6,12 +6,12 @@
 class Learning {
 private:
   int maxDuration;
-  std::vector<std::vector<int>> grid;
+  std::vector<std::vector<int> > grid;
   //TODO Object learningValues;
 
 public:
   Learning();
-  Learning(std::vector<std::vector<int>>& a);
+  Learning(std::vector<std::vector<int> >& a);
   virtual void execute();
 };
 
