@@ -7,6 +7,19 @@ int my_random(int inf, int max)
   return(dist6(rng));
 }
 
+int double_sum(std::vector<std::vector<int> > v) {
+  int result = 0;
+  if (v.empty()) {return 0;}
+  for (int i=0 ; i<v.size() ; i++) {
+    if (!(v.empty())) {
+      for (int j=0 ; j<v[i].size() ; j++) {
+        result += v[i][j];
+      }
+    }
+  }
+  return result;
+}
+
 template<class T>
 int index(std::vector<T> v, T value) {
   // Retourne l'index de l'élément value dans le vecteur v
@@ -30,7 +43,7 @@ int index(std::vector<T> v, T value) {
 }
 
 template<class T>
-int maxIndex(std::vector<T> v) {
+int max_index(std::vector<T> v) {
   // Retourne l'index de l'élément de valeur maximale du vecteur v
   int idx;
   T m = v[0];
