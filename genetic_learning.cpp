@@ -69,6 +69,9 @@ void GeneticLearning::evalutation() {
     currentFitness = 0;
     for (int i=0 ; i<nbEvalPerIndiv ; i++) {
       Game_AI game(generation[k].gridDimension, generation[k]);
+
+      game.play();
+
       currentFitness += double_sum(game.grid);
     }
     fitnesses.push_back(trunc(currentFitness / nbEvalPerIndiv)); // score moyen
@@ -81,19 +84,26 @@ std::vector<int>* GeneticLearning::selection() {
   int nbrOfBest = trunc(nbIndiv * selectionRate);
   int nbrOfOthers = trunc(nbIndiv * selectionOthers);
   std::vector<int>* indexes;
+  printf("toto\n");
+  // indexes->push_back(0); //quand on le décommente, ça segfault qques lignes plus loin
 
   std::vector<int> listOfFitnesses = fitnesses;
   std::cout << "selection des meilleurs" << std::endl;
   int currentMaxIndex;
   for (int k=0 ; k<nbrOfBest ; k++) {
     currentMaxIndex = max_index(&listOfFitnesses);
+    printf("current max index %d\n", currentMaxIndex); //là ça segfault
+    //en fait on dirait que ça segfault quand on essaie de push back 2 fois la même valeur -> chelou
+    //peut etre du au fait que c'est un pointeur sur vecteur...
     indexes->push_back(currentMaxIndex);
     listOfFitnesses[currentMaxIndex] = 0;
   }
+
   std::cout << "selection aléatoire" << std::endl;
   int randomlySelected;
   for (int k=0 ; k<nbrOfOthers ; k++) {
     randomlySelected = my_random(0, nbIndiv-1);
+
     while (index(indexes,randomlySelected) != -1 ) {
       //if already one of the best, try again
       randomlySelected = my_random(0, nbIndiv-1);
@@ -116,7 +126,7 @@ void GeneticLearning::reproduction(std::vector<int>* indexes) {
   indexes = indexes of the selected
   At the moment : randomly mates the selected to fill up the blanks -> TROP VIOLENT ??
   Doesnt return anything
-  """*/
+  */
   //assert len(indexes) >= 2
 
   int numberOfMissing = nbIndiv - indexes->size();

@@ -26,9 +26,12 @@ int index(std::vector<T>* v, T value) {
   int idx;
   int flag = 0;
   if (!(v->empty())) {
+
     int i=0;
     while ((i<v->size()) && (!flag)) {
+      printf("%lu\n", v->size());
       if (v->at(i) == value) {
+
         idx = i;
         flag = 1;
       }

@@ -15,13 +15,13 @@ private:
   int nbGeneration;
   int nbIndiv;
   int nbEvalPerIndiv;
-  double selectionRate;
-  double selectionOthers;
+  double selectionRate; // peut etre à renommer en selectionRateBest
+  double selectionOthers; // peut etre à renommer en selectionRateOthers
   double mutationProba;
 
 public:
   GeneticLearning();
-  GeneticLearning(int, int, int, double, double, double);
+  GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP);
   void execute();
   void evalutation();
   std::vector<int>* selection();
