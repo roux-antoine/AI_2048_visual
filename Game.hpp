@@ -47,17 +47,36 @@ public:
 
   // METHODS //
 
-  std::vector<std::vector<int> > swipe_up(std::vector<std::vector<int> > givenGrid) const;
+  std::vector<std::vector<int> > swipe_up_copy(std::vector<std::vector<int> > givenGrid) const;
   // swipes the given grid in the up direction, doing all the necessary additions
+  // takes a grid, returns a grid -> does not modify the original
 
-  std::vector<std::vector<int> > swipe_down(std::vector<std::vector<int> > givenGrid) const;
+  std::vector<std::vector<int> > swipe_down_copy(std::vector<std::vector<int> > givenGrid) const;
   // swipes the given grid in the down direction, doing all the necessary additions
+  // takes a grid, returns a grid -> does not modify the original
 
-  std::vector<std::vector<int> > swipe_left(std::vector<std::vector<int> > givenGrid) const;
-  // swipes the given grid in the down direction, doing all the necessary additions
+  std::vector<std::vector<int> > swipe_left_copy(std::vector<std::vector<int> > givenGrid) const;
+  // swipes the given grid in the left direction, doing all the necessary additions
+  // takes a grid, returns a grid -> does not modify the original
 
-  std::vector<std::vector<int> > swipe_right(std::vector<std::vector<int> > givenGrid) const;
+  std::vector<std::vector<int> > swipe_right_copy(std::vector<std::vector<int> > givenGrid) const;
+  // swipes the given grid in the right direction, doing all the necessary additions
+  // takes a grid, returns a grid -> does not modify the original
+  void swipe_up();
+  // swipes the given grid in the up direction, doing all the necessary additions
+  // Modifies the original
+
+  void swipe_down();
   // swipes the given grid in the down direction, doing all the necessary additions
+  // Modifies the original
+
+  void swipe_left();
+  // swipes the given grid in the left direction, doing all the necessary additions
+  // Modifies the original
+
+  void swipe_right();
+  // swipes the given grid in the right direction, doing all the necessary additions
+  // Modifies the original
 
   Game(int givenSize);
 

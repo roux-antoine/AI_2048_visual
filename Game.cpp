@@ -304,8 +304,9 @@ bool Game::can_swipe(int direction) const
   }
 }
 
-std::vector<std::vector<int> > Game::swipe_up(std::vector<std::vector<int> > givenGrid) const
+std::vector<std::vector<int> > Game::swipe_up_copy(std::vector<std::vector<int> > givenGrid) const
 // swipes the given grid in the up direction, doing all the necessary additions
+// takes a grid, returns a grid -> does not modify the original
 {
 
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
@@ -354,8 +355,9 @@ std::vector<std::vector<int> > Game::swipe_up(std::vector<std::vector<int> > giv
   return (givenGrid); // A CHANGER
 }
 
-std::vector<std::vector<int> > Game::swipe_down(std::vector<std::vector<int> > givenGrid) const
-// swipes the given grid in the up direction, doing all the necessary additions
+std::vector<std::vector<int> > Game::swipe_down_copy(std::vector<std::vector<int> > givenGrid) const
+// swipes the given grid in the down direction, doing all the necessary additions
+// takes a grid, returns a grid -> does not modify the original
 {
 
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
@@ -404,8 +406,9 @@ std::vector<std::vector<int> > Game::swipe_down(std::vector<std::vector<int> > g
   return (givenGrid); // A CHANGER
 }
 
-std::vector<std::vector<int> > Game::swipe_left(std::vector<std::vector<int> > givenGrid) const
-// swipes the given grid in the up direction, doing all the necessary additions
+std::vector<std::vector<int> > Game::swipe_left_copy(std::vector<std::vector<int> > givenGrid) const
+// swipes the given grid in the left direction, doing all the necessary additions
+// takes a grid, returns a grid -> does not modify the original
 {
 
   for (int lineNbr = 0; lineNbr < size; lineNbr++)
@@ -454,8 +457,9 @@ std::vector<std::vector<int> > Game::swipe_left(std::vector<std::vector<int> > g
   return (givenGrid); // A CHANGER
 }
 
-std::vector<std::vector<int> > Game::swipe_right(std::vector<std::vector<int> > givenGrid) const
-// swipes the given grid in the up direction, doing all the necessary additions
+std::vector<std::vector<int> > Game::swipe_right_copy(std::vector<std::vector<int> > givenGrid) const
+// swipes the given grid in the right direction, doing all the necessary additions
+// Modifies the original
 {
 
   for (int lineNbr = 0; lineNbr < size; lineNbr++)
@@ -505,28 +509,229 @@ std::vector<std::vector<int> > Game::swipe_right(std::vector<std::vector<int> > 
   return (givenGrid); // A CHANGER
 }
 
+void Game::swipe_up()
+// swipes the given grid in the up direction, doing all the necessary additions
+// Modifies the original
+{
 
+  for (int columnNbr = 0; columnNbr < size; columnNbr++)
+  {
+    //we start by putting every tile up
+    for (int lineNbr = 0; lineNbr < size; lineNbr++)
+    {
+      int counter = 0;
+      while ((grid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = lineNbr; k < size; k++)
+        {
+          if (grid[k][columnNbr] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingLine = lineNbr; remainingLine < size-1; remainingLine++)
+          {
+            grid[remainingLine][columnNbr] = grid[remainingLine+1][columnNbr];
+          }
+          grid[size-1][columnNbr] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int lineNbr = 0; lineNbr < size-1; lineNbr++)
+    {
+      if (grid[lineNbr][columnNbr] == grid[lineNbr+1][columnNbr])
+      {
+        grid[lineNbr][columnNbr] *= 2;
+        for (int remainingLine = lineNbr+1; remainingLine < size-1; remainingLine++)
+        {
+          grid[remainingLine][columnNbr] = grid[remainingLine+1][columnNbr];
+        }
+        grid[size-1][columnNbr] = 0;
+      }
+    }
+  }
+}
+
+void Game::swipe_down()
+// swipes the given grid in the down direction, doing all the necessary additions
+// Modifies the original
+{
+
+  for (int columnNbr = 0; columnNbr < size; columnNbr++)
+  {
+    //we start by putting every tile up
+    for (int lineNbr = size-1; lineNbr >= 0; lineNbr--)
+    {
+      int counter = 0;
+      while ((grid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = lineNbr; k >= 0 ; k--)
+        {
+          if (grid[k][columnNbr] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingLine = lineNbr; remainingLine > 0; remainingLine--)
+          {
+            grid[remainingLine][columnNbr] = grid[remainingLine-1][columnNbr];
+          }
+          grid[0][columnNbr] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int lineNbr = size-1; lineNbr > 0; lineNbr--)
+    {
+      if (grid[lineNbr][columnNbr] == grid[lineNbr-1][columnNbr])
+      {
+        grid[lineNbr][columnNbr] *= 2;
+        for (int remainingLine = lineNbr-1; remainingLine > 0; remainingLine--)
+        {
+          grid[remainingLine][columnNbr] = grid[remainingLine-1][columnNbr];
+        }
+        grid[0][columnNbr] = 0;
+      }
+    }
+  }
+}
+
+void Game::swipe_left()
+// swipes the given grid in the left direction, doing all the necessary additions
+// Modifies the original
+{
+
+  for (int lineNbr = 0; lineNbr < size; lineNbr++)
+  {
+    //we start by putting every tile left
+    for (int columnNbr = 0; columnNbr < size; columnNbr++)
+    {
+      int counter = 0;
+      while ((grid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = columnNbr; k < size; k++)
+        {
+          if (grid[lineNbr][k] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingColumn = columnNbr; remainingColumn < size-1; remainingColumn++)
+          {
+            grid[lineNbr][remainingColumn] = grid[lineNbr][remainingColumn+1];
+          }
+          grid[lineNbr][size-1] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int columnNbr = 0; columnNbr < size-1; columnNbr++)
+    {
+      if (grid[lineNbr][columnNbr] == grid[lineNbr][columnNbr+1])
+      {
+        grid[lineNbr][columnNbr] *= 2;
+        for (int remainingColumn = columnNbr+1; remainingColumn < size-1; remainingColumn++)
+        {
+          grid[lineNbr][remainingColumn] = grid[lineNbr][remainingColumn+1];
+        }
+        grid[lineNbr][size-1] = 0;
+      }
+    }
+  }
+}
+
+void Game::swipe_right()
+// swipes the given grid in the right direction, doing all the necessary additions
+// Modifies the original
+{
+
+  for (int lineNbr = 0; lineNbr < size; lineNbr++)
+  {
+
+    //we start by putting every tile left
+    for (int columnNbr = size-1; columnNbr >= 0; columnNbr--)
+    {
+      int counter = 0;
+      while ((grid[lineNbr][columnNbr] == 0) && (counter < size))
+      {
+        counter += 1;
+
+        int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the columnPart
+        for (int k = columnNbr; k >=0 ; k--)
+        {
+          if (grid[lineNbr][k] != 0)
+          {
+            nbrNonZero++;
+          }
+        }
+        if (nbrNonZero != 0)
+        {
+          for (int remainingColumn = columnNbr; remainingColumn > 0; remainingColumn--)
+          {
+            grid[lineNbr][remainingColumn] = grid[lineNbr][remainingColumn-1];
+          }
+          grid[lineNbr][0] = 0;
+        }
+      }
+    }
+
+    // now we do the additions
+    for (int columnNbr = size-1; columnNbr > 0; columnNbr--)
+    {
+      if (grid[lineNbr][columnNbr] == grid[lineNbr][columnNbr-1])
+      {
+        grid[lineNbr][columnNbr] *= 2;
+        for (int remainingColumn = columnNbr-1; remainingColumn > 0; remainingColumn--)
+        {
+          grid[lineNbr][remainingColumn] = grid[lineNbr][remainingColumn-1];
+        }
+        grid[lineNbr][0] = 0;
+      }
+    }
+  }
+}
+
+//
 void Game::swipe(int direction)
 //directions : 0 = left, 1 = down, 2 = right, 3 = up
 {
   if (direction == 0)
   {
-    grid = swipe_left(grid);
+    this->swipe_left();
   }
 
   else if (direction == 1)
   {
-    grid = swipe_down(grid);
+    this->swipe_down();
   }
 
   else if (direction == 2)
   {
-    grid = swipe_right(grid);
+    this->swipe_right();
   }
 
   else if (direction == 3)
   {
-    grid = swipe_up(grid);
+    this->swipe_up();
   }
   else
   {
