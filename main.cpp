@@ -17,42 +17,38 @@ void time_test() {
 
   AI_hc myAI(size);
 
-  // for (size_t i = 0; i < 4; i++) {
-  //   for (size_t k = 0; k < 4; k++) {
-  //     printf("%d ", myAI.fitnessGrid[k][i]);
-  //   }
-  //   printf("\n");
-  // }
-  // printf("\n");
+  for (size_t i = 0; i < 4; i++) {
+    for (size_t k = 0; k < 4; k++) {
+      printf("%d ", myAI.fitnessGrid[i][k]);
+    }
+    printf("\n");
+  }
+  printf("\n");
 
   int startTime = clock();
 
   int score = 0;
-  for (int k = 0; k < 1; k++)
+  for (int k = 0; k < 100; k++)
   {
     Game_AI myGame(4, myAI);
 
     myGame.play();
     // myGame.print();
 
-    // for (size_t i = 0; i < size; i++) {
-    //   for (size_t j = 0; j < size; j++) {
-    //     if (myGame.grid[j][i] == 1024) {
-    //       score += 1;
-    //   }
-    // }
-
     for (size_t i = 0; i < size; i++)
     {
       for (size_t j = 0; j < size; j++)
       {
-        printf("%d ", myGame.grid[i][j]);
-
+        if (myGame.grid[j][i] >= 2048)
+        {
+          score += 1;
+        }
       }
-      printf("\n");
     }
+
+    // myGame.print();
   }
-  // printf("%d\n", score);
+  printf("%d\n", score);
   printf("Time : %f \n", (double(clock() - startTime)/CLOCKS_PER_SEC));
 }
 

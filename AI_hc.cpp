@@ -16,19 +16,20 @@ void AI_hc::fill_fitness_grid()
 
   for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[0][k] = 13+k;
+      fitnessGrid[k][0] = 13+k;
     }
     for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[1][k] = 12-k;
+      fitnessGrid[k][1] = 12-k;
     }
     for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[2][k] = 5+k;
+      fitnessGrid[k][2] = 5+k;
     }
     for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[3][k] = 4-k;
+      fitnessGrid[k][3] = 4-k;
     }
+
 
 }

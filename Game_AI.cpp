@@ -3,6 +3,7 @@
 Game_AI::Game_AI(int givenSize, AI givenAI) : Game(givenSize)
 {
   myAI = givenAI;
+
 }
 
 void Game_AI::play()
@@ -27,6 +28,8 @@ int Game_AI::get_direction()
 // chooses the directon in which to swipe
 // decides by computing the fitnesses of all the possible grids with two swipes in advance
 {
+
+
   // we simulate the possible moves
 
   int fitnessValuesGrid[size][size];
