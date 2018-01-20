@@ -46,6 +46,31 @@ int index(std::vector<T>* v, T value) {
 }
 
 template<class T>
+int index(std::vector<T> v, T value) {
+  // Retourne l'index de l'élément value dans le vecteur v
+  int idx;
+  int flag = 0;
+  if (!(v.empty())) {
+
+    int i=0;
+    while ((i<v.size()) && (!flag)) {
+      // printf("%lu\n", v.size());
+      if (v.at(i) == value) {
+
+        idx = i;
+        flag = 1;
+      }
+      i++;
+    }
+  }
+  if (flag) {return idx;}
+  else
+  {
+    return -1;
+  }
+}
+
+template<class T>
 int max_index(std::vector<T>* v) {
   // Retourne l'index de l'élément de valeur maximale du vecteur v
   int idx;
@@ -57,7 +82,25 @@ int max_index(std::vector<T>* v) {
         idx = i;
       }
     }
-    std::cout << "max_index ok" << std::endl;
+    // std::cout << "max_index ok" << std::endl;
+    return idx;
+  }
+  else {return -1;}
+}
+
+template<class T>
+int max_index(std::vector<T> v) {
+  // Retourne l'index de l'élément de valeur maximale du vecteur v
+  int idx;
+  T m = v.front();
+  if (!(v.empty())) {
+    for (int i=0 ; i<v.size() ; i++) {
+      if (v[i] > m) {
+        m = v[i];
+        idx = i;
+      }
+    }
+    // std::cout << "max_index ok" << std::endl;
     return idx;
   }
   else {return -1;}

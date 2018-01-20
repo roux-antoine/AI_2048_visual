@@ -24,9 +24,9 @@ public:
   GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP);
   void execute();
   void evalutation();
-  std::vector<int>* selection();
-  void reproduction(std::vector<int>*);
-  void mutation(std::vector<int>*);
+  std::vector<int> selection();
+  void reproduction(std::vector<int>);
+  void mutation();
   AI get_best_AI();
   int get_best_fitness();
 };

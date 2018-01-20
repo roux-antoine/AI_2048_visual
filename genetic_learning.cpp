@@ -7,9 +7,9 @@
 GeneticLearning::GeneticLearning() {
   nbGeneration = 10;
   nbIndiv = 10;
-  nbEvalPerIndiv = 5;
+  nbEvalPerIndiv = 30;
   selectionRate = 0.3;
-  selectionOthers = 0.2;
+  selectionOthers = 0.0;
   mutationProba = 0.01;
 }
 
@@ -28,30 +28,26 @@ void GeneticLearning::execute() {
 
   AI indiv;
   for (int i=0; i<nbIndiv; i++) {
-    indiv = AI();
+    indiv = AI(); //il faut remplacer par AI_random -> mais il faut coder AI_random
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
   int generationCounter = 0;
   while (generationCounter < nbGeneration) {
     generationCounter += 1;
-    std::cout << generationCounter << std::endl;
+    std::cout << "\nGeneration : " << generationCounter << std::endl;
 
-    /* if generationCounter < 5 :
-    selectionRate = 0.5
-    elif generationCounter < 10:
-    selectionRate = 0.35
-    else :
-    selectionRate = 0.2*/
-    std::cout << "evalutation" << std::endl;
+    std::cout << "   Evaluation" << std::endl;
     evalutation();
-    std::cout << "selection" << std::endl;
-    std::vector<int>* indexes = selection();
-    //std::cout << *indexes << std::endl;
-    //print(sum(myGeneration.fitnesses)/nbrOfIndividuals)
+    std::cout << "   Selection" << std::endl;
+    std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the selected ones
 
-    std::cout << "reproduction" << std::endl;
+    std::cout << "   Reproduction" << std::endl;
     reproduction(indexes);
+
+    std::cout << "   Mutation" << std::endl;
+    mutation();
+
     /*text_file = open("Output.txt", "w")
     string = ""
     for k in range(nbrOfIndividuals) :
@@ -74,33 +70,42 @@ void GeneticLearning::evalutation() {
 
       currentFitness += double_sum(game.grid);
     }
-    fitnesses.push_back(trunc(currentFitness / nbEvalPerIndiv)); // score moyen
+    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
   }
+
+  int avgFitness = 0;
+  for (size_t i = 0; i < nbIndiv; i++) {
+    avgFitness += fitnesses[i];
+  }
+  printf("      %d\n", avgFitness/nbIndiv);
+
 }
 
-std::vector<int>* GeneticLearning::selection() {
+std::vector<int> GeneticLearning::selection() {
   //assert proportionOfBest + proportionOfOthers < 1
-  std::cout << "definitions" << std::endl;
+  std::cout << "      Definitions" << std::endl;
   int nbrOfBest = trunc(nbIndiv * selectionRate);
   int nbrOfOthers = trunc(nbIndiv * selectionOthers);
-  std::vector<int>* indexes;
-  printf("toto\n");
-  // indexes->push_back(0); //quand on le décommente, ça segfault qques lignes plus loin
+  std::vector<int> indexes;
 
   std::vector<int> listOfFitnesses = fitnesses;
-  std::cout << "selection des meilleurs" << std::endl;
+
+  std::cout << "      Selection des meilleurs" << std::endl;
   int currentMaxIndex;
-  for (int k=0 ; k<nbrOfBest ; k++) {
-    currentMaxIndex = max_index(&listOfFitnesses);
-    printf("current max index %d\n", currentMaxIndex); //là ça segfault
-    //en fait on dirait que ça segfault quand on essaie de push back 2 fois la même valeur -> chelou
-    //peut etre du au fait que c'est un pointeur sur vecteur...
-    indexes->push_back(currentMaxIndex);
+  // printf("nbrOfBest : %d\n", nbrOfBest);
+  for (int k=0 ; k<nbrOfBest ; k++)
+  {
+    currentMaxIndex = max_index(listOfFitnesses);
+    // printf("current max index %d\n", currentMaxIndex);
+    //il faudrait mettre qqch du genre : assert currentMaxIndex < size
+    indexes.push_back(currentMaxIndex);
     listOfFitnesses[currentMaxIndex] = 0;
   }
 
-  std::cout << "selection aléatoire" << std::endl;
+  std::cout << "      Selection aléatoire" << std::endl;
   int randomlySelected;
+  // printf("nbrOfOthers : %d\n", nbrOfOthers);
+
   for (int k=0 ; k<nbrOfOthers ; k++) {
     randomlySelected = my_random(0, nbIndiv-1);
 
@@ -108,20 +113,31 @@ std::vector<int>* GeneticLearning::selection() {
       //if already one of the best, try again
       randomlySelected = my_random(0, nbIndiv-1);
     }
-    indexes->push_back(randomlySelected);
+    indexes.push_back(randomlySelected);
   }
-  std::cout << "suppression des non selectionnes" << std::endl;
-  // we delete the individuals not selected
-  for (int k=0 ; k<nbIndiv ; k++) {
-    if (index(indexes, k) == -1) {
-      generation.erase(generation.begin() + k); // to have an iterator
-    }
-  }
-
+  // C'EST PEUT ETRE PAS LA PEINE DE SUPPRIMER LES NULS, ON REECRIT JUSTE PAR DESSUS DANS LA REPORDUCTION
+  // std::cout << "suppression des non selectionnes" << std::endl;
+  // // we delete the individuals not selected
+  //
+  // for (size_t i = 0; i < indexes.size(); i++) {
+  //   printf("%d\n", indexes[i]);
+  // }
+  //
+  // for (int k=0 ; k<nbIndiv ; k++) {
+  //   if (index(indexes, k) == -1)
+  //   //if the individual k is not in the selected ones, we remove it from the generation
+  //   {
+  //     printf("passage numéro : %d\n", k);
+  //     printf("taille de generation : %lu\n", generation.size());
+  //     generation.erase(generation.begin() + k); // to have an iterator
+  //     //ca segfault probablement car la taille du vecteur diminue lorsqu'on commence à en retirer
+  //   }
+  // }
+  // printf("tout va bien\n" );
   return indexes;
 }
 
-void GeneticLearning::reproduction(std::vector<int>* indexes) {
+void GeneticLearning::reproduction(std::vector<int> indexes) {
   /*  The reproduction phase
   indexes = indexes of the selected
   At the moment : randomly mates the selected to fill up the blanks -> TROP VIOLENT ??
@@ -129,7 +145,8 @@ void GeneticLearning::reproduction(std::vector<int>* indexes) {
   */
   //assert len(indexes) >= 2
 
-  int numberOfMissing = nbIndiv - indexes->size();
+  int indexesSize = indexes.size();
+  int numberOfMissing = nbIndiv - indexesSize;
   std::vector<int> indexesOfMissing;
   for (int k=0 ; k<nbIndiv ; k++) {
     if (index(indexes, k) == -1) {
@@ -138,17 +155,17 @@ void GeneticLearning::reproduction(std::vector<int>* indexes) {
     }
   }
 
+
   int k;
   int parent1;
   int parent2;
   for (int idx=0 ; idx<indexesOfMissing.size() ; idx++) {
-    k = indexes->at(idx);
-    parent1 = indexes->at(my_random(0, indexes->size()-1));
-    parent2 = indexes->at(my_random(0, indexes->size()-1));
-
+    k = indexesOfMissing.at(idx);
+    parent1 = indexes.at(my_random(0, indexesSize-1));
+    parent2 = indexes.at(my_random(0, indexesSize-1));
 
     while (parent2 == parent1) {
-      parent2 = indexes->at(my_random(0, indexes->size()-1));
+      parent2 = indexes.at(my_random(0, indexesSize-1));
     }
 
     for (int i=0 ; i<generation[k].gridDimension ; i++) {
@@ -159,9 +176,9 @@ void GeneticLearning::reproduction(std::vector<int>* indexes) {
   }
 }
 
-void GeneticLearning::mutation(std::vector<int>* indexes) {
+void GeneticLearning::mutation() {
   int k;
-  for (int idx=0 ; idx<indexes->size() ; idx++) {
+  for (int idx=0 ; idx< nbIndiv ; idx++) {
     if (my_random(1, trunc(1/mutationProba)) == 1) {
       //in this case we add a small noise to the grid, proportional to the tile values
       for (int i=0 ; i<generation[k].gridDimension ; i++) {
