@@ -77,20 +77,20 @@ void GeneticLearning::evalutation() {
   for (size_t i = 0; i < nbIndiv; i++) {
     avgFitness += fitnesses[i];
   }
-  printf("      %d\n", avgFitness/nbIndiv);
+  printf("      avgFitness: %d\n", avgFitness/nbIndiv);
 
 }
 
 std::vector<int> GeneticLearning::selection() {
   //assert proportionOfBest + proportionOfOthers < 1
-  std::cout << "      Definitions" << std::endl;
+  // std::cout << "      Definitions" << std::endl;
   int nbrOfBest = trunc(nbIndiv * selectionRate);
   int nbrOfOthers = trunc(nbIndiv * selectionOthers);
   std::vector<int> indexes;
 
   std::vector<int> listOfFitnesses = fitnesses;
 
-  std::cout << "      Selection des meilleurs" << std::endl;
+  // std::cout << "      Selection des meilleurs" << std::endl;
   int currentMaxIndex;
   // printf("nbrOfBest : %d\n", nbrOfBest);
   for (int k=0 ; k<nbrOfBest ; k++)
@@ -102,7 +102,7 @@ std::vector<int> GeneticLearning::selection() {
     listOfFitnesses[currentMaxIndex] = 0;
   }
 
-  std::cout << "      Selection aléatoire" << std::endl;
+  // std::cout << "      Selection aléatoire" << std::endl;
   int randomlySelected;
   // printf("nbrOfOthers : %d\n", nbrOfOthers);
 

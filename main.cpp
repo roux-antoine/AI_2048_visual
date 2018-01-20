@@ -3,6 +3,7 @@
 #include "Game_player.cpp"
 #include "Game_AI.cpp"
 #include "AI.cpp"
+#include "AI_hc.cpp"
 #include "genetic_learning.cpp"
 #include <iostream>
 #include <random>
@@ -14,30 +15,59 @@
 void time_test() {
   int size = 4;
 
-  AI myAI(size);
+  AI_hc myAI(size);
+
+  // for (size_t i = 0; i < 4; i++) {
+  //   for (size_t k = 0; k < 4; k++) {
+  //     printf("%d ", myAI.fitnessGrid[k][i]);
+  //   }
+  //   printf("\n");
+  // }
+  // printf("\n");
 
   int startTime = clock();
 
-  for (int k = 0; k < 100; k++)
+  int score = 0;
+  for (int k = 0; k < 1; k++)
   {
     Game_AI myGame(4, myAI);
 
     myGame.play();
     // myGame.print();
-  }
 
+    // for (size_t i = 0; i < size; i++) {
+    //   for (size_t j = 0; j < size; j++) {
+    //     if (myGame.grid[j][i] == 1024) {
+    //       score += 1;
+    //   }
+    // }
+
+    for (size_t i = 0; i < size; i++)
+    {
+      for (size_t j = 0; j < size; j++)
+      {
+        printf("%d ", myGame.grid[i][j]);
+
+      }
+      printf("\n");
+    }
+  }
+  // printf("%d\n", score);
   printf("Time : %f \n", (double(clock() - startTime)/CLOCKS_PER_SEC));
 }
 
 int main(int argc, char const *argv[])
 {
-  int size = 4;
-  GeneticLearning learn;
+  // int size = 4;
+  // GeneticLearning learn;
+  //
+  // int startTime = clock();
+  // learn.execute();
+  // std::cout << "Time : \n" << (double(clock() - startTime)/CLOCKS_PER_SEC) << std::endl;
+  //
+  // std::cout << learn.get_best_fitness() << std::endl;
 
-  int startTime = clock();
-  learn.execute();
-  std::cout << "Time : %f \n" << (double(clock() - startTime)/CLOCKS_PER_SEC) << std::endl;
+  time_test();
 
-  std::cout << learn.get_best_fitness() << std::endl;
   return 0;
 }
