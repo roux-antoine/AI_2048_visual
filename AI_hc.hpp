@@ -7,10 +7,6 @@ class AI_hc : public AI
 {
 public:
 
-  // std::vector<std::vector<int> > fitnessGrid;
-  // int fitness; //really need one?
-  // int gridDimension;
-
   AI_hc();
 
   AI_hc(int size);

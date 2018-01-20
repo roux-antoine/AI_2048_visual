@@ -5,12 +5,12 @@
 #include "genetic_learning.hpp"
 
 GeneticLearning::GeneticLearning() {
-  nbGeneration = 10;
-  nbIndiv = 10;
+  nbGeneration = 15;
+  nbIndiv = 25;
   nbEvalPerIndiv = 30;
   selectionRate = 0.3;
-  selectionOthers = 0.0;
-  mutationProba = 0.01;
+  selectionOthers = 0.1;
+  mutationProba = 0.05;
 }
 
 GeneticLearning::GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP) {
@@ -28,7 +28,7 @@ void GeneticLearning::execute() {
 
   AI indiv;
   for (int i=0; i<nbIndiv; i++) {
-    indiv = AI(); //il faut remplacer par AI_random -> mais il faut coder AI_random
+    indiv = AI_random(); //il faut remplacer par AI_random -> mais il faut coder AI_random
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }

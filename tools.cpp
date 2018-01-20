@@ -7,6 +7,22 @@ int my_random(int inf, int max)
   return(dist6(rng));
 }
 
+void print(std::vector<std::vector<int> > vector)
+{
+  for (int k = 0; k < vector.size(); k++)
+  {
+    for (int i = 0; i < vector.size(); i++)
+    {
+      printf("%d ", vector[k][i]);
+    }
+    printf("\n");
+  }
+  printf("\n");
+}
+
+
+
+
 int double_sum(std::vector<std::vector<int> > v) {
   int result = 0;
   if (v.empty()) {return 0;}
