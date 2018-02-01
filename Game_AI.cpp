@@ -73,7 +73,7 @@ int Game_AI::get_direction()
           tempGame.swipe(k);
           if (tempGame.can_swipe(i))
           {
-            fitnessValuesGrid[k][i] += tempGame.compute_fitness();
+            fitnessValuesGrid[k][i] += 0.5*tempGame.compute_fitness();
             tempGame.swipe(i);
             fitnessValuesGrid[k][i] += tempGame.compute_fitness();
           }
