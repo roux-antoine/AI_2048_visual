@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <thread>
 
 #include "learning.hpp"
 #include "AI.hpp"
@@ -23,7 +24,7 @@ public:
   GeneticLearning();
   GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP);
   void execute();
-  void evalutation();
+  void evaluation(int start, int end);
   std::vector<int> selection();
   void reproduction(std::vector<int>);
   void mutation();

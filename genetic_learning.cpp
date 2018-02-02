@@ -1,6 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <math.h>
 
 #include "genetic_learning.hpp"
 
@@ -22,6 +19,7 @@ GeneticLearning::GeneticLearning(int nbG, int nbI, int nbE, double selectionR, d
   mutationProba = mutationP;
 }
 
+
 void GeneticLearning::execute() {
   fitnesses.clear();
   generation.clear();
@@ -38,7 +36,18 @@ void GeneticLearning::execute() {
     std::cout << "\nGeneration : " << generationCounter << std::endl;
 
     std::cout << "   Evaluation" << std::endl;
-    evalutation();
+
+    //ce qui serait clean, c'est de faire un vecteur de threads
+    // il ne faut pas que les threads accèdent à la même ressource -> probablement pour ça que c'est lent
+    std::thread thread1(&GeneticLearning::evaluation, this, 0, int(nbIndiv/3));
+    std::thread thread2(&GeneticLearning::evaluation, this, int(nbIndiv/3), int(2*nbIndiv/3));
+    std::thread thread3(&GeneticLearning::evaluation, this, int(2*nbIndiv/3), nbIndiv);
+    thread1.join();
+    thread2.join();
+    thread3.join();
+    printf("toto\n");
+
+
     std::cout << "   Selection" << std::endl;
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the selected ones
 
@@ -59,9 +68,11 @@ void GeneticLearning::execute() {
   }
 }
 
-void GeneticLearning::evalutation() {
+
+void GeneticLearning::evaluation(int start, int end) {
+  printf("Thread started : %d %d\n", start, end);
   int currentFitness;
-  for (int k=0 ; k<nbIndiv ; k++) {
+  for (int k=start ; k<end ; k++) {
     currentFitness = 0;
     for (int i=0 ; i<nbEvalPerIndiv ; i++) {
       Game_AI game(generation[k].gridDimension, generation[k]);
@@ -74,10 +85,10 @@ void GeneticLearning::evalutation() {
   }
 
   int avgFitness = 0;
-  for (size_t i = 0; i < nbIndiv; i++) {
+  for (size_t i = 0; i < (end-start); i++) {
     avgFitness += fitnesses[i];
   }
-  printf("      avgFitness: %d\n", avgFitness/nbIndiv);
+  printf("      avgFitness: %d\n", avgFitness/(end-start));
 
 }
 
@@ -96,6 +107,10 @@ std::vector<int> GeneticLearning::selection() {
   for (int k=0 ; k<nbrOfBest ; k++)
   {
     currentMaxIndex = max_index(listOfFitnesses);
+    if (currentMaxIndex >= nbIndiv)
+    {
+        printf("index supérieur à la taille :/ \n");
+    }
     // printf("current max index %d\n", currentMaxIndex);
     //il faudrait mettre qqch du genre : assert currentMaxIndex < size
     indexes.push_back(currentMaxIndex);
@@ -115,25 +130,7 @@ std::vector<int> GeneticLearning::selection() {
     }
     indexes.push_back(randomlySelected);
   }
-  // C'EST PEUT ETRE PAS LA PEINE DE SUPPRIMER LES NULS, ON REECRIT JUSTE PAR DESSUS DANS LA REPORDUCTION
-  // std::cout << "suppression des non selectionnes" << std::endl;
-  // // we delete the individuals not selected
-  //
-  // for (size_t i = 0; i < indexes.size(); i++) {
-  //   printf("%d\n", indexes[i]);
-  // }
-  //
-  // for (int k=0 ; k<nbIndiv ; k++) {
-  //   if (index(indexes, k) == -1)
-  //   //if the individual k is not in the selected ones, we remove it from the generation
-  //   {
-  //     printf("passage numéro : %d\n", k);
-  //     printf("taille de generation : %lu\n", generation.size());
-  //     generation.erase(generation.begin() + k); // to have an iterator
-  //     //ca segfault probablement car la taille du vecteur diminue lorsqu'on commence à en retirer
-  //   }
-  // }
-  // printf("tout va bien\n" );
+  //on ne supprime pas les individus non selectionnés, on réécrira juste par dessus dans reproduction
   return indexes;
 }
 

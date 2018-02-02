@@ -55,7 +55,7 @@ void learning_test()
 {
   int size = 4;
   int nbGeneration = 10;
-  int nbIndiv = 10;
+  int nbIndiv = 30;
   int nbEvalPerIndiv = 20;
   float selectionRate = 0.2;
   float selectionOthers = 0.05;
@@ -75,8 +75,8 @@ void learning_test()
 int main(int argc, char const *argv[])
 {
 
-  time_test();
-  //learning_test();
+  //time_test();
+  learning_test();
 
 
   return 0;

@@ -22,7 +22,6 @@ void print(std::vector<std::vector<int> > vector)
 
 
 
-
 int double_sum(std::vector<std::vector<int> > v) {
   int result = 0;
   if (v.empty()) {return 0;}
@@ -39,7 +38,7 @@ int double_sum(std::vector<std::vector<int> > v) {
 template<class T>
 int index(std::vector<T>* v, T value) {
   // Retourne l'index de l'élément value dans le vecteur v
-  int idx;
+  int idx = 0;
   int flag = 0;
   if (!(v->empty())) {
 
@@ -64,7 +63,7 @@ int index(std::vector<T>* v, T value) {
 template<class T>
 int index(std::vector<T> v, T value) {
   // Retourne l'index de l'élément value dans le vecteur v
-  int idx;
+  int idx = 0;
   int flag = 0;
   if (!(v.empty())) {
 
@@ -89,16 +88,18 @@ int index(std::vector<T> v, T value) {
 template<class T>
 int max_index(std::vector<T>* v) {
   // Retourne l'index de l'élément de valeur maximale du vecteur v
-  int idx;
+  int idx = 0;
   T m = v->front();
-  if (!(v->empty())) {
-    for (int i=0 ; i<v->size() ; i++) {
-      if (v->at(i) > m) {
+  if (!(v->empty()))
+  {
+    for (int i=0 ; i<v->size() ; i++)
+    {
+      if (v->at(i) > m)
+      {
         m = v->at(i);
         idx = i;
       }
     }
-    // std::cout << "max_index ok" << std::endl;
     return idx;
   }
   else {return -1;}
@@ -107,8 +108,8 @@ int max_index(std::vector<T>* v) {
 template<class T>
 int max_index(std::vector<T> v) {
   // Retourne l'index de l'élément de valeur maximale du vecteur v
-  int idx;
-  T m = v.front();
+  int idx = 0;
+  T m = v[0];
   if (!(v.empty())) {
     for (int i=0 ; i<v.size() ; i++) {
       if (v[i] > m) {
@@ -116,7 +117,6 @@ int max_index(std::vector<T> v) {
         idx = i;
       }
     }
-    // std::cout << "max_index ok" << std::endl;
     return idx;
   }
   else {return -1;}
