@@ -16,16 +16,17 @@ private:
   int nbGeneration;
   int nbIndiv;
   int nbEvalPerIndiv;
-  double selectionRate; // peut etre à renommer en selectionRateBest
-  double selectionOthers; // peut etre à renommer en selectionRateOthers
+  double selectionRateBest;
+  double selectionRateOthers;
   double mutationProba;
+  bool threadedEnabled;
 
 public:
   GeneticLearning();
-  GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP);
+  GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE);
   void execute();
   void evaluation_thread(int nbrOfThreads);
-  void evaluation_thread_base(int threadNbr, int start, int end, std::vector<int> *fitnessCurrentThread);
+  void evaluation_thread_base(int threadNbr, int start, int end);
   void evaluation();
   std::vector<int> selection();
   void reproduction(std::vector<int>);

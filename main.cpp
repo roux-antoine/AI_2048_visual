@@ -55,13 +55,13 @@ void learning_test()
 {
   int size = 4;
   int nbGeneration = 10;
-  int nbIndiv = 35;
-  int nbEvalPerIndiv = 20;
-  float selectionRate = 0.2;
-  float selectionOthers = 0.05;
+  int nbIndiv = 30;
+  int nbEvalPerIndiv = 50;
+  float selectionRateBest = 0.2;
+  float selectionRateOthers = 0.05;
   float mutationProba = 0.1;
 
-  GeneticLearning learn(nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRate, selectionOthers, mutationProba);
+  GeneticLearning learn(nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, true);
 
   int startTime = clock();
   learn.execute();
