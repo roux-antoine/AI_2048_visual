@@ -26,7 +26,7 @@ void GeneticLearning::execute() {
 
   AI indiv;
   for (int i=0; i<nbIndiv; i++) {
-    indiv = AI_random(); //il faut remplacer par AI_random -> mais il faut coder AI_random
+    indiv = AI_random();
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
@@ -39,13 +39,33 @@ void GeneticLearning::execute() {
 
     //ce qui serait clean, c'est de faire un vecteur de threads
     // il ne faut pas que les threads accèdent à la même ressource -> probablement pour ça que c'est lent
-    std::thread thread1(&GeneticLearning::evaluation, this, 0, int(nbIndiv/3));
-    std::thread thread2(&GeneticLearning::evaluation, this, int(nbIndiv/3), int(2*nbIndiv/3));
-    std::thread thread3(&GeneticLearning::evaluation, this, int(2*nbIndiv/3), nbIndiv);
+
+    std::vector<int> fitnessThread1 (int(nbIndiv/3) - 0);
+    std::vector<int> fitnessThread2 (int(2*nbIndiv/3) - int(nbIndiv/3));
+    std::vector<int> fitnessThread3 (nbIndiv - int(2*nbIndiv/3));
+
+    std::thread thread1(&GeneticLearning::evaluation, this, 0, int(nbIndiv/3), &fitnessThread1);
+    std::thread thread2(&GeneticLearning::evaluation, this, int(nbIndiv/3), int(2*nbIndiv/3), &fitnessThread2);
+    std::thread thread3(&GeneticLearning::evaluation, this, int(2*nbIndiv/3), nbIndiv, &fitnessThread3);
+
+    // we wait for the threads to end
     thread1.join();
     thread2.join();
     thread3.join();
-    printf("toto\n");
+
+    //now we assemble what the different threads have found
+    for (size_t i = 0; i < fitnessThread1.size(); i++)
+    {
+      fitnesses[i] = fitnessThread1[i];
+    }
+    for (size_t i = 0; i < fitnessThread2.size(); i++)
+    {
+      fitnesses[i+int(nbIndiv/3)] = fitnessThread2[i];
+    }
+    for (size_t i = 0; i < fitnessThread3.size(); i++)
+    {
+      fitnesses[i+int(2*nbIndiv/3)] = fitnessThread3[i];
+    }
 
 
     std::cout << "   Selection" << std::endl;
@@ -68,29 +88,57 @@ void GeneticLearning::execute() {
   }
 }
 
-
-void GeneticLearning::evaluation(int start, int end) {
+void GeneticLearning::evaluation(int start, int end, std::vector<int> *fitnessCurrentThread) {
   printf("Thread started : %d %d\n", start, end);
   int currentFitness;
-  for (int k=start ; k<end ; k++) {
+  int counter = 0;
+  for (int k=start ; k<end ; k++)
+  {
     currentFitness = 0;
-    for (int i=0 ; i<nbEvalPerIndiv ; i++) {
+    for (int i=0 ; i<nbEvalPerIndiv ; i++)
+    {
       Game_AI game(generation[k].gridDimension, generation[k]);
 
       game.play();
 
       currentFitness += double_sum(game.grid);
     }
-    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
+    fitnessCurrentThread->at(counter) = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
+    counter++;
   }
 
   int avgFitness = 0;
-  for (size_t i = 0; i < (end-start); i++) {
-    avgFitness += fitnesses[i];
+  for (int i = 0; i < (end-start); i++) {
+    avgFitness += fitnessCurrentThread->at(i);
   }
   printf("      avgFitness: %d\n", avgFitness/(end-start));
 
 }
+
+
+
+// void GeneticLearning::evaluation(int start, int end) {
+//   printf("Thread started : %d %d\n", start, end);
+//   int currentFitness;
+//   for (int k=start ; k<end ; k++) {
+//     currentFitness = 0;
+//     for (int i=0 ; i<nbEvalPerIndiv ; i++) {
+//       Game_AI game(generation[k].gridDimension, generation[k]);
+//
+//       game.play();
+//
+//       currentFitness += double_sum(game.grid);
+//     }
+//     fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
+//   }
+//
+//   int avgFitness = 0;
+//   for (int i = 0; i < (end-start); i++) {
+//     avgFitness += fitnesses[i];
+//   }
+//   printf("      avgFitness: %d\n", avgFitness/(end-start));
+//
+// }
 
 std::vector<int> GeneticLearning::selection() {
   //assert proportionOfBest + proportionOfOthers < 1
@@ -173,13 +221,17 @@ void GeneticLearning::reproduction(std::vector<int> indexes) {
   }
 }
 
-void GeneticLearning::mutation() {
-  int k;
-  for (int idx=0 ; idx< nbIndiv ; idx++) {
-    if (my_random(1, trunc(1/mutationProba)) == 1) {
+void GeneticLearning::mutation()
+{
+  for (int k=0 ; k< nbIndiv ; k++)
+  {
+    if (my_random(1, trunc(1/mutationProba)) == 1)
+    {
       //in this case we add a small noise to the grid, proportional to the tile values
-      for (int i=0 ; i<generation[k].gridDimension ; i++) {
-        for (int j=0 ; j<generation[k].gridDimension ; j++) {
+      for (int i=0 ; i<generation[k].gridDimension ; i++)
+      {
+        for (int j=0 ; j<generation[k].gridDimension ; j++)
+        {
           generation[k].fitnessGrid[i][j] += 0.05 * my_random(-1,1) * generation[k].fitnessGrid[i][j]; //valeurs random....
         }
       }
