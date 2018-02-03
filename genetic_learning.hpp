@@ -24,7 +24,9 @@ public:
   GeneticLearning();
   GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP);
   void execute();
-  void evaluation(int start, int end, std::vector<int> *fitnessCurrentThread);
+  void evaluation_thread(int nbrOfThreads);
+  void evaluation_thread_base(int threadNbr, int start, int end, std::vector<int> *fitnessCurrentThread);
+  void evaluation();
   std::vector<int> selection();
   void reproduction(std::vector<int>);
   void mutation();

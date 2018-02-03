@@ -36,37 +36,17 @@ void GeneticLearning::execute() {
     std::cout << "\nGeneration : " << generationCounter << std::endl;
 
     std::cout << "   Evaluation" << std::endl;
-
-    //ce qui serait clean, c'est de faire un vecteur de threads
-    // il ne faut pas que les threads accèdent à la même ressource -> probablement pour ça que c'est lent
-
-    std::vector<int> fitnessThread1 (int(nbIndiv/3) - 0);
-    std::vector<int> fitnessThread2 (int(2*nbIndiv/3) - int(nbIndiv/3));
-    std::vector<int> fitnessThread3 (nbIndiv - int(2*nbIndiv/3));
-
-    std::thread thread1(&GeneticLearning::evaluation, this, 0, int(nbIndiv/3), &fitnessThread1);
-    std::thread thread2(&GeneticLearning::evaluation, this, int(nbIndiv/3), int(2*nbIndiv/3), &fitnessThread2);
-    std::thread thread3(&GeneticLearning::evaluation, this, int(2*nbIndiv/3), nbIndiv, &fitnessThread3);
-
-    // we wait for the threads to end
-    thread1.join();
-    thread2.join();
-    thread3.join();
-
-    //now we assemble what the different threads have found
-    for (size_t i = 0; i < fitnessThread1.size(); i++)
+    //we choose the method to evaluate the individuals
+    bool threaded = true;
+    if (threaded)
     {
-      fitnesses[i] = fitnessThread1[i];
+      int nbrOfThreads = 1;
+      evaluation_thread(nbrOfThreads);
     }
-    for (size_t i = 0; i < fitnessThread2.size(); i++)
+    else
     {
-      fitnesses[i+int(nbIndiv/3)] = fitnessThread2[i];
+      evaluation();
     }
-    for (size_t i = 0; i < fitnessThread3.size(); i++)
-    {
-      fitnesses[i+int(2*nbIndiv/3)] = fitnessThread3[i];
-    }
-
 
     std::cout << "   Selection" << std::endl;
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the selected ones
@@ -88,8 +68,61 @@ void GeneticLearning::execute() {
   }
 }
 
-void GeneticLearning::evaluation(int start, int end, std::vector<int> *fitnessCurrentThread) {
-  printf("Thread started : %d %d\n", start, end);
+void GeneticLearning::evaluation_thread(int nbrOfThreads)
+/*
+  Function that creates nbrOfThreads threads, that individually calls evaluation_base
+*/
+{
+  //we compute the positions of the cuts (aka the limits of each sub-fitness array)
+  int cutsPositions[nbrOfThreads+1]; //attention, il n'est pas de taille nbrOfThreads
+  cutsPositions[0] = 0;
+  cutsPositions[nbrOfThreads] = nbIndiv;
+  for (int i = 1; i < nbrOfThreads; i++)
+  {
+    cutsPositions[i] = cutsPositions[i-1] + round(((float)nbIndiv - cutsPositions[i-1])/(nbrOfThreads-i+1));
+  }
+
+  //we create the vectors in which the fitnesses found by the threads will be stored
+  std::vector<std::vector<int> > threadFitnessesVector;
+  for (int i = 0; i < nbrOfThreads; i++)
+  {
+    threadFitnessesVector.push_back(std::vector<int> (cutsPositions[i+1]-cutsPositions[i], 0));
+  }
+
+  //we create the array of threads
+  std::vector<std::thread> threadsVector(nbrOfThreads);
+
+  for (int i = 0; i < nbrOfThreads-1; i++)
+  {
+    threadsVector[i] = std::thread (&GeneticLearning::evaluation_thread_base, this, i, cutsPositions[i], cutsPositions[i+1], &threadFitnessesVector[i]);
+  }
+  threadsVector[nbrOfThreads-1] = std::thread (&GeneticLearning::evaluation_thread_base, this, nbrOfThreads-1, cutsPositions[nbrOfThreads-1], cutsPositions[nbrOfThreads], &threadFitnessesVector[nbrOfThreads-1]);
+
+  // we wait for the threads to end
+  for (int i = 0; i < nbrOfThreads; i++)
+  {
+    threadsVector[i].join();
+  }
+
+  //now we assemble what the different threads have found
+  for (int i = 0; i < nbrOfThreads; i++)
+  {
+    // printf("thread : %d , size : %d\n", i, threadFitnessesVector[i].size());
+    for (int k = 0; k < threadFitnessesVector[i].size(); k++)
+    {
+      fitnesses[k+cutsPositions[i]] = threadFitnessesVector[i][k];
+    }
+  }
+
+}
+
+void GeneticLearning::evaluation_thread_base(int threadNbr, int start, int end, std::vector<int> *fitnessCurrentThread)
+/*
+  Function used to evaluate the individuals in threaded mode
+  It is meant to be called by each thread
+*/
+{
+  printf("      Thread %d started - individuals %d to %d\n", threadNbr, start, end);
   int currentFitness;
   int counter = 0;
   for (int k=start ; k<end ; k++)
@@ -106,39 +139,36 @@ void GeneticLearning::evaluation(int start, int end, std::vector<int> *fitnessCu
     fitnessCurrentThread->at(counter) = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
     counter++;
   }
-
   int avgFitness = 0;
-  for (int i = 0; i < (end-start); i++) {
+  for (int i = 0; i < (int)fitnessCurrentThread->size(); i++)
+  {
     avgFitness += fitnessCurrentThread->at(i);
   }
-  printf("      avgFitness: %d\n", avgFitness/(end-start));
-
+  printf("      avgFitness (thread %d): %d\n",threadNbr, avgFitness/(int)fitnessCurrentThread->size());
 }
 
 
+void GeneticLearning::evaluation() {
+  int currentFitness;
+  for (int k=0 ; k<nbIndiv ; k++) {
+    currentFitness = 0;
+    for (int i=0 ; i<nbEvalPerIndiv ; i++) {
+      Game_AI game(generation[k].gridDimension, generation[k]);
 
-// void GeneticLearning::evaluation(int start, int end) {
-//   printf("Thread started : %d %d\n", start, end);
-//   int currentFitness;
-//   for (int k=start ; k<end ; k++) {
-//     currentFitness = 0;
-//     for (int i=0 ; i<nbEvalPerIndiv ; i++) {
-//       Game_AI game(generation[k].gridDimension, generation[k]);
-//
-//       game.play();
-//
-//       currentFitness += double_sum(game.grid);
-//     }
-//     fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
-//   }
-//
-//   int avgFitness = 0;
-//   for (int i = 0; i < (end-start); i++) {
-//     avgFitness += fitnesses[i];
-//   }
-//   printf("      avgFitness: %d\n", avgFitness/(end-start));
-//
-// }
+      game.play();
+
+      currentFitness += double_sum(game.grid);
+    }
+    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
+  }
+
+  int avgFitness = 0;
+  for (size_t i = 0; i < nbIndiv; i++) {
+    avgFitness += fitnesses[i];
+  }
+  printf("      avgFitness: %d\n", avgFitness/nbIndiv);
+
+}
 
 std::vector<int> GeneticLearning::selection() {
   //assert proportionOfBest + proportionOfOthers < 1

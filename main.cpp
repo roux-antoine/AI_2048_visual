@@ -55,7 +55,7 @@ void learning_test()
 {
   int size = 4;
   int nbGeneration = 10;
-  int nbIndiv = 30;
+  int nbIndiv = 35;
   int nbEvalPerIndiv = 20;
   float selectionRate = 0.2;
   float selectionOthers = 0.05;
@@ -65,8 +65,8 @@ void learning_test()
 
   int startTime = clock();
   learn.execute();
+  //ATTENTION : la mesure du temps ne fontionne pas lorsque le multithreading est activé !!
   std::cout << "Time : " << (double(clock() - startTime)/CLOCKS_PER_SEC) << std::endl;
-
   std::cout << "Best fitness : " << learn.get_best_fitness() << std::endl;
 
 }
