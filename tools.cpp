@@ -9,9 +9,9 @@ int my_random(int inf, int max)
 
 void print(std::vector<std::vector<int> > vector)
 {
-  for (int k = 0; k < vector.size(); k++)
+  for (int k = 0; k < (int)vector.size(); k++)
   {
-    for (int i = 0; i < vector.size(); i++)
+    for (int i = 0; i < (int)vector.size(); i++)
     {
       printf("%d ", vector[k][i]);
     }
@@ -25,9 +25,9 @@ void print(std::vector<std::vector<int> > vector)
 int double_sum(std::vector<std::vector<int> > v) {
   int result = 0;
   if (v.empty()) {return 0;}
-  for (int i=0 ; i<v.size() ; i++) {
+  for (int i = 0 ; i < (int)v.size() ; i++) {
     if (!(v.empty())) {
-      for (int j=0 ; j<v[i].size() ; j++) {
+      for (int j = 0 ; j < (int)v[i].size() ; j++) {
         result += v[i][j];
       }
     }
@@ -92,7 +92,7 @@ int max_index(std::vector<T>* v) {
   T m = v->front();
   if (!(v->empty()))
   {
-    for (int i=0 ; i<v->size() ; i++)
+    for (int i = 0 ; i < (int)v->size() ; i++)
     {
       if (v->at(i) > m)
       {
@@ -111,7 +111,7 @@ int max_index(std::vector<T> v) {
   int idx = 0;
   T m = v[0];
   if (!(v.empty())) {
-    for (int i=0 ; i<v.size() ; i++) {
+    for (int i = 0 ; i < (int)v.size() ; i++) {
       if (v[i] > m) {
         m = v[i];
         idx = i;

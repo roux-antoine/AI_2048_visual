@@ -32,9 +32,9 @@ void time_test()
     myGame.play();
     // myGame.print();
 
-    for (size_t i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
-      for (size_t j = 0; j < size; j++)
+      for (int j = 0; j < size; j++)
       {
         // if (myGame.grid[j][i] >= 2048)
         // {
@@ -60,8 +60,9 @@ void learning_test()
   float selectionRateBest = 0.2;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.1;
+  bool threadedEnabled = true;
 
-  GeneticLearning learn(nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, true);
+  GeneticLearning learn(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, threadedEnabled);
 
   int startTime = clock();
   learn.execute();
@@ -72,7 +73,7 @@ void learning_test()
 }
 
 
-int main(int argc, char const *argv[])
+int main()
 {
 
   //time_test();

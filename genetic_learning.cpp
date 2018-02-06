@@ -3,6 +3,7 @@
 
 GeneticLearning::GeneticLearning()
 {
+  gridSize =4;
   nbGeneration = 15;
   nbIndiv = 25;
   nbEvalPerIndiv = 30;
@@ -13,8 +14,9 @@ GeneticLearning::GeneticLearning()
 
 }
 
-GeneticLearning::GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE)
+GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE)
 {
+  gridSize = gridS;
   nbGeneration = nbG;
   nbIndiv = nbI;
   nbEvalPerIndiv = nbE;
@@ -30,10 +32,10 @@ void GeneticLearning::execute()
   fitnesses.clear();
   generation.clear();
 
-  AI indiv;
+  AI_random indiv;
   for (int i=0; i<nbIndiv; i++)
   {
-    indiv = AI_random();
+    indiv = AI_random(gridSize);
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
@@ -153,7 +155,7 @@ void GeneticLearning::evaluation()
   }
 
   int avgFitness = 0;
-  for (size_t i = 0; i < nbIndiv; i++)
+  for (int i = 0; i < nbIndiv; i++)
   {
     avgFitness += fitnesses[i];
   }
@@ -216,7 +218,6 @@ void GeneticLearning::reproduction(std::vector<int> indexes)
   //assert len(indexes) >= 2
 
   int indexesSize = indexes.size();
-  int numberOfMissing = nbIndiv - indexesSize;
   std::vector<int> indexesOfMissing;
   for (int k=0 ; k<nbIndiv ; k++)
   {
@@ -230,7 +231,7 @@ void GeneticLearning::reproduction(std::vector<int> indexes)
   int k;
   int parent1;
   int parent2;
-  for (int idx=0 ; idx<indexesOfMissing.size() ; idx++)
+  for (int idx = 0 ; idx < (int)indexesOfMissing.size() ; idx++)
   {
     k = indexesOfMissing.at(idx);
     parent1 = indexes.at(my_random(0, indexesSize-1));

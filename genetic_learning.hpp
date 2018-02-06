@@ -13,6 +13,7 @@ class GeneticLearning /*: public Learning*/ {
 private:
   std::vector<AI> generation;
   std::vector<int> fitnesses;
+  int gridSize;
   int nbGeneration;
   int nbIndiv;
   int nbEvalPerIndiv;
@@ -23,7 +24,7 @@ private:
 
 public:
   GeneticLearning();
-  GeneticLearning(int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE);
+  GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE);
   void execute();
   void evaluation_thread(int nbrOfThreads);
   void evaluation_thread_base(int threadNbr, int start, int end);
