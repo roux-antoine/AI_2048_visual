@@ -3,7 +3,8 @@
 
 #include <vector>
 
-class Learning {
+class Learning
+{
 private:
   int maxDuration;
   std::vector<std::vector<int> > grid;

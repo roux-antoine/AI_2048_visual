@@ -1,5 +1,5 @@
 
-#include "genetic_learning.hpp"
+#include "Genetic_learning.hpp"
 
 GeneticLearning::GeneticLearning()
 {
@@ -27,7 +27,7 @@ GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double se
 }
 
 
-void GeneticLearning::execute()
+void GeneticLearning::execute(Learning_stats* stats)
 {
   fitnesses.clear();
   generation.clear();
@@ -56,6 +56,11 @@ void GeneticLearning::execute()
     {
       evaluation();
     }
+
+    std::cout << "  (Saving stats)" << std::endl;
+    stats->appendBestFitness(getBestFitness());
+    stats->appendAverageFitness(getAverageFitness());
+    stats->appendBestFitnessGrids(getBestAI().fitnessGrid);
 
     std::cout << "   Selection" << std::endl;
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the selected ones
@@ -270,12 +275,22 @@ void GeneticLearning::mutation()
   }
 }
 
-AI GeneticLearning::get_best_AI()
+AI GeneticLearning::getBestAI()
 {
   return generation[max_index(&fitnesses)];
 }
 
-int GeneticLearning::get_best_fitness()
+int GeneticLearning::getBestFitness()
 {
   return fitnesses[max_index(&fitnesses)];
+}
+
+int GeneticLearning::getAverageFitness()
+{
+  int avgFitness = 0;
+  for (int i = 0; i < nbGeneration; i++)
+  {
+    avgFitness += fitnesses[i];
+  }
+  return(avgFitness/nbGeneration);
 }

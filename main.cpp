@@ -5,7 +5,9 @@
 #include "AI.cpp"
 #include "AI_hc.cpp"
 #include "AI_random.cpp"
-#include "genetic_learning.cpp"
+#include "Genetic_learning.cpp"
+#include "Learning_stats.cpp"
+
 #include <iostream>
 #include <random>
 #include <time.h>
@@ -62,13 +64,15 @@ void learning_test()
   float mutationProba = 0.1;
   bool threadedEnabled = true;
 
+  Learning_stats stats;
+
   GeneticLearning learn(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, threadedEnabled);
 
   int startTime = clock();
-  learn.execute();
+  learn.execute(&stats);
   //ATTENTION : la mesure du temps ne fontionne pas lorsque le multithreading est activé !!
   std::cout << "Time : " << (double(clock() - startTime)/CLOCKS_PER_SEC) << std::endl;
-  std::cout << "Best fitness : " << learn.get_best_fitness() << std::endl;
+  std::cout << "Best fitness : " << learn.getBestFitness() << std::endl;
 
 }
 

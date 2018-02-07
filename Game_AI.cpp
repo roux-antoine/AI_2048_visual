@@ -34,9 +34,7 @@ int Game_AI::get_direction()
 // decides by computing the fitnesses of all the possible grids with two swipes in advance
 {
 
-
   // we simulate the possible moves
-
   int fitnessValuesGrid[size][size];
   for (int k = 0; k < size; k++)
   {
@@ -115,8 +113,7 @@ int Game_AI::get_direction()
 
 int Game_AI::compute_fitness()
 {
-  // we compute the fitness of the grid
-  //on pourrait normaliser la grille par la plus grande valeur...
+  //we compute the fitness of the grid
   int fitness = 0;
   for (int k = 0; k < size; k++)
   {
@@ -126,4 +123,36 @@ int Game_AI::compute_fitness()
     }
   }
   return (fitness);
+
+  // //en normalisant la grille par la plus grande valeur :
+  // //dans ce cas, la grille de jeu contient des floats -> la fitness est un floats
+  // //peut etre qu'on peut la caster en int avant de la retourner
+
+  //-> ça a l'air de fonctionner mais c'est beaucoup plus lent -> logique, on cherche le max à chaque fois...
+
+  // float fitness = 0;
+  // //we find the max of the grid
+  // int max = 0;
+  // for (int i = 0; i < size; i++)
+  // {
+  //   for (int k = 0; k < size; k++)
+  //   {
+  //     if (myAI.fitnessGrid[k][i] > max)
+  //     {
+  //       max = myAI.fitnessGrid[k][i];
+  //     }
+  //   }
+  // }
+  // printf("%d\n", max);
+  //
+  //
+  // for (int k = 0; k < size; k++)
+  // {
+  //   for (int i = 0; i < size; i++)
+  //   {
+  //     fitness += grid[k][i] * (float(myAI.fitnessGrid[k][i]) / max);
+  //   }
+  // }
+  // return ((int)fitness);
+
 }

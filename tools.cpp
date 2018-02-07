@@ -44,7 +44,7 @@ int index(std::vector<T>* v, T value) {
 
     int i=0;
     while ((i<v->size()) && (!flag)) {
-      printf("%lu\n", v->size());
+      // printf("%lu\n", v->size());
       if (v->at(i) == value) {
 
         idx = i;
