@@ -29,6 +29,8 @@ protected:
 
 public:
 
+  Game(int givenSize);
+
   std::vector<std::vector<int> > grid;
 
   std::vector<std::vector<int> > swipe_up_copy(std::vector<std::vector<int> > givenGrid) const;
@@ -46,8 +48,6 @@ public:
   void swipe_left();
 
   void swipe_right();
-
-  Game(int givenSize);
 
   void print() const; //celle la sera remplacee par l'affiche avec Qt
 

@@ -5,7 +5,6 @@
 Game_AI::Game_AI(int givenSize, AI givenAI) : Game(givenSize)
 {
   myAI = givenAI;
-
 }
 
 void Game_AI::play()
@@ -16,10 +15,11 @@ void Game_AI::play()
 
   while(!this->is_finished())
   {
-    int direction = get_direction();
     // this->print();
     // char a;
     // std::cin >> a;
+    int direction = get_direction();
+
     if (this->can_swipe(direction))
     {
       this->swipe(direction);
@@ -69,9 +69,10 @@ int Game_AI::get_direction()
         {
           Game_AI tempGame = *this;
           tempGame.swipe(k);
-          if (tempGame.can_swipe(i))
+          fitnessValuesGrid[k][i] += tempGame.compute_fitness();
+
+          if (tempGame.can_swipe(i)) //the second swipe
           {
-            fitnessValuesGrid[k][i] += 0.5*tempGame.compute_fitness();
             tempGame.swipe(i);
             fitnessValuesGrid[k][i] += tempGame.compute_fitness();
           }

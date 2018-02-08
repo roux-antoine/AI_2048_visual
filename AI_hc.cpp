@@ -13,7 +13,7 @@ AI_hc::AI_hc() : AI()
 
 void AI_hc::fill_fitness_grid()
 //fills the fitnessGrid with numbers in an ordered way
-//from the bottom left 
+//from the bottom left to the bottom right
 {
   for (int k = 0; k < gridDimension; k++)
     {
@@ -31,4 +31,5 @@ void AI_hc::fill_fitness_grid()
     {
       fitnessGrid[k][3] = 4-k;
     }
+
 }

@@ -12,7 +12,6 @@ Game::Game(int givenSize)
 }
 
 
-
 void Game::print() const
 //prints the grid -> will be replaced by something in Qt
 {
@@ -95,6 +94,7 @@ bool Game::can_swipe_up() const
   }
   return false;
 }
+
 
 bool Game::can_swipe_down() const
   // returns true if the grid can be swiped down
@@ -235,7 +235,6 @@ bool Game::can_swipe_left() const
 bool Game::can_swipe(int direction) const
 //directions : 0 = left, 1 = down, 2 = right, 3 = up
 {
-
   if (direction == 0)
   {
     return(this->can_swipe_left());
@@ -266,7 +265,6 @@ std::vector<std::vector<int> > Game::swipe_up_copy(std::vector<std::vector<int> 
 // swipes the given grid in the up direction, doing all the necessary additions
 // takes a grid, returns a grid -> does not modify the original
 {
-
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
   {
     //we start by putting every tile up
@@ -317,7 +315,6 @@ std::vector<std::vector<int> > Game::swipe_down_copy(std::vector<std::vector<int
 // swipes the given grid in the down direction, doing all the necessary additions
 // takes a grid, returns a grid -> does not modify the original
 {
-
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
   {
     //we start by putting every tile up
@@ -368,7 +365,6 @@ std::vector<std::vector<int> > Game::swipe_left_copy(std::vector<std::vector<int
 // swipes the given grid in the left direction, doing all the necessary additions
 // takes a grid, returns a grid -> does not modify the original
 {
-
   for (int lineNbr = 0; lineNbr < size; lineNbr++)
   {
     //we start by putting every tile left

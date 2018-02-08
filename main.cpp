@@ -18,7 +18,7 @@
 void time_test()
 {
   int size = 4;
-  int nbrGames = 500;
+  int nbrGames = 300;
 
   AI_hc myAI(size);
 
@@ -45,8 +45,7 @@ void time_test()
         score += myGame.grid[j][i];
       }
     }
-
-    //myGame.print();
+    // myGame.print();
   }
   printf("%d\n", score/nbrGames);
   printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
@@ -77,16 +76,14 @@ void learning_test()
 
   std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 
-
-
 }
 
 
 int main()
 {
 
-  //time_test();
-  learning_test();
+  time_test();
+  //learning_test();
 
 
   return 0;
