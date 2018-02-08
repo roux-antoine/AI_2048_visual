@@ -6,6 +6,13 @@
 
 class AI
 {
+private:
+
+  void fill_fitness_grid();
+
+
+
+
 public:
 
   std::vector<std::vector<int> > fitnessGrid;
@@ -13,10 +20,8 @@ public:
   int gridDimension;
 
   AI();
-
   AI(int size);
 
-  void fill_fitness_grid();
 
 };
 

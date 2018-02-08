@@ -10,11 +10,11 @@ GeneticLearning::GeneticLearning()
   selectionRateBest = 0.3;
   selectionRateOthers = 0.1;
   mutationProba = 0.05;
-  threadedEnabled = true;
+  nbrOfThreads = 2;
 
 }
 
-GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE)
+GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT)
 {
   gridSize = gridS;
   nbGeneration = nbG;
@@ -23,7 +23,7 @@ GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double se
   selectionRateBest = selectionR;
   selectionRateOthers = selectionO;
   mutationProba = mutationP;
-  threadedEnabled = threadedE;
+  nbrOfThreads = nbrOfT;
 }
 
 
@@ -47,9 +47,8 @@ void GeneticLearning::execute(Learning_stats* stats)
 
     std::cout << "   Evaluation" << std::endl;
     //we choose the method to evaluate the individuals
-    if (threadedEnabled)
+    if (nbrOfThreads > 0)
     {
-      int nbrOfThreads = 4;
       evaluation_thread(nbrOfThreads);
     }
     else
@@ -71,15 +70,8 @@ void GeneticLearning::execute(Learning_stats* stats)
     std::cout << "   Mutation" << std::endl;
     mutation();
 
-    /*text_file = open("Output.txt", "w")
-    string = ""
-    for k in range(nbrOfIndividuals) :
-    for i in range(4) :
-    for j in range(4) :
-    string += str(myGeneration.individuals[k].fitnessGrid[i][j]) + " "
-    string += "\n"
-    string += "\n"*/
   }
+  stats->writeToFile();
 }
 
 

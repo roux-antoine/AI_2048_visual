@@ -1,6 +1,6 @@
 
-#ifndef AI_HC_HPP
-#define AI_HC_HPP
+#ifndef TOOLS_HPP
+#define TOOLS_HPP
 
 
 int my_random(int inf, int max);

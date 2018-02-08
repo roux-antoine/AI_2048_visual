@@ -3,12 +3,17 @@
 
 
 #include <vector>
+#include <fstream>
+#include <iostream>
 
 
 class Learning_stats
 {
 private:
 
+  std::vector<int> bestFitnesses;
+  std::vector<int> averageFitnesses;
+  std::vector<std::vector<std::vector<int> > > bestFitnessGrids;
 
 public:
   Learning_stats();
@@ -16,10 +21,7 @@ public:
   void appendAverageFitness(int fitness);
   void appendBestFitnessGrids (std::vector<std::vector<int> > fitnessGrid);
 
-  std::vector<int> bestFitnesses;
-  std::vector<int> averageFitnesses;
-  std::vector<std::vector<std::vector<int> > > bestFitnessGrids;
-
+  void writeToFile();
 
 };
 

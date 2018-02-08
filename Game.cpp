@@ -1,18 +1,6 @@
 #include "Game.hpp"
 
 
-
-// int currentColumn[size];
-// int nbrNonZero = 0;           //corresponds to the numbers of non-zero values in the current column
-// for (int k = 0; k < size; k++)
-// {
-//   currentColumn[k] = givenGrid[k][columnNbr];
-//   if (givenGrid[k][columnNbr] != 0)
-//   {
-//     nbrNonZero++;
-//   }
-// }
-
 Game::Game(int givenSize)
 {
   size = givenSize;
@@ -39,8 +27,8 @@ void Game::print()
 }
 
 void Game::fill_test()
+//Function used for debug purposes
 {
-
   grid[0][0] = 1;
   grid[1][0] = 1;
   grid[2][0] = 1;
@@ -61,23 +49,11 @@ void Game::fill_test()
   grid[2][3] = 1;
   grid[3][3] = 1;
 
-
 }
 
 bool Game::can_swipe_up() const
 // returns true if the grid can be swiped up
 {
-
-  // for (int k = 0; k < size; k++)
-  // {
-  //   for (int i = 0; i < size; i++)
-  //   {
-  //     printf("%d ", givenGrid[k][i]);
-  //   }
-  //   printf("\n" );
-  // }
-  // printf("\n" );
-
 
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
   {
@@ -115,10 +91,8 @@ bool Game::can_swipe_up() const
         return true;
       }
     }
-
   }
   return false;
-
 }
 
 bool Game::can_swipe_down() const
@@ -138,9 +112,6 @@ bool Game::can_swipe_down() const
           nbrNonZero++;
         }
       }
-
-      // printf("column %d : Nonzeros %d\n", columnNbr, nbrNonZero);
-      // printf("column %d : \n", columnNbr);
 
       if (nbrNonZero == 0)
       //if the current column is empty
@@ -168,14 +139,12 @@ bool Game::can_swipe_down() const
         }
       }
     }
-
   return false;
 }
 
 bool Game::can_swipe_right() const
   // returns true if the grid can be swiped right
 {
-
     for (int lineNbr = 0; lineNbr < size; lineNbr++)
     //we iterate over the lines
     {
@@ -189,9 +158,6 @@ bool Game::can_swipe_right() const
           nbrNonZero++;
         }
       }
-
-      // printf("line %d : Nonzeros %d\n", lineNbr, nbrNonZero);
-      // printf("line %d : \n", lineNbr);
 
       if (nbrNonZero == 0)
       //if the current line is empty
@@ -219,14 +185,12 @@ bool Game::can_swipe_right() const
         }
       }
     }
-
   return false;
 }
 
 bool Game::can_swipe_left() const
   // returns true if the grid can be swiped left
 {
-
     for (int lineNbr = 0; lineNbr < size; lineNbr++)
     //we iterate over the lines
     {
@@ -240,9 +204,6 @@ bool Game::can_swipe_left() const
           nbrNonZero++;
         }
       }
-
-      // printf("line %d : Nonzeros %d\n", lineNbr, nbrNonZero);
-      // printf("line %d : \n", lineNbr);
 
       if (nbrNonZero == 0)
       //if the current line is empty
@@ -270,7 +231,6 @@ bool Game::can_swipe_left() const
         }
       }
     }
-
   return false;
 }
 
@@ -352,7 +312,7 @@ std::vector<std::vector<int> > Game::swipe_up_copy(std::vector<std::vector<int> 
       }
     }
   }
-  return (givenGrid); // A CHANGER
+  return (givenGrid);
 }
 
 std::vector<std::vector<int> > Game::swipe_down_copy(std::vector<std::vector<int> > givenGrid) const
@@ -403,7 +363,7 @@ std::vector<std::vector<int> > Game::swipe_down_copy(std::vector<std::vector<int
       }
     }
   }
-  return (givenGrid); // A CHANGER
+  return (givenGrid);
 }
 
 std::vector<std::vector<int> > Game::swipe_left_copy(std::vector<std::vector<int> > givenGrid) const
@@ -454,17 +414,15 @@ std::vector<std::vector<int> > Game::swipe_left_copy(std::vector<std::vector<int
       }
     }
   }
-  return (givenGrid); // A CHANGER
+  return (givenGrid);
 }
 
 std::vector<std::vector<int> > Game::swipe_right_copy(std::vector<std::vector<int> > givenGrid) const
 // swipes the given grid in the right direction, doing all the necessary additions
 // Modifies the original
 {
-
   for (int lineNbr = 0; lineNbr < size; lineNbr++)
   {
-
     //we start by putting every tile left
     for (int columnNbr = size-1; columnNbr >= 0; columnNbr--)
     {
@@ -506,14 +464,13 @@ std::vector<std::vector<int> > Game::swipe_right_copy(std::vector<std::vector<in
       }
     }
   }
-  return (givenGrid); // A CHANGER
+  return (givenGrid);
 }
 
 void Game::swipe_up()
 // swipes the given grid in the up direction, doing all the necessary additions
 // Modifies the original
 {
-
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
   {
     //we start by putting every tile up
@@ -563,7 +520,6 @@ void Game::swipe_down()
 // swipes the given grid in the down direction, doing all the necessary additions
 // Modifies the original
 {
-
   for (int columnNbr = 0; columnNbr < size; columnNbr++)
   {
     //we start by putting every tile up
@@ -613,7 +569,6 @@ void Game::swipe_left()
 // swipes the given grid in the left direction, doing all the necessary additions
 // Modifies the original
 {
-
   for (int lineNbr = 0; lineNbr < size; lineNbr++)
   {
     //we start by putting every tile left
@@ -663,10 +618,8 @@ void Game::swipe_right()
 // swipes the given grid in the right direction, doing all the necessary additions
 // Modifies the original
 {
-
   for (int lineNbr = 0; lineNbr < size; lineNbr++)
   {
-
     //we start by putting every tile left
     for (int columnNbr = size-1; columnNbr >= 0; columnNbr--)
     {
@@ -785,19 +738,18 @@ void Game::add_random_nbr()
       }
     }
   }
-
 }
 
-int Game::get_direction()
-// in the daughters classes, calls the function that decides in which direction to swipe
-{
-  return (0);
-}
+// int Game::get_direction()
+// // in the daughters classes, calls the function that decides in which direction to swipe
+// {
+//   return (0);
+// }
 
-void Game::play()
-// main loop in which the game is played
-{
-}
+// void Game::play()
+// // main loop in which the game is played
+// {
+// }
 
 bool Game::is_finished()
 // returns true if grid is full, false otherwise

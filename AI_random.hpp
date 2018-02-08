@@ -5,14 +5,15 @@
 
 class AI_random : public AI
 {
-public:
-
-
-  AI_random();
-
-  AI_random(int size, int fitnessParameter = 25);
+private:
 
   void fill_fitness_grid(int fitnessParameter = 25);
+
+public:
+
+  AI_random();
+  AI_random(int size, int fitnessParameter = 25);
+
 
 };
 

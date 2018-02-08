@@ -5,13 +5,14 @@
 
 class AI_hc : public AI
 {
+private:
+
+  void fill_fitness_grid();
+
 public:
 
   AI_hc();
-
   AI_hc(int size);
-
-  void fill_fitness_grid();
 
 };
 

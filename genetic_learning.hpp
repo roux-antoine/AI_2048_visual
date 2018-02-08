@@ -22,18 +22,20 @@ private:
   double selectionRateBest;
   double selectionRateOthers;
   double mutationProba;
-  bool threadedEnabled;
+  int nbrOfThreads;
 
-public:
-  GeneticLearning();
-  GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, bool threadedE);
-  void execute(Learning_stats* stats);
   void evaluation_thread(int nbrOfThreads);
   void evaluation_thread_base(int threadNbr, int start, int end);
   void evaluation();
   std::vector<int> selection();
   void reproduction(std::vector<int>);
   void mutation();
+
+public:
+  GeneticLearning();
+  GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads);
+  void execute(Learning_stats* stats);
+
   AI getBestAI();
   int getBestFitness();
   int getAverageFitness();

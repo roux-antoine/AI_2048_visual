@@ -10,7 +10,9 @@
 
 #include <iostream>
 #include <random>
-#include <time.h>
+#include <ctime>
+#include <chrono>
+#include <string>
 
 //// -- Trucs à faire -- ////
 // gérer tous les cas d'exception...
@@ -56,23 +58,28 @@ void time_test()
 void learning_test()
 {
   int size = 4;
-  int nbGeneration = 10;
-  int nbIndiv = 30;
-  int nbEvalPerIndiv = 50;
+  int nbGeneration = 5;
+  int nbIndiv = 10;
+  int nbEvalPerIndiv = 10;
   float selectionRateBest = 0.2;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.1;
-  bool threadedEnabled = true;
+  int nbrOfThreads = 4;
 
   Learning_stats stats;
 
-  GeneticLearning learn(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, threadedEnabled);
+  GeneticLearning learn(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads);
 
-  int startTime = clock();
+  auto start = std::chrono::system_clock::now();
   learn.execute(&stats);
-  //ATTENTION : la mesure du temps ne fontionne pas lorsque le multithreading est activé !!
-  std::cout << "Time : " << (double(clock() - startTime)/CLOCKS_PER_SEC) << std::endl;
-  std::cout << "Best fitness : " << learn.getBestFitness() << std::endl;
+  auto end = std::chrono::system_clock::now();
+  std::chrono::duration<double> elapsed_seconds = end-start;
+
+  printf("\n");
+
+  std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+
+
 
 }
 
