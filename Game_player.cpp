@@ -27,6 +27,7 @@ void Game_player::play()
 
 
   int Game_player::get_direction()
+  // returns the direction pressed on keyboard by user
   {
     char input;
     std::cin >> input;

@@ -21,7 +21,7 @@ public:
   void appendAverageFitness(int fitness);
   void appendBestFitnessGrids (std::vector<std::vector<int> > fitnessGrid);
 
-  void writeToFile();
+  void writeToFile() const;
 
 };
 

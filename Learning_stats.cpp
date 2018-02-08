@@ -9,24 +9,28 @@ Learning_stats::Learning_stats()
 }
 
 void Learning_stats::appendBestFitness(int fitness)
+//append the given fitness to the vector bestFitnesses
 {
   bestFitnesses.push_back(fitness);
 }
 
 
 void Learning_stats::appendAverageFitness(int fitness)
+//append the given fitness to the vector averageFitnesses
 {
   averageFitnesses.push_back(fitness);
 }
 
 
 void Learning_stats::appendBestFitnessGrids (std::vector<std::vector<int> > fitnessGrid)
+//append the given fitnessGrid to the vector bestFitnessGrids
 {
   bestFitnessGrids.push_back(fitnessGrid);
-
 }
 
-void Learning_stats::writeToFile()
+void Learning_stats::writeToFile() const
+//writes the stats to a txt file
+//the name of the file is created using the date and time
 {
   std::ofstream myFile;
 
@@ -36,7 +40,7 @@ void Learning_stats::writeToFile()
   strcpy(fileName, std::ctime(&timeNow));
   strcat(fileName, ".txt");
 
-  myFile.open (fileName); //the name of the file correspond to the date and time
+  myFile.open (fileName); //the name of the file corresponds to the date and time
 
   myFile << "Best fitnesses\n";
   for (int i = 0; i < (int)bestFitnesses.size(); i++)

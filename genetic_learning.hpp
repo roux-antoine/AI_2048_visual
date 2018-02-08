@@ -16,7 +16,7 @@ private:
   std::vector<AI> generation;
   std::vector<int> fitnesses;
   int gridSize;
-  int nbGeneration;
+  int nbGenerations;
   int nbIndiv;
   int nbEvalPerIndiv;
   double selectionRateBest;
@@ -24,9 +24,9 @@ private:
   double mutationProba;
   int nbrOfThreads;
 
-  void evaluation_thread(int nbrOfThreads);
-  void evaluation_thread_base(int threadNbr, int start, int end);
-  void evaluation();
+  void evaluationThreaded(int nbrOfThreads);
+  void evaluationThreadBase(int threadNbr, int start, int end);
+  void evaluationNonThreaded();
   std::vector<int> selection();
   void reproduction(std::vector<int>);
   void mutation();
@@ -36,9 +36,9 @@ public:
   GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads);
   void execute(Learning_stats* stats);
 
-  AI getBestAI();
-  int getBestFitness();
-  int getAverageFitness();
+  AI getBestAI()  ;
+  int getBestFitness()  ;
+  int getAverageFitness()  ;
 };
 
 #endif

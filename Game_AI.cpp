@@ -111,7 +111,7 @@ int Game_AI::get_direction()
   return (-1); // a changer
 }
 
-int Game_AI::compute_fitness()
+int Game_AI::compute_fitness() const
 {
   //we compute the fitness of the grid
   int fitness = 0;

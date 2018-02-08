@@ -13,7 +13,8 @@ Game::Game(int givenSize)
 
 
 
-void Game::print()
+void Game::print() const
+//prints the grid -> will be replaced by something in Qt
 {
   for (int k = 0 ; k < size ; k++)
   {
@@ -123,7 +124,6 @@ bool Game::can_swipe_down() const
       //checks if there is a number different than zero at one side of the column
       //in that case, it is possible to swipe
       {
-        // printf("line %d : value %d\n", lineNbr, currentColumn[lineNbr]);
         if (currentColumn[lineNbr] != 0)
         {
           return true;
@@ -169,7 +169,6 @@ bool Game::can_swipe_right() const
       //checks if there is a number different than zero at one side of the line
       //in that case, it is possible to swipe
       {
-        // printf("column %d : value %d\n", columnNbr, currentLine[columnNbr]);
         if (currentLine[columnNbr] != 0)
         {
           return true;
@@ -215,7 +214,6 @@ bool Game::can_swipe_left() const
       //checks if there is a number different than zero at one side of the line
       //in that case, it is possible to swipe
       {
-        // printf("column %d : value %d\n", columnNbr, currentLine[columnNbr]);
         if (currentLine[columnNbr] != 0)
         {
           return true;
@@ -693,13 +691,11 @@ void Game::swipe(int direction)
 }
 
 void Game::add_random_nbr()
-// adds a 2 with probability 9/10 or a 4 with probability 1/10
+// adds a 2 with probability 9/10 or a 4 with probability 1/10, on a tile that is empty
 {
   // we pick out the random number : 2 or 4
   int randomNbr;
-  // int toto = rand() % 10 + 1;
-  int toto = my_random(0, 9);
-  if ( toto == 1) //generates random nbr between 1 and 10
+  if (my_random(0, 9) == 1) //generates random nbr between 1 and 10
   {
     randomNbr = 4;
   }
@@ -740,18 +736,8 @@ void Game::add_random_nbr()
   }
 }
 
-// int Game::get_direction()
-// // in the daughters classes, calls the function that decides in which direction to swipe
-// {
-//   return (0);
-// }
 
-// void Game::play()
-// // main loop in which the game is played
-// {
-// }
-
-bool Game::is_finished()
+bool Game::is_finished() const
 // returns true if grid is full, false otherwise
 {
   //checks if there are some possible moves

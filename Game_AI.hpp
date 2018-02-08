@@ -8,7 +8,7 @@ class Game_AI : public Game
 {
 private:
 
-  int compute_fitness();
+  int compute_fitness() const;
 
 public:
 

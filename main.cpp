@@ -14,8 +14,6 @@
 #include <chrono>
 #include <string>
 
-//// -- Trucs à faire -- ////
-// gérer tous les cas d'exception...
 
 void time_test()
 {

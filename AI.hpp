@@ -10,9 +10,6 @@ private:
 
   void fill_fitness_grid();
 
-
-
-
 public:
 
   std::vector<std::vector<int> > fitnessGrid;

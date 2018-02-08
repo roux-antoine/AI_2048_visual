@@ -19,16 +19,13 @@ protected:
 
   int size;
 
-
   virtual void play() = 0;
 
   void add_random_nbr();
 
-
-
   void swipe(int direction);
 
-  virtual int get_direction() = 0;
+  virtual int get_direction() = 0 ;
 
 public:
 
@@ -52,7 +49,7 @@ public:
 
   Game(int givenSize);
 
-  void print(); //celle la sera remplacee par l'affiche avec Qt
+  void print() const; //celle la sera remplacee par l'affiche avec Qt
 
   bool can_swipe_up() const;
 
@@ -66,7 +63,7 @@ public:
 
   void fill_test();
 
-  bool is_finished();
+  bool is_finished() const;
 
 };
 

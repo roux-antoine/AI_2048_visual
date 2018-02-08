@@ -12,8 +12,9 @@ AI_random::AI_random() : AI()
 }
 
 void AI_random::fill_fitness_grid(int fitnessParameter)
+// fills the fitnessGrid with random nbrs
+//the nbrs are randomly chosen between 0 and fitnessParameter
 {
-
   for(int k = 0; k < gridDimension; k++)
   {
     for(int i = 0; i < gridDimension; i++)
