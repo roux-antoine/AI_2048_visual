@@ -18,7 +18,7 @@
 void time_test()
 {
   int size = 4;
-  int nbrGames = 300;
+  int nbrGames = 10;
 
   AI_hc myAI(size);
 
@@ -82,8 +82,8 @@ void learning_test()
 int main()
 {
 
-  time_test();
-  //learning_test();
+  //time_test();
+  learning_test();
 
 
   return 0;

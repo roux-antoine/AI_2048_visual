@@ -33,14 +33,6 @@ public:
 
   std::vector<std::vector<int> > grid;
 
-  std::vector<std::vector<int> > swipe_up_copy(std::vector<std::vector<int> > givenGrid) const;
-
-  std::vector<std::vector<int> > swipe_down_copy(std::vector<std::vector<int> > givenGrid) const;
-
-  std::vector<std::vector<int> > swipe_left_copy(std::vector<std::vector<int> > givenGrid) const;
-
-  std::vector<std::vector<int> > swipe_right_copy(std::vector<std::vector<int> > givenGrid) const;
-
   void swipe_up();
 
   void swipe_down();

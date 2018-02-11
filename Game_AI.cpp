@@ -35,14 +35,27 @@ int Game_AI::get_direction()
 {
 
   // we simulate the possible moves
-  int fitnessValuesGrid[size][size];
-  for (int k = 0; k < size; k++)
+  int fitnessValuesGrid[4][4]; //the size = 4 because 4 possible moves
+  for (int k = 0; k < 4; k++)
   {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < 4; i++)
     {
       fitnessValuesGrid[k][i] = 0;
     }
   }
+  // int fitnessValuesGrid[size][size];
+  // for (int k = 0; k < size; k++)
+  // {
+  //   for (int i = 0; i < size; i++)
+  //   {
+  //     fitnessValuesGrid[k][i] = 0;
+  //   }
+  // }
+  // std::vector<std::vector<int> > fitnessValuesGrid;
+  // for (int k = 0 ; k < size ; k++)
+  // {
+  //   fitnessValuesGrid.push_back(std::vector<int>(size,0));
+  // }
 
   bool possibleMoves[4] = {false, false, false, false};
   int nbrPossibleMoves = 0;
