@@ -36,7 +36,7 @@ public:
   GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads);
   void execute(Learning_stats* stats);
 
-  AI getBestAI()  ;
+  AI getBestAI()  ; //faire en sorte qu'elle modifie un pointeur et ne retourne rien ?
   int getBestFitness()  ;
   int getAverageFitness()  ;
 };

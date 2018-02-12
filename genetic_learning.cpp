@@ -36,6 +36,14 @@ void GeneticLearning::execute(Learning_stats* stats)
 //loops
 //and at the end, save stats in a txt file
 {
+  //we get the time tag to save the stats
+  auto start = std::chrono::system_clock::now();
+  std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
+  char fileName[100];   // array to hold the result.
+  strcpy(fileName, std::ctime(&timeNow));
+  strcat(fileName, ".txt");
+
+  //we initialize all the variables
   fitnesses.clear();
   generation.clear();
 
@@ -46,6 +54,7 @@ void GeneticLearning::execute(Learning_stats* stats)
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
+  //we launch the learning phase
   int generationCounter = 0;
   while (generationCounter < nbGenerations)
   {
@@ -77,8 +86,10 @@ void GeneticLearning::execute(Learning_stats* stats)
     std::cout << "   Mutation" << std::endl;
     mutation();
 
+    stats->writeToFile(fileName);
+
   }
-  stats->writeToFile();
+
 }
 
 

@@ -28,17 +28,17 @@ void Learning_stats::appendBestFitnessGrids (std::vector<std::vector<int> > fitn
   bestFitnessGrids.push_back(fitnessGrid);
 }
 
-void Learning_stats::writeToFile() const
+void Learning_stats::writeToFile(char* fileName) const
 //writes the stats to a txt file
 //the name of the file is created using the date and time
 {
   std::ofstream myFile;
 
-  auto start = std::chrono::system_clock::now();
-  std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
-  char fileName[100];   // array to hold the result.
-  strcpy(fileName, std::ctime(&timeNow));
-  strcat(fileName, ".txt");
+  // auto start = std::chrono::system_clock::now();
+  // std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
+  // char fileName[100];   // array to hold the result.
+  // strcpy(fileName, std::ctime(&timeNow));
+  // strcat(fileName, ".txt");
 
   myFile.open (fileName); //the name of the file corresponds to the date and time
 
