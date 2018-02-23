@@ -29,26 +29,25 @@ void Game::print() const
 void Game::fill_test()
 //Function used for debug purposes
 {
-  grid[0][0] = 1;
-  grid[1][0] = 1;
-  grid[2][0] = 1;
-  grid[3][0] = 1;
+  grid[0][0] = 2;
+  grid[1][0] = 2;
+  grid[2][0] = 4;
+  grid[3][0] = 8;
 
-  grid[0][1] = 1;
+  grid[0][1] = 0;
   grid[1][1] = 0;
   grid[2][1] = 0;
-  grid[3][1] = 1;
+  grid[3][1] = 0;
 
-  grid[0][2] = 1;
-  grid[1][2] = 2;
-  grid[2][2] = 1;
+  grid[0][2] = 0;
+  grid[1][2] = 0;
+  grid[2][2] = 0;
   grid[3][2] = 0;
 
-  grid[0][3] = 1;
-  grid[1][3] = 1;
-  grid[2][3] = 1;
-  grid[3][3] = 1;
-
+  grid[0][3] = 0;
+  grid[1][3] = 0;
+  grid[2][3] = 0;
+  grid[3][3] = 0;
 }
 
 bool Game::can_swipe_up() const
@@ -86,7 +85,7 @@ bool Game::can_swipe_up() const
     for (int lineNbr = 0; lineNbr < size - 1; lineNbr++)
     //checks if two tiles of same value are side-by-side
     {
-      if (currentColumn[lineNbr] == currentColumn[lineNbr+1] and currentColumn[lineNbr] != 0)
+      if ((currentColumn[lineNbr] == currentColumn[lineNbr+1]) and (currentColumn[lineNbr] != 0))
       {
         return true;
       }
@@ -113,7 +112,6 @@ bool Game::can_swipe_down() const
           nbrNonZero++;
         }
       }
-
       if (nbrNonZero == 0)
       //if the current column is empty
       {
@@ -130,10 +128,10 @@ bool Game::can_swipe_down() const
         }
       }
 
-      for (int lineNbr = size - 1; lineNbr > 1; lineNbr--)
+      for (int lineNbr = size - 1; lineNbr > 0; lineNbr--)
       //checks if two tiles of same value are side-by-side
       {
-        if (currentColumn[lineNbr] == currentColumn[lineNbr-1] and currentColumn[lineNbr] != 0)
+        if ((currentColumn[lineNbr] == currentColumn[lineNbr-1]) and (currentColumn[lineNbr] != 0))
         {
           return true;
         }
@@ -175,10 +173,10 @@ bool Game::can_swipe_right() const
         }
       }
 
-      for (int columnNbr = size - 1; columnNbr > 1; columnNbr--)
+      for (int columnNbr = size - 1; columnNbr > 0; columnNbr--)
       //checks if two tiles of same value are side-by-side
       {
-        if (currentLine[columnNbr] == currentLine[columnNbr-1] and currentLine[columnNbr] != 0)
+        if ((currentLine[columnNbr] == currentLine[columnNbr-1]) and (currentLine[columnNbr] != 0))
         {
           return true;
         }
@@ -223,7 +221,7 @@ bool Game::can_swipe_left() const
       for (int columnNbr = 0; columnNbr < size - 1; columnNbr++)
       //checks if two tiles of same value are side-by-side
       {
-        if (currentLine[columnNbr] == currentLine[columnNbr+1] and currentLine[columnNbr] != 0)
+        if ((currentLine[columnNbr] == currentLine[columnNbr+1]) and (currentLine[columnNbr] != 0))
         {
           return true;
         }

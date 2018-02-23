@@ -18,18 +18,18 @@
 void time_test()
 {
   int size = 4;
-  int nbrGames = 10;
+  int nbrGames = 300;
 
   AI_hc myAI(size);
 
   int startTime = clock();
 
-  int score = 0;
+  int nb512 = 0;
+  int nb1024 = 0;
+  int nb2048 = 0;
   for (int gameNbr = 0; gameNbr < nbrGames; gameNbr++)
   {
     Game_AI myGame(size, myAI);
-
-    // printf("%d\n", gameNbr);
 
     myGame.play();
     // myGame.print();
@@ -38,16 +38,15 @@ void time_test()
     {
       for (int j = 0; j < size; j++)
       {
-        // if (myGame.grid[j][i] >= 2048)
-        // {
-        //   score += 1;
-        // }
-        score += myGame.grid[j][i];
-      }
+        if (myGame.grid[j][i] >= 2048)
+        {
+          nb2048 += 1;
     }
     // myGame.print();
   }
-  printf("%d\n", score/nbrGames);
+  printf("%d\n", nb2048);
+  // printf("%d\n", score/nbrGames);
+
   printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
 }
 
@@ -82,8 +81,8 @@ void learning_test()
 int main()
 {
 
-  //time_test();
-  learning_test();
+  time_test();
+  // learning_test();
 
 
   return 0;
