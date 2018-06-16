@@ -41,11 +41,13 @@ void time_test()
         if (myGame.grid[j][i] >= 2048)
         {
           nb2048 += 1;
-    }
+        }
+      }
     // myGame.print();
-  }
+    }
   printf("%d\n", nb2048);
   // printf("%d\n", score/nbrGames);
+  }
 
   printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
 }
