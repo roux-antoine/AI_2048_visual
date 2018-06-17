@@ -8,7 +8,7 @@ class AI_random : public AI
 {
 private:
 
-  void fill_fitness_grid();
+  void fill_weights_grid();
 
 public:
 

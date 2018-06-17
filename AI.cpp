@@ -10,7 +10,7 @@ AI::AI(int size)
 
   for (int k = 0 ; k < gridDimension ; k++)
   {
-    fitnessGrid.push_back(std::vector<int>(gridDimension,0));
+    weightsGrid.push_back(std::vector<int>(gridDimension,0));
   }
 }
 
@@ -23,7 +23,7 @@ AI::AI()
 
   for (int k = 0 ; k < gridDimension ; k++)
   {
-    fitnessGrid.push_back(std::vector<int>(gridDimension,0));
+    weightsGrid.push_back(std::vector<int>(gridDimension,0));
   }
 }
 

@@ -15,7 +15,7 @@ protected:
 
 public:
 
-  std::vector<std::vector<int> > fitnessGrid;
+  std::vector<std::vector<int> > weightsGrid;
 
   AI();
   AI(int size);

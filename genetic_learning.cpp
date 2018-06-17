@@ -87,7 +87,7 @@ void Genetic_learning::execute(Learning_stats* stats)
     //we save the stats to a txt file
     stats->append_best_fitness(get_best_fitness());
     stats->append_average_fitness(get_average_fitness());
-    stats->append_best_fitness_grids(get_best_AI().fitnessGrid);
+    stats->append_best_fitness_grids(get_best_AI().weightsGrid);
 
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
 
@@ -264,7 +264,7 @@ void Genetic_learning::reproduction(std::vector<int> indexes)
     {
       for (int j = 0; j < gridDim; j++)
       {
-        generation[k].fitnessGrid[i][j] = trunc(0.5 * (generation[parent1].fitnessGrid[i][j] + generation[parent2].fitnessGrid[i][j]));
+        generation[k].weightsGrid[i][j] = trunc(0.5 * (generation[parent1].weightsGrid[i][j] + generation[parent2].weightsGrid[i][j]));
       }
     }
   }
@@ -285,7 +285,7 @@ void Genetic_learning::mutation()
       {
         for (int j = 0; j < gridDim; j++)
         {
-          generation[k].fitnessGrid[i][j] += 0.20 * my_random(-1,1) * generation[k].fitnessGrid[i][j];
+          generation[k].weightsGrid[i][j] += 0.20 * my_random(-1,1) * generation[k].weightsGrid[i][j];
         }
       }
     }

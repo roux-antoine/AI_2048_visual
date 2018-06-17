@@ -6,7 +6,7 @@ AI_hc::AI_hc() : AI()
   initialises fitnessGrid with the hard-coded one
 */
 {
-  fill_fitness_grid();
+  fill_weights_grid();
 }
 
 AI_hc::AI_hc(int size) : AI(size)
@@ -14,10 +14,10 @@ AI_hc::AI_hc(int size) : AI(size)
   initialises fitnessGrid with the hard-coded one
 */
 {
-  fill_fitness_grid();
+  fill_weights_grid();
 }
 
-AI_hc::AI_hc(int size, std::vector<std::vector<int> > givenFitnessGrid) : AI(size)
+AI_hc::AI_hc(int size, std::vector<std::vector<int> > givenWeightsGrid) : AI(size)
 /*
   initialises fitnessGrid with the givenFitnessGrid
 */
@@ -26,12 +26,12 @@ AI_hc::AI_hc(int size, std::vector<std::vector<int> > givenFitnessGrid) : AI(siz
     {
         for (int k = 0; k < size; k++)
         {
-           fitnessGrid[i][k] = givenFitnessGrid[i][k];
+           weightsGrid[i][k] = givenWeightsGrid[i][k];
         }
     }
 }
 
-void AI_hc::fill_fitness_grid()
+void AI_hc::fill_weights_grid()
 /*
   fills the fitnessGrid with numbers in an ordered way
   from the bottom left to the bottom right
@@ -39,20 +39,18 @@ void AI_hc::fill_fitness_grid()
 {
   for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[k][0] = 13+k;
+      weightsGrid[k][0] = 13+k;
     }
     for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[k][1] = 12-k;
+      weightsGrid[k][1] = 12-k;
     }
     for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[k][2] = 5+k;
+      weightsGrid[k][2] = 5+k;
     }
     for (int k = 0; k < gridDimension; k++)
     {
-      fitnessGrid[k][3] = 4-k;
+      weightsGrid[k][3] = 4-k;
     }
 }
-
-

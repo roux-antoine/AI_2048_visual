@@ -136,7 +136,7 @@ int Game_AI::compute_fitness() const
   {
     for (int i = 0; i < size; i++)
     {
-      fitness += grid[k][i] * (myAI.fitnessGrid[k][i]);
+      fitness += grid[k][i] * (myAI.weightsGrid[k][i]);
     }
   }
   return (fitness);

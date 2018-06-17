@@ -57,9 +57,9 @@ void time_test()
 void learning_test()
 {
   int size = 4;
-  int nbGeneration = 14;
-  int nbIndiv = 20;
-  int nbEvalPerIndiv = 75;
+  int nbGeneration = 5;
+  int nbIndiv = 15;
+  int nbEvalPerIndiv = 30;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.6;
@@ -117,9 +117,9 @@ int main()
   // Game_player myGame(4);
   // myGame.play();
 
-  // AI_hc myAI(4);
-  // Game_AI myGame(4, myAI);
-  // myGame.play();
+  AI_hc myAI(4);
+  Game_AI myGame(4, myAI);
+  myGame.play();
 
   // AI_random myAI(4);
   // Game_AI myGame(4, myAI);
