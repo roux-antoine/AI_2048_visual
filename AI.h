@@ -1,8 +1,8 @@
-
-#ifndef AI_HPP
-#define AI_HPP
+#ifndef AI_H
+#define AI_H
 
 #include <vector>
+#include "tools.h"
 
 class AI
 {
@@ -10,16 +10,17 @@ private:
 
   void fill_fitness_grid();
 
+protected:
+  int gridDimension;
+
 public:
 
   std::vector<std::vector<int> > fitnessGrid;
-  int fitness; //really need one?
-  int gridDimension;
 
   AI();
   AI(int size);
-
+  int get_grid_dimension() const;
 
 };
 
-#endif
+#endif //AI_H

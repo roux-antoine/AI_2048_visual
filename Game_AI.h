@@ -1,23 +1,26 @@
 
-#ifndef GAME_AI_HPP
-#define GAME_AI_HPP
+#ifndef GAME_AI_H
+#define GAME_AI_H
 
-#include "AI.hpp"
+#include "AI.h"
+#include "Game.h"
 
 class Game_AI : public Game
 {
+
 private:
 
   int compute_fitness() const;
+  int get_direction();
+
 
 public:
 
   AI myAI;
   Game_AI(int givenSize, AI givenAI);
   void play();
-  int get_direction();
 
 
 };
 
-#endif
+#endif //GAME_AI_H

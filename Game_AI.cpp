@@ -1,19 +1,22 @@
-#include "Game_AI.hpp"
-#include <iostream>
-
+#include "Game_AI.h"
 
 Game_AI::Game_AI(int givenSize, AI givenAI) : Game(givenSize)
 {
   myAI = givenAI;
 }
 
+
 void Game_AI::play()
-// main loop in which the game is played
+/*
+  main loop in which the game is played
+*/
 {
+  //initialization of the start grid
   this->add_random_nbr();
   this->add_random_nbr();
 
-  while(!this->is_finished())
+  //main loop
+  while((!this->is_finished()))
   {
     // this->print();
     // char a;
@@ -26,16 +29,19 @@ void Game_AI::play()
       this->add_random_nbr();
     }
   }
+  // this->print();
 }
 
 
 int Game_AI::get_direction()
-// chooses the directon in which to swipe
-// decides by computing the fitnesses of all the possible grids with two swipes in advance
+/*
+  chooses the directon in which to swipe
+  decides by computing the fitnesses of all the possible grids with two swipes in advance
+  and chooses the direction that gives the best fitness
+*/
 {
-
   // we simulate the possible moves
-  int fitnessValuesGrid[4][4]; //the size = 4 because 4 possible moves
+  int fitnessValuesGrid[4][4]; //the size = 4 because 4 possible moves (not related to size of grid)
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
@@ -43,19 +49,6 @@ int Game_AI::get_direction()
       fitnessValuesGrid[k][i] = 0;
     }
   }
-  // int fitnessValuesGrid[size][size];
-  // for (int k = 0; k < size; k++)
-  // {
-  //   for (int i = 0; i < size; i++)
-  //   {
-  //     fitnessValuesGrid[k][i] = 0;
-  //   }
-  // }
-  // std::vector<std::vector<int> > fitnessValuesGrid;
-  // for (int k = 0 ; k < size ; k++)
-  // {
-  //   fitnessValuesGrid.push_back(std::vector<int>(size,0));
-  // }
 
   bool possibleMoves[4] = {false, false, false, false};
   int nbrPossibleMoves = 0;
@@ -68,11 +61,12 @@ int Game_AI::get_direction()
 
   if (nbrPossibleMoves > 0)
   {
-    if (possibleMoves[0] == true || possibleMoves[1] == true || possibleMoves[3] == true)
-    //if can swipe up, left or down, do not swipe right
-    {
-      possibleMoves[2] = false; //we un-possiblize the right swipe
-    }
+//       // uncomment below to test a variation of the direction decision
+//    if (possibleMoves[0] || possibleMoves[1] || possibleMoves[3])
+//    //if can swipe up, left or down, do not swipe right
+//    {
+//      possibleMoves[2] = false; //we un-possiblize the right swipe -> gives better performances ?
+//    }
 
     for (int k = 0; k < 4 ; k++)
     {
@@ -80,7 +74,16 @@ int Game_AI::get_direction()
       {
         for (int i = 0; i < 4; i++)
         {
-          Game_AI tempGame = *this;
+          Game_AI tempGame(size, myAI);
+
+          for (int i = 0; i<size; i++ )
+          {
+              for (int k = 0; k<size; k++ )
+              {
+                  tempGame.grid[k][i] = this->grid[k][i];
+              }
+          }
+
           tempGame.swipe(k);
           fitnessValuesGrid[k][i] += tempGame.compute_fitness();
 
@@ -93,7 +96,7 @@ int Game_AI::get_direction()
       }
     }
 
-    //now we need to choose the direction according to the fitnessValuesGrid
+    //now we need to choose the best direction according to the fitnessValuesGrid
 
     int maxArray[4] = {0, 0, 0, 0};
     for (int k = 0; k < 4; k++)
@@ -118,16 +121,16 @@ int Game_AI::get_direction()
         direction = k;
       }
     }
-
     return (direction);
   }
-
-  return (-1); // a changer
+  return (-1);
 }
 
 int Game_AI::compute_fitness() const
+/*
+  computes the fitness using the fitnessGrid
+*/
 {
-  //we compute the fitness of the grid
   int fitness = 0;
   for (int k = 0; k < size; k++)
   {
@@ -137,36 +140,4 @@ int Game_AI::compute_fitness() const
     }
   }
   return (fitness);
-
-  // //en normalisant la grille par la plus grande valeur :
-  // //dans ce cas, la grille de jeu contient des floats -> la fitness est un floats
-  // //peut etre qu'on peut la caster en int avant de la retourner
-
-  //-> ça a l'air de fonctionner mais c'est beaucoup plus lent -> logique, on cherche le max à chaque fois...
-
-  // float fitness = 0;
-  // //we find the max of the grid
-  // int max = 0;
-  // for (int i = 0; i < size; i++)
-  // {
-  //   for (int k = 0; k < size; k++)
-  //   {
-  //     if (myAI.fitnessGrid[k][i] > max)
-  //     {
-  //       max = myAI.fitnessGrid[k][i];
-  //     }
-  //   }
-  // }
-  // printf("%d\n", max);
-  //
-  //
-  // for (int k = 0; k < size; k++)
-  // {
-  //   for (int i = 0; i < size; i++)
-  //   {
-  //     fitness += grid[k][i] * (float(myAI.fitnessGrid[k][i]) / max);
-  //   }
-  // }
-  // return ((int)fitness);
-
 }

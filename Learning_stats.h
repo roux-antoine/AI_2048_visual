@@ -17,11 +17,11 @@ private:
 
 public:
   Learning_stats();
-  void appendBestFitness(int fitness);
-  void appendAverageFitness(int fitness);
-  void appendBestFitnessGrids (std::vector<std::vector<int> > fitnessGrid);
+  void append_best_fitness(int fitness);
+  void append_average_fitness(int fitness);
+  void append_best_fitness_grids (std::vector<std::vector<int> > fitnessGrid);
 
-  void writeToFile(char* fileName) const;
+  void write_stats_to_file(char* fileName) const;
 
 };
 

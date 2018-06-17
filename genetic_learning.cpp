@@ -1,9 +1,8 @@
+#include "Genetic_learning.h"
 
-#include "Genetic_learning.hpp"
-
-GeneticLearning::GeneticLearning()
+Genetic_learning::Genetic_learning()
 {
-  gridSize =4;
+  gridSize = 4;
   nbGenerations = 15;
   nbIndiv = 25;
   nbEvalPerIndiv = 30;
@@ -11,10 +10,10 @@ GeneticLearning::GeneticLearning()
   selectionRateOthers = 0.1;
   mutationProba = 0.05;
   nbrOfThreads = 2;
-
+  stopFlag = false;
 }
 
-GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT)
+Genetic_learning::Genetic_learning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT)
 {
   gridSize = gridS;
   nbGenerations = nbG;
@@ -24,17 +23,31 @@ GeneticLearning::GeneticLearning(int gridS, int nbG, int nbI, int nbE, double se
   selectionRateOthers = selectionO;
   mutationProba = mutationP;
   nbrOfThreads = nbrOfT;
+  stopFlag = false;
+
+  if (trunc(nbIndiv*selectionRateBest) < 1)
+  //in that case, the selection phase fails -> we make the parameters compatible
+  {
+      nbIndiv = (int)(1/selectionRateBest);
+  }
+  if (nbrOfThreads > nbIndiv)
+  {
+      nbrOfThreads = nbIndiv;
+  }
 }
 
 
-void GeneticLearning::execute(Learning_stats* stats)
-//executes the whole learning phase
-//creates generations of nbIndiv algorithms
-//evaluates them on nbEvalPerIndiv games
-//selectes the best
-//mutates
-//loops
-//and at the end, save stats in a txt file
+void Genetic_learning::execute(Learning_stats* stats)
+// void Genetic_learning::execute()
+/*
+  executes the whole learning phase
+  creates generations of nbIndiv algorithms
+  evaluates them on nbEvalPerIndiv games
+  selectes the best
+  mutates
+  loops
+  and at the end, save stats in a txt file
+*/
 {
   //we get the time tag to save the stats
   auto start = std::chrono::system_clock::now();
@@ -54,52 +67,46 @@ void GeneticLearning::execute(Learning_stats* stats)
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
+
   //we launch the learning phase
   int generationCounter = 0;
-  while (generationCounter < nbGenerations)
+  while ((generationCounter < nbGenerations) && (!stopFlag))
   {
     generationCounter += 1;
-    std::cout << "\nGeneration : " << generationCounter << std::endl;
 
-    std::cout << "   Evaluation" << std::endl;
-    //we choose the method to evaluate the individuals
+    //we choose the method to evaluate the individuals (multithread or not)
     if (nbrOfThreads > 0)
     {
-      evaluationThreaded(nbrOfThreads);
+      evaluation_threaded(nbrOfThreads);
     }
     else
     {
-      evaluationNonThreaded();
+      evaluation_non_threaded();
     }
 
-    std::cout << "  (Saving stats)" << std::endl;
-    stats->appendBestFitness(getBestFitness());
-    stats->appendAverageFitness(getAverageFitness());
-    stats->appendBestFitnessGrids(getBestAI().fitnessGrid);
+    //we save the stats to a txt file
+    stats->append_best_fitness(get_best_fitness());
+    stats->append_average_fitness(get_average_fitness());
+    stats->append_best_fitness_grids(get_best_AI().fitnessGrid);
 
-    std::cout << "   Selection" << std::endl;
-    std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the selected ones
+    std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
 
-    std::cout << "   Reproduction" << std::endl;
     reproduction(indexes);
 
-    std::cout << "   Mutation" << std::endl;
     mutation();
 
-    stats->writeToFile(fileName);
-
+    stats->write_stats_to_file(fileName);
   }
-
 }
 
 
-void GeneticLearning::evaluationThreaded(int nbrOfThreads)
+void Genetic_learning::evaluation_threaded(int nbrOfThreads)
 /*
   Function that creates nbrOfThreads threads, that individually calls evaluation_base
 */
 {
   //we compute the positions of the cuts (aka the limits of each sub-fitness array)
-  int cutsPositions[nbrOfThreads+1]; //attention, il n'est pas de taille nbrOfThreads
+  int cutsPositions[nbrOfThreads+1]; //warning : there are nbrOfThreads+1 cuts !
   cutsPositions[0] = 0;
   cutsPositions[nbrOfThreads] = nbIndiv;
   for (int i = 1; i < nbrOfThreads; i++)
@@ -112,9 +119,9 @@ void GeneticLearning::evaluationThreaded(int nbrOfThreads)
 
   for (int i = 0; i < nbrOfThreads-1; i++)
   {
-    threadsVector[i] = std::thread (&GeneticLearning::evaluationThreadBase, this, i, cutsPositions[i], cutsPositions[i+1]);
+    threadsVector[i] = std::thread (&Genetic_learning::evaluation_thread_base, this, cutsPositions[i], cutsPositions[i+1]);
   }
-  threadsVector[nbrOfThreads-1] = std::thread (&GeneticLearning::evaluationThreadBase, this, nbrOfThreads-1, cutsPositions[nbrOfThreads-1], cutsPositions[nbrOfThreads]);
+  threadsVector[nbrOfThreads-1] = std::thread (&Genetic_learning::evaluation_thread_base, this, cutsPositions[nbrOfThreads-1], cutsPositions[nbrOfThreads]);
 
   // we wait for the threads to end
   for (int i = 0; i < nbrOfThreads; i++)
@@ -124,24 +131,26 @@ void GeneticLearning::evaluationThreaded(int nbrOfThreads)
 }
 
 
-void GeneticLearning::evaluationThreadBase (int threadNbr, int start, int end)
-// function that evaluates individuals between start and end
-// modifies the vector fitnesses
+void Genetic_learning::evaluation_thread_base (int start, int end)
+/*
+  function that evaluates individuals between start and end
+  modifies the vector fitnesses
+*/
 {
-  // printf("      Thread %d started - individuals %d to %d\n", threadNbr, start, end);
   int currentFitness = 0;
   for (int k=start ; k<end ; k++)
   {
     currentFitness = 0;
     for (int i=0 ; i<nbEvalPerIndiv ; i++)
+    //each individual is evaluated of nbEvalPerIndiv games -> to have a accurate measure of performance
     {
-      Game_AI game(generation[k].gridDimension, generation[k]);
+      Game_AI game(generation[k].get_grid_dimension(), generation[k]);
 
       game.play();
 
       currentFitness += double_sum(game.grid);
     }
-    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
+    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // average score of the individual
   }
 
   int avgFitness = 0;
@@ -149,27 +158,28 @@ void GeneticLearning::evaluationThreadBase (int threadNbr, int start, int end)
   {
     avgFitness += fitnesses[i];
   }
-  // printf("      avgFitness (thread %d): %d\n", threadNbr, avgFitness/(end-start));
-
 }
 
-void GeneticLearning::evaluationNonThreaded()
-//evaluates all the generations without multithreading
-// modifies the vector fitnesses
+void Genetic_learning::evaluation_non_threaded()
+/*
+  evaluates all the generations without multithreading
+  modifies the vector fitnesses
+*/
 {
   int currentFitness;
   for (int k=0 ; k<nbIndiv ; k++)
   {
     currentFitness = 0;
     for (int i=0 ; i<nbEvalPerIndiv ; i++)
+    //each individual is evaluated of nbEvalPerIndiv games -> to have a accurate measure of performance
     {
-      Game_AI game(generation[k].gridDimension, generation[k]);
+      Game_AI game(generation[k].get_grid_dimension(), generation[k]);
 
       game.play();
 
       currentFitness += double_sum(game.grid);
     }
-    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // score moyen
+    fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // average score of the individual
   }
 
   int avgFitness = 0;
@@ -177,37 +187,28 @@ void GeneticLearning::evaluationNonThreaded()
   {
     avgFitness += fitnesses[i];
   }
-  printf("      avgFitness: %d\n", avgFitness/nbIndiv);
-
 }
 
-std::vector<int> GeneticLearning::selection()
-//selects selectionRateBest best individuals
-//and also selectionRateOthers non-best individuals
+std::vector<int> Genetic_learning::selection()
+/*
+  selects selectionRateBest best individuals
+  and also selectionRateOthers non-best individuals
+*/
 {
-  //assert proportionOfBest + proportionOfOthers < 1
-  // std::cout << "      Definitions" << std::endl;
   int nbrOfBest = trunc(nbIndiv * selectionRateBest);
   int nbrOfOthers = trunc(nbIndiv * selectionRateOthers);
   std::vector<int> indexes;
 
   std::vector<int> listOfFitnesses = fitnesses;
 
-  // std::cout << "      Selection des meilleurs" << std::endl;
   int currentMaxIndex;
   for (int k=0 ; k<nbrOfBest ; k++)
   {
-    currentMaxIndex = max_index(listOfFitnesses);
-    if (currentMaxIndex >= nbIndiv)
-    {
-        printf("index supérieur à la taille :/ \n");
-    }
-    //il faudrait mettre qqch du genre : assert currentMaxIndex < size
+    currentMaxIndex = max_index(&listOfFitnesses);
     indexes.push_back(currentMaxIndex);
     listOfFitnesses[currentMaxIndex] = 0;
   }
 
-  // std::cout << "      Selection aléatoire" << std::endl;
   int randomlySelected;
 
   for (int k=0 ; k<nbrOfOthers ; k++)
@@ -221,15 +222,16 @@ std::vector<int> GeneticLearning::selection()
     }
     indexes.push_back(randomlySelected);
   }
-  //on ne supprime pas les individus non selectionnés, on réécrira juste par dessus dans reproduction
+  //There's no use in deleting the individuals not selected, we'll juste write over them later
   return indexes;
 }
 
-void GeneticLearning::reproduction(std::vector<int> indexes)
-/*  The reproduction phase
-indexes = indexes of the selected
-At the moment : randomly mates the selected to fill up the blanks -> TROP VIOLENT ??
-Doesnt return anything
+void Genetic_learning::reproduction(std::vector<int> indexes)
+/*
+  The reproduction phase
+  indexes = indexes of the selected
+  At the moment : randomly mates the selected ones to fill up the blanks -> maybe not optimum
+  Doesnt return anything
 */
 {
   int indexesSize = indexes.size();
@@ -257,9 +259,10 @@ Doesnt return anything
       parent2 = indexes.at(my_random(0, indexesSize-1));
     }
 
-    for (int i=0 ; i<generation[k].gridDimension ; i++)
+    int gridDim = generation[k].get_grid_dimension();
+    for (int i = 0; i < gridDim; i++)
     {
-      for (int j=0 ; j<generation[k].gridDimension ; j++)
+      for (int j = 0; j < gridDim; j++)
       {
         generation[k].fitnessGrid[i][j] = trunc(0.5 * (generation[parent1].fitnessGrid[i][j] + generation[parent2].fitnessGrid[i][j]));
       }
@@ -267,44 +270,54 @@ Doesnt return anything
   }
 }
 
-void GeneticLearning::mutation()
-//mutates the individuals, by adding a small noise (positive or negative), with probability mutationProba
+void Genetic_learning::mutation()
+/*
+  mutates the individuals, by adding a small noise (positive or negative), with probability mutationProba
+*/
 {
-  for (int k=0 ; k< nbIndiv ; k++)
+  for (int k = 0; k < nbIndiv; k++)
   {
     if (my_random(1, trunc(1/mutationProba)) == 1)
     {
       //in this case we add a small noise to the grid, proportional to the tile values
-      for (int i=0 ; i<generation[k].gridDimension ; i++)
+      int gridDim = generation[k].get_grid_dimension();
+      for (int i = 0; i < gridDim; i++)
       {
-        for (int j=0 ; j<generation[k].gridDimension ; j++)
+        for (int j = 0; j < gridDim; j++)
         {
-          generation[k].fitnessGrid[i][j] += 0.05 * my_random(-1,1) * generation[k].fitnessGrid[i][j]; //valeurs random....
+          generation[k].fitnessGrid[i][j] += 0.20 * my_random(-1,1) * generation[k].fitnessGrid[i][j];
         }
       }
     }
   }
 }
 
-AI GeneticLearning::getBestAI()
-//returns the best AI
+AI Genetic_learning::get_best_AI()
+/*
+  returns the best AI
+*/
 {
   return generation[max_index(&fitnesses)];
 }
 
-int GeneticLearning::getBestFitness()
-//returns the best fitness
+int Genetic_learning::get_best_fitness()
+/*
+  returns the best fitness
+*/
 {
   return fitnesses[max_index(&fitnesses)];
 }
 
-int GeneticLearning::getAverageFitness()
-//returns the average of the fitnesses
+int Genetic_learning::get_average_fitness() const
+/*
+  returns the average of the fitnesses
+*/
 {
   int avgFitness = 0;
-  for (int i = 0; i < nbGenerations; i++)
+  int nbElem = (int)fitnesses.size();
+  for (int i = 0; i < nbElem; i++)
   {
     avgFitness += fitnesses[i];
   }
-  return(avgFitness/nbGenerations);
+  return(avgFitness/nbElem);
 }

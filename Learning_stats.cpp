@@ -1,5 +1,5 @@
 
-#include "Learning_stats.hpp"
+#include "Learning_stats.h"
 #include <ctime>
 #include <chrono>
 
@@ -8,27 +8,27 @@ Learning_stats::Learning_stats()
 {
 }
 
-void Learning_stats::appendBestFitness(int fitness)
+void Learning_stats::append_best_fitness(int fitness)
 //append the given fitness to the vector bestFitnesses
 {
   bestFitnesses.push_back(fitness);
 }
 
 
-void Learning_stats::appendAverageFitness(int fitness)
+void Learning_stats::append_average_fitness(int fitness)
 //append the given fitness to the vector averageFitnesses
 {
   averageFitnesses.push_back(fitness);
 }
 
 
-void Learning_stats::appendBestFitnessGrids (std::vector<std::vector<int> > fitnessGrid)
+void Learning_stats::append_best_fitness_grids (std::vector<std::vector<int> > fitnessGrid)
 //append the given fitnessGrid to the vector bestFitnessGrids
 {
   bestFitnessGrids.push_back(fitnessGrid);
 }
 
-void Learning_stats::writeToFile(char* fileName) const
+void Learning_stats::write_stats_to_file(char* fileName) const
 //writes the stats to a txt file
 //the name of the file is created using the date and time
 {

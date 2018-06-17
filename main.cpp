@@ -1,12 +1,13 @@
 
-#include "Game.cpp"
-#include "Game_player.cpp"
-#include "Game_AI.cpp"
-#include "AI.cpp"
-#include "AI_hc.cpp"
-#include "AI_random.cpp"
-#include "Genetic_learning.cpp"
-#include "Learning_stats.cpp"
+#include "Game.h"
+#include "Game_player.h"
+#include "tools.h"
+#include "Game_AI.h"
+#include "AI.h"
+#include "AI_hc.h"
+#include "AI_random.h"
+#include "Genetic_learning.h"
+#include "Learning_stats.h"
 
 #include <iostream>
 #include <random>
@@ -18,7 +19,7 @@
 void time_test()
 {
   int size = 4;
-  int nbrGames = 300;
+  int nbrGames = 100;
 
   AI_hc myAI(size);
 
@@ -56,17 +57,17 @@ void time_test()
 void learning_test()
 {
   int size = 4;
-  int nbGeneration = 5;
-  int nbIndiv = 10;
-  int nbEvalPerIndiv = 10;
-  float selectionRateBest = 0.2;
+  int nbGeneration = 14;
+  int nbIndiv = 20;
+  int nbEvalPerIndiv = 75;
+  float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
-  float mutationProba = 0.1;
+  float mutationProba = 0.6;
   int nbrOfThreads = 4;
 
   Learning_stats stats;
 
-  GeneticLearning learn(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads);
+  Genetic_learning learn(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads);
 
   auto start = std::chrono::system_clock::now();
   learn.execute(&stats);
@@ -76,15 +77,61 @@ void learning_test()
   printf("\n");
 
   std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
-
 }
 
+void test_one_speed()
+{
+  int size = 4;
+
+  AI_hc myAI(size);
+
+  int startTime = clock();
+
+  Game_AI myGame(size, myAI);
+
+  myGame.play();
+  myGame.print();
+
+  printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
+}
+
+
+// void time_test()
+// {
+//   int size = 4;
+//   int nbrGames = 300;
+//
+//   AI_hc myAI(size);
+//
+//
+//   Game_AI myGame(size, myAI);
+//
+//
+//   myGame.play(false);
+//   // myGame.print();
+// }
 
 int main()
 {
 
-  time_test();
-  // learning_test();
+  // Game_player myGame(4);
+  // myGame.play();
+
+  // AI_hc myAI(4);
+  // Game_AI myGame(4, myAI);
+  // myGame.play();
+
+  // AI_random myAI(4);
+  // Game_AI myGame(4, myAI);
+  // myGame.play();
+  // myGame.print();
+
+
+
+
+
+  // time_test();
+  learning_test();
 
 
   return 0;

@@ -2,6 +2,7 @@
 #define AI_HC_HPP
 
 #include <vector>
+#include "AI.h"
 
 class AI_hc : public AI
 {
@@ -13,6 +14,7 @@ public:
 
   AI_hc();
   AI_hc(int size);
+  AI_hc(int size, std::vector<std::vector<int> > givenFitnessGrid);
 
 };
 

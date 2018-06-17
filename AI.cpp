@@ -1,8 +1,10 @@
-
-#include <vector>
-#include "AI.hpp"
+#include "AI.h"
 
 AI::AI(int size)
+/*
+  Initializes the fitnessGrid and the
+*/
+
 {
   gridDimension = size;
 
@@ -10,11 +12,12 @@ AI::AI(int size)
   {
     fitnessGrid.push_back(std::vector<int>(gridDimension,0));
   }
-
-  fill_fitness_grid();
 }
 
 AI::AI()
+/*
+  Initializes the fitnessGrid
+*/
 {
   gridDimension = 4;
 
@@ -22,11 +25,12 @@ AI::AI()
   {
     fitnessGrid.push_back(std::vector<int>(gridDimension,0));
   }
-
-  fill_fitness_grid();
 }
 
-void AI::fill_fitness_grid()
+int AI::get_grid_dimension() const
+/*
+  getter for gridDimension
+*/
 {
-  
+    return gridDimension;
 }
