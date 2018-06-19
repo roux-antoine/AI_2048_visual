@@ -54,7 +54,13 @@ void Genetic_learning::execute(Learning_stats* stats)
   std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
   char fileName[100];   // array to hold the result.
   strcpy(fileName, std::ctime(&timeNow));
+  char configFileName[100];
+  strcpy(configFileName, fileName);
+
   strcat(fileName, ".txt");
+  strcat(configFileName, "config");
+  strcat(configFileName, ".txt");
+  write_config_to_file(configFileName);
 
   //we initialize all the variables
   fitnesses.clear();
@@ -197,6 +203,8 @@ std::vector<int> Genetic_learning::selection()
 {
   int nbrOfBest = trunc(nbIndiv * selectionRateBest);
   int nbrOfOthers = trunc(nbIndiv * selectionRateOthers);
+  printf("%d\n", nbrOfBest);
+  printf("%d\n", nbrOfOthers);
   std::vector<int> indexes;
 
   std::vector<int> listOfFitnesses = fitnesses;
@@ -320,4 +328,23 @@ int Genetic_learning::get_average_fitness() const
     avgFitness += fitnesses[i];
   }
   return(avgFitness/nbElem);
+}
+
+void Genetic_learning::write_config_to_file(char* filename)
+/*
+  writes the config to a txt file
+*/
+{
+  std::ofstream myFile;
+  myFile.open(filename);
+
+  myFile << "int size = " << gridSize << ";\n";
+  myFile << "int nbIndiv = " << nbIndiv << ";\n";
+  myFile << "int nbEvalPerIndiv = " << nbEvalPerIndiv << ";\n";
+  myFile << "float selectionRateBest = " << selectionRateBest << ";\n";
+  myFile << "float selectionRateOthers = " << selectionRateOthers << ";\n";
+  myFile << "float mutationProba = " << mutationProba << ";\n";
+  myFile << "int nbrOfThreads = " << nbrOfThreads << ";\n";
+
+  myFile.close();
 }

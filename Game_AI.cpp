@@ -131,13 +131,19 @@ int Game_AI::compute_fitness() const
   computes the fitness using the fitnessGrid
 */
 {
+  int max = 0;
+
   int fitness = 0;
   for (int k = 0; k < size; k++)
   {
     for (int i = 0; i < size; i++)
     {
+      if (myAI.weightsGrid[k][i] > max)
+      {
+        max = myAI.weightsGrid[k][i];
+      }
       fitness += grid[k][i] * (myAI.weightsGrid[k][i]);
     }
   }
-  return (fitness);
+  return ((int)(fitness / max));
 }

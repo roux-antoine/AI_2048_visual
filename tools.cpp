@@ -56,34 +56,7 @@ int index(std::vector<int>* v, int value)
     return -1;
   }
 }
-//
-// int index(std::vector<int> v, int value)
-// // Retourne l'index de l'élément value dans le vecteur v
-// {
-//   int idx = 0;
-//   int flag = 0;
-//   if (!(v.empty()))
-//   {
-//     int i=0;
-//     while ((i < (int)v.size()) && (!flag))
-//     {
-//       if (v.at(i) == value)
-//       {
-//         idx = i;
-//         flag = 1;
-//       }
-//       i++;
-//     }
-//   }
-//   if (flag)
-//   {
-//     return idx;
-//   }
-//   else
-//   {
-//     return -1;
-//   }
-// }
+
 
 
 int index(std::vector<int> v, int value)
@@ -133,23 +106,3 @@ int max_index(std::vector<int>* v)
   }
   else {return -1;}
 }
-
-// int max_index(std::vector<int>* v)
-// // Retourne l'index de l'élément de valeur maximale du vecteur v
-// {
-//   int idx = 0;
-//   int m = v->front();
-//   if (!(v->empty()))
-//   {
-//     for (int i = 0 ; i < (int)v->size() ; i++)
-//     {
-//       if (v->at(i) > m)
-//       {
-//         m = v->at(i);
-//         idx = i;
-//       }
-//     }
-//     return idx;
-//   }
-//   else {return -1;}
-// }

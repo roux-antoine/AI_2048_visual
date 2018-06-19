@@ -34,6 +34,7 @@ private:
   std::vector<int> selection();
   void reproduction(std::vector<int>);
   void mutation();
+  void write_config_to_file(char* filename);
 
 public:
   Genetic_learning();

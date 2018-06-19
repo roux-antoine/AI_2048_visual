@@ -19,7 +19,7 @@
 void time_test()
 {
   int size = 4;
-  int nbrGames = 100;
+  int nbrGames = 1;
 
   AI_hc myAI(size);
 
@@ -35,18 +35,18 @@ void time_test()
     myGame.play();
     // myGame.print();
 
-    for (int i = 0; i < size; i++)
-    {
-      for (int j = 0; j < size; j++)
-      {
-        if (myGame.grid[j][i] >= 2048)
-        {
-          nb2048 += 1;
-        }
-      }
+    // for (int i = 0; i < size; i++)
+    // {
+    //   for (int j = 0; j < size; j++)
+    //   {
+    //     if (myGame.grid[j][i] >= 2048)
+    //     {
+    //       nb2048 += 1;
+    //     }
+    //   }
     // myGame.print();
-    }
-  printf("%d\n", nb2048);
+    // }
+  // printf("%d\n", nb2048);
   // printf("%d\n", score/nbrGames);
   }
 
@@ -57,12 +57,12 @@ void time_test()
 void learning_test()
 {
   int size = 4;
-  int nbGeneration = 5;
-  int nbIndiv = 15;
-  int nbEvalPerIndiv = 30;
-  float selectionRateBest = 0.3;
-  float selectionRateOthers = 0.05;
-  float mutationProba = 0.6;
+  int nbGeneration = 14;
+  int nbIndiv = 20;
+  int nbEvalPerIndiv = 75;
+  float selectionRateBest = 0.2;
+  float selectionRateOthers = 0.3;
+  float mutationProba = 0.5;
   int nbrOfThreads = 4;
 
   Learning_stats stats;
@@ -90,26 +90,13 @@ void test_one_speed()
   Game_AI myGame(size, myAI);
 
   myGame.play();
-  myGame.print();
 
   printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
+  myGame.print();
+
 }
 
 
-// void time_test()
-// {
-//   int size = 4;
-//   int nbrGames = 300;
-//
-//   AI_hc myAI(size);
-//
-//
-//   Game_AI myGame(size, myAI);
-//
-//
-//   myGame.play(false);
-//   // myGame.print();
-// }
 
 int main()
 {
@@ -117,9 +104,10 @@ int main()
   // Game_player myGame(4);
   // myGame.play();
 
-  AI_hc myAI(4);
-  Game_AI myGame(4, myAI);
-  myGame.play();
+  // AI_hc myAI(4);
+  // Game_AI myGame(4, myAI);
+  // myGame.play();
+  // myGame.print();
 
   // AI_random myAI(4);
   // Game_AI myGame(4, myAI);
@@ -131,8 +119,8 @@ int main()
 
 
   // time_test();
+  // test_one_speed();
   learning_test();
-
 
   return 0;
 }
