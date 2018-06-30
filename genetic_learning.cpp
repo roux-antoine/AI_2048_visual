@@ -11,9 +11,10 @@ Genetic_learning::Genetic_learning()
   mutationProba = 0.05;
   nbrOfThreads = 2;
   stopFlag = false;
+  depth = 2;
 }
 
-Genetic_learning::Genetic_learning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT)
+Genetic_learning::Genetic_learning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT, int givenDepth)
 {
   gridSize = gridS;
   nbGenerations = nbG;
@@ -24,6 +25,7 @@ Genetic_learning::Genetic_learning(int gridS, int nbG, int nbI, int nbE, double 
   mutationProba = mutationP;
   nbrOfThreads = nbrOfT;
   stopFlag = false;
+  depth = givenDepth;
 
   if (trunc(nbIndiv*selectionRateBest) < 1)
   //in that case, the selection phase fails -> we make the parameters compatible
@@ -69,7 +71,7 @@ void Genetic_learning::execute(Learning_stats* stats)
   AI_random indiv;
   for (int i=0; i<nbIndiv; i++)
   {
-    indiv = AI_random(gridSize);
+    indiv = AI_random(gridSize, depth);
     generation.push_back(indiv);
     fitnesses.push_back(0);
   }
@@ -79,6 +81,7 @@ void Genetic_learning::execute(Learning_stats* stats)
   while ((generationCounter < nbGenerations) && (!stopFlag))
   {
     generationCounter += 1;
+    printf("generation : %d sur %d\n", generationCounter, nbGenerations);
 
     //we choose the method to evaluate the individuals (multithread or not)
     if (nbrOfThreads > 0)
@@ -203,8 +206,6 @@ std::vector<int> Genetic_learning::selection()
 {
   int nbrOfBest = trunc(nbIndiv * selectionRateBest);
   int nbrOfOthers = trunc(nbIndiv * selectionRateOthers);
-  printf("%d\n", nbrOfBest);
-  printf("%d\n", nbrOfOthers);
   std::vector<int> indexes;
 
   std::vector<int> listOfFitnesses = fitnesses;
@@ -345,6 +346,7 @@ void Genetic_learning::write_config_to_file(char* filename)
   myFile << "float selectionRateOthers = " << selectionRateOthers << ";\n";
   myFile << "float mutationProba = " << mutationProba << ";\n";
   myFile << "int nbrOfThreads = " << nbrOfThreads << ";\n";
+  myFile << "int depth = " << depth << ";\n";
 
   myFile.close();
 }

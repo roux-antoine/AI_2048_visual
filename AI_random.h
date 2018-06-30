@@ -13,7 +13,7 @@ private:
 public:
 
   AI_random();
-  AI_random(int size);
+  AI_random(int size, int givenDepth);
 
 
 };

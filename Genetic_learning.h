@@ -27,6 +27,7 @@ private:
   double mutationProba;
   int nbrOfThreads;
   bool stopFlag;
+  int depth;
 
   void evaluation_threaded(int nbrOfThreads);
   void evaluation_thread_base(int start, int end);
@@ -38,7 +39,7 @@ private:
 
 public:
   Genetic_learning();
-  Genetic_learning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads);
+  Genetic_learning(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads, int givenDepth);
   void execute(Learning_stats* stats);
   AI get_best_AI();
   int get_best_fitness();

@@ -13,8 +13,8 @@ private:
 public:
 
   AI_hc();
-  AI_hc(int size);
-  AI_hc(int size, std::vector<std::vector<int> > givenWeightsGrid);
+  AI_hc(int size, int givenDepth);
+  AI_hc(int size, std::vector<std::vector<int> > givenWeightsGrid, int givenDepth);
 
 };
 

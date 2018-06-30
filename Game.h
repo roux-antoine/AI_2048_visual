@@ -12,7 +12,7 @@
 class Game
 {
 private:
-    virtual int get_direction() = 0;
+    virtual int get_direction(int depth) = 0;
     void swipe_up();
     void swipe_down();
     void swipe_left();

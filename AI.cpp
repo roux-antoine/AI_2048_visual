@@ -1,12 +1,14 @@
 #include "AI.h"
 
-AI::AI(int size)
+AI::AI(int size, int givenDepth)
 /*
   Initializes the fitnessGrid and the
 */
 
 {
   gridDimension = size;
+  depth = givenDepth;
+
 
   for (int k = 0 ; k < gridDimension ; k++)
   {
@@ -20,6 +22,7 @@ AI::AI()
 */
 {
   gridDimension = 4;
+  depth = 2;
 
   for (int k = 0 ; k < gridDimension ; k++)
   {
@@ -33,4 +36,12 @@ int AI::get_grid_dimension() const
 */
 {
     return gridDimension;
+}
+
+int AI::get_depth() const
+/*
+  getter for gridDimension
+*/
+{
+    return depth;
 }

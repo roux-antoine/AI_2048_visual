@@ -12,14 +12,16 @@ private:
 
 protected:
   int gridDimension;
+  int depth;
 
 public:
 
   std::vector<std::vector<int> > weightsGrid;
 
   AI();
-  AI(int size);
+  AI(int size, int givenDepth);
   int get_grid_dimension() const;
+  int get_depth() const;
 
 };
 

@@ -35,7 +35,7 @@ def decipher(filename):
 if __name__ == '__main__':
 
     nbrV1 = 7
-    nbrV2 = 8
+    nbrV2 = 5
 
     maxFitnessesV1 = []
     avgFitnessesV1 = []

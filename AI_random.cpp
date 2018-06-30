@@ -1,6 +1,6 @@
 #include "AI_random.h"
 
-AI_random::AI_random(int size) : AI(size)
+AI_random::AI_random(int size, int givenDepth) : AI(size, givenDepth)
 {
   fill_weights_grid();
 }

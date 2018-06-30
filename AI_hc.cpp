@@ -9,7 +9,7 @@ AI_hc::AI_hc() : AI()
   fill_weights_grid();
 }
 
-AI_hc::AI_hc(int size) : AI(size)
+AI_hc::AI_hc(int size, int givenDepth) : AI(size, givenDepth)
 /*
   initialises fitnessGrid with the hard-coded one
 */
@@ -17,7 +17,7 @@ AI_hc::AI_hc(int size) : AI(size)
   fill_weights_grid();
 }
 
-AI_hc::AI_hc(int size, std::vector<std::vector<int> > givenWeightsGrid) : AI(size)
+AI_hc::AI_hc(int size, std::vector<std::vector<int> > givenWeightsGrid, int givenDepth) : AI(size, givenDepth)
 /*
   initialises fitnessGrid with the givenFitnessGrid
 */
