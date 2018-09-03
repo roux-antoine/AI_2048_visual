@@ -30,11 +30,14 @@ protected:
   void swipe(int direction);
   bool can_swipe(int direction) const;
   bool is_finished() const;
+  int classicScore;
+
 
 
 public:
   std::vector<std::vector<int> > grid;
   void print() const;
+  int get_classic_score();
 
 
 };

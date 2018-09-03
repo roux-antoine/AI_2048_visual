@@ -3,6 +3,7 @@
 Game::Game(int givenSize)
 {
   size = givenSize;
+  classicScore = 0;
 
   for (int k = 0 ; k < givenSize ; k++)
   {
@@ -46,7 +47,7 @@ void Game::print() const
   printf("\n");
 }
 
-bool Game::can_swipe_up() const
+bool Game::can_swipe_up() const //l'originale
 /*
   returns true if the grid can be swiped up
 */
@@ -138,6 +139,7 @@ bool Game::can_swipe_down() const
     }
   return false;
 }
+
 
 bool Game::can_swipe_right() const
 /*
@@ -239,12 +241,8 @@ bool Game::can_swipe(int direction) const
   directions : 0 = left, 1 = down, 2 = right, 3 = up
 */
 {
-  if (direction == -1)
-  {
-    return(false);
-  }
 
-  else if (direction == 0)
+  if (direction == 0)
   {
     return(this->can_swipe_left());
   }
@@ -311,6 +309,7 @@ void Game::swipe_up()
       if (grid[lineNbr][columnNbr] == grid[lineNbr+1][columnNbr])
       {
         grid[lineNbr][columnNbr] *= 2;
+        classicScore += grid[lineNbr][columnNbr];
         for (int remainingLine = lineNbr+1; remainingLine < size-1; remainingLine++)
         {
           grid[remainingLine][columnNbr] = grid[remainingLine+1][columnNbr];
@@ -361,6 +360,7 @@ void Game::swipe_down()
       if (grid[lineNbr][columnNbr] == grid[lineNbr-1][columnNbr])
       {
         grid[lineNbr][columnNbr] *= 2;
+        classicScore += grid[lineNbr][columnNbr];
         for (int remainingLine = lineNbr-1; remainingLine > 0; remainingLine--)
         {
           grid[remainingLine][columnNbr] = grid[remainingLine-1][columnNbr];
@@ -411,6 +411,7 @@ void Game::swipe_left()
       if (grid[lineNbr][columnNbr] == grid[lineNbr][columnNbr+1])
       {
         grid[lineNbr][columnNbr] *= 2;
+        classicScore += grid[lineNbr][columnNbr];
         for (int remainingColumn = columnNbr+1; remainingColumn < size-1; remainingColumn++)
         {
           grid[lineNbr][remainingColumn] = grid[lineNbr][remainingColumn+1];
@@ -461,6 +462,7 @@ void Game::swipe_right()
       if (grid[lineNbr][columnNbr] == grid[lineNbr][columnNbr-1])
       {
         grid[lineNbr][columnNbr] *= 2;
+        classicScore += grid[lineNbr][columnNbr];
         for (int remainingColumn = columnNbr-1; remainingColumn > 0; remainingColumn--)
         {
           grid[lineNbr][remainingColumn] = grid[lineNbr][remainingColumn-1];
@@ -560,7 +562,7 @@ bool Game::is_finished() const
 */
 {
   //checks if there are some possible moves
-  for (int i = 0; i < 4; i++)
+  for (int i = 3; i >= 0; i--)
   {
     if (this->can_swipe(i))
     {
@@ -568,4 +570,12 @@ bool Game::is_finished() const
     }
   }
   return (true);
+}
+
+int Game::get_classic_score()
+/*
+  getter for classicScore
+*/
+{
+  return (classicScore);
 }
