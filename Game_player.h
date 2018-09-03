@@ -7,7 +7,7 @@
 class Game_player : public Game
 {
 private:
-  int get_direction();
+  int get_direction(int depth);
 
 
 public:

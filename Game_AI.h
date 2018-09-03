@@ -12,6 +12,7 @@ private:
 
   int compute_fitness() const;
   int get_direction(int depth);
+  int get_direction_1();
   int get_direction_2();
   int get_direction_3();
   int get_direction_4();

@@ -8,6 +8,7 @@
 
 #include "AI.h"
 #include "AI_random.h"
+#include "AI_hc.h"
 #include "Game_AI.h"
 #include "Learning_stats.h"
 #include "tools.h"

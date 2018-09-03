@@ -18,19 +18,20 @@ void Game_player::play()
 
   while(!this->is_finished())
   {
-    int direction = get_direction();
+    int direction = get_direction(-1);
 
     if (this->can_swipe(direction))
     {
       this->swipe(direction);
       this->add_random_nbr();
     }
+    printf("Score : %d\n", classicScore);
     this->print();
   }
 }
 
 
-int Game_player::get_direction()
+int Game_player::get_direction(int depth)
 // returns the direction pressed on keyboard by user
 {
   char input;

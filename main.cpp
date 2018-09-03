@@ -19,13 +19,15 @@
 void time_test()
 {
   int size = 4;
-  int nbrGames = 300;
+  int nbrGames = 100;
   int depth = 2;
 
   AI_hc myAI(size, depth);
 
   int startTime = clock();
 
+  int nb128 = 0;
+  int nb256 = 0;
   int nb512 = 0;
   int nb1024 = 0;
   int nb2048 = 0;
@@ -64,10 +66,18 @@ void time_test()
     {
       nb512 += 1;
     }
+    else if (max >= 256)
+    {
+      nb256 += 1;
+    }
+    else if (max >= 128)
+    {
+      nb128 += 1;
+    }
   // printf("%d / %d \n", nb2048, gameNbr+1);
   // printf("%d\n", score/nbrGames);
   }
-  printf("4096 : %d, 2048 : %d, 1024 : %d, 512 : %d\n", nb4096, nb2048, nb1024, nb512);
+  printf("4096 : %d, 2048 : %d, 1024 : %d, 512 : %d, 256 : %d, 128 : %d\n", nb4096, nb2048, nb1024, nb512, nb256, nb128);
 
   printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
 }
@@ -76,9 +86,9 @@ void time_test()
 void learning_test()
 {
   int size = 4;
-  int nbGeneration = 14;
-  int nbIndiv = 12;
-  int nbEvalPerIndiv =  75;
+  int nbGeneration = 10;
+  int nbIndiv = 16;
+  int nbEvalPerIndiv = 45;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.5;
@@ -139,9 +149,9 @@ int main()
 
 
 
-  // time_test();
+  time_test();
   // test_one_speed();
-  learning_test();
+  // learning_test();
 
   return 0;
 }

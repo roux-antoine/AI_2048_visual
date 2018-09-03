@@ -23,6 +23,7 @@ void Game_AI::play()
     // char a;
     // std::cin >> a;
     int direction = get_direction(depth);
+    // printf("%d\n", direction);
 
     if (this->can_swipe(direction))
     {
@@ -34,93 +35,7 @@ void Game_AI::play()
 }
 
 
-//
-// int Game_AI::get_direction() //profondeur 1
-// /*
-//   chooses the directon in which to swipe
-//   decides by computing the fitnesses of all the possible grids with two swipes in advance
-//   and chooses the direction that gives the best fitness
-// */
-// {
-//   // we simulate the possible moves
-//   int fitnessValuesGrid[4]; //the size = 4 because 4 possible moves (not related to size of grid)
-//   for (int k = 0; k < 4; k++)
-//   {
-//     for (int i = 0; i < 4; i++)
-//     {
-//       fitnessValuesGrid[k] = 0;
-//     }
-//   }
-//
-//   bool possibleMoves[4] = {false, false, false, false};
-//   int nbrPossibleMoves = 0;
-//   for (int direction = 0; direction < 4; direction++)
-//   {
-//     bool canSwipe = this->can_swipe(direction);
-//     possibleMoves[direction] = canSwipe;
-//     nbrPossibleMoves += canSwipe;
-//   }
-//
-//   if (nbrPossibleMoves > 0)
-//   {
-//      //    // uncomment below to test a variation of the direction decision
-//      // if (possibleMoves[0] || possibleMoves[1] || possibleMoves[3])
-//      // //if can swipe up, left or down, do not swipe right
-//      // {
-//      //   possibleMoves[2] = false; //we un-possiblize the right swipe -> gives better performances ?
-//      // }
-//
-//     for (int k = 0; k < 4 ; k++)
-//     {
-//       if (possibleMoves[k])
-//       {
-//         for (int i = 0; i < 4; i++)
-//         {
-//           Game_AI tempGame(size, myAI);
-//
-//           for (int l = 0; l<size; l++ )
-//           {
-//               for (int m = 0; m<size; m++ )
-//               {
-//                   tempGame.grid[m][l] = this->grid[m][l];
-//               }
-//           }
-//
-//           tempGame.swipe(k);
-//           fitnessValuesGrid[k] += tempGame.compute_fitness();
-//         }
-//       }
-//     }
-//
-//     //now we need to choose the best direction according to the fitnessValuesGrid
-//
-//     int maxArray[4] = {0, 0, 0, 0};
-//     for (int k = 0; k < 4; k++)
-//     // we find the max of fitnessValuesGrid, with respect to the first move
-//     {
-//       for (int i = 0; i < 4; i++)
-//       {
-//         if (fitnessValuesGrid[k] > maxArray[k])
-//         {
-//           maxArray[k] = fitnessValuesGrid[k];
-//         }
-//       }
-//     }
-//
-//     int maxValue = 0;
-//     int direction = 0;
-//     for (int k = 0; k < 4; k++)
-//     {
-//       if (maxArray[k] > maxValue)
-//       {
-//         maxValue = maxArray[k];
-//         direction = k;
-//       }
-//     }
-//     return (direction);
-//   }
-//   return (-1);
-// }
+
 
 int Game_AI::get_direction(int depth)
 /*
@@ -128,7 +43,11 @@ int Game_AI::get_direction(int depth)
   if depth is not legal, return with a depth of two
 */
 {
-  if (depth == 2)
+  if (depth == 1)
+  {
+    return get_direction_1();
+  }
+  else if (depth == 2)
   {
     return get_direction_2();
   }
@@ -152,6 +71,88 @@ int Game_AI::get_direction(int depth)
   {
     return get_direction_2();
   }
+}
+
+
+int Game_AI::get_direction_1() //profondeur 1
+/*
+  chooses the directon in which to swipe
+  decides by computing the fitnesses of all the possible grids with one swipe in advance
+  and chooses the direction that gives the best fitness
+*/
+{
+  // we simulate the possible moves
+  int fitnessValuesGrid[4]; //the size = 4 because 4 possible moves (not related to size of grid)
+  for (int k = 0; k < 4; k++)
+  {
+    for (int i = 0; i < 4; i++)
+    {
+      fitnessValuesGrid[k] = 0;
+    }
+  }
+
+  bool possibleMoves[4] = {false, false, false, false};
+  int nbrPossibleMoves = 0;
+  for (int direction = 0; direction < 4; direction++)
+  {
+    bool canSwipe = this->can_swipe(direction);
+    possibleMoves[direction] = canSwipe;
+    nbrPossibleMoves += canSwipe;
+  }
+
+  if (nbrPossibleMoves > 0)
+  {
+     //    // uncomment below to test a variation of the direction decision
+     // if (possibleMoves[0] || possibleMoves[1] || possibleMoves[3])
+     // //if can swipe up, left or down, do not swipe right
+     // {
+     //   possibleMoves[2] = false; //we un-possiblize the right swipe -> gives better performances ?
+     // }
+
+    for (int k = 0; k < 4 ; k++)
+    {
+      if (possibleMoves[k])
+      {
+        for (int i = 0; i < 4; i++)
+        {
+          Game_AI tempGame(size, myAI);
+
+          tempGame = *this;
+
+          tempGame.swipe(k);
+          fitnessValuesGrid[k] += tempGame.compute_fitness();
+        }
+      }
+    }
+
+    //now we need to choose the best direction according to the fitnessValuesGrid
+
+    int maxArray[4] = {0, 0, 0, 0};
+    for (int k = 0; k < 4; k++)
+    // we find the max of fitnessValuesGrid, with respect to the first move
+    {
+      for (int i = 0; i < 4; i++)
+      {
+        if (fitnessValuesGrid[k] > maxArray[k])
+        {
+          maxArray[k] = fitnessValuesGrid[k];
+        }
+      }
+    }
+
+    int maxValue = 0;
+    int direction = 0;
+    for (int k = 0; k < 4; k++)
+    {
+      if (maxArray[k] > maxValue)
+      {
+        maxValue = maxArray[k];
+        direction = k;
+      }
+    }
+    return (direction);
+  }
+  return (-1);
 }
 
 int Game_AI::get_direction_2() //profondeur 2
@@ -197,13 +198,14 @@ int Game_AI::get_direction_2() //profondeur 2
         {
           Game_AI tempGame(size, myAI);
 
-          for (int l = 0; l<size; l++ )
-          {
-              for (int m = 0; m<size; m++ )
-              {
-                  tempGame.grid[m][l] = this->grid[m][l];
-              }
-          }
+          // for (int l = 0; l<size; l++ )
+          // {
+          //     for (int m = 0; m<size; m++ )
+          //     {
+          //         tempGame.grid[m][l] = this->grid[m][l];
+          //     }
+          // }
+          tempGame = *this;
 
           tempGame.swipe(k);
           fitnessValuesGrid[k][i] += tempGame.compute_fitness();
@@ -291,13 +293,7 @@ int Game_AI::get_direction_3() //profondeur 3
             // Game_AI tempGame = *this;
 
             Game_AI tempGame(size, myAI);
-            for (int x = 0; x<size; x++ )
-            {
-              for (int y = 0; y<size; y++ )
-              {
-                  tempGame.grid[x][y] = this->grid[x][y];
-              }
-            }
+            tempGame = *this;
 
             tempGame.swipe(k);
             fitnessValuesGrid[k][i][j] += tempGame.compute_fitness();
@@ -405,13 +401,7 @@ int Game_AI::get_direction_4() //profondeur 4
             for (int l = 0; l < 4; l++)
             {
               Game_AI tempGame(size, myAI);
-              for (int x = 0; x<size; x++ )
-              {
-                for (int y = 0; y<size; y++ )
-                {
-                    tempGame.grid[x][y] = this->grid[x][y];
-                }
-              }
+              tempGame = *this;
 
               tempGame.swipe(k);
               fitnessValuesGrid[k][i][j][l] += tempGame.compute_fitness();
@@ -539,13 +529,7 @@ int Game_AI::get_direction_5() //profondeur 5
                 // Game_AI tempGame = *this;
 
                 Game_AI tempGame(size, myAI);
-                for (int x = 0; x<size; x++ )
-                {
-                  for (int y = 0; y<size; y++ )
-                  {
-                      tempGame.grid[x][y] = this->grid[x][y];
-                  }
-                }
+                tempGame = *this;
 
                 tempGame.swipe(k);
                 fitnessValuesGrid[k][i][j][l][m] += tempGame.compute_fitness();
@@ -679,13 +663,7 @@ int Game_AI::get_direction_6() //profondeur 6
                   // Game_AI tempGame = *this;
 
                   Game_AI tempGame(size, myAI);
-                  for (int x = 0; x<size; x++ )
-                  {
-                    for (int y = 0; y<size; y++ )
-                    {
-                        tempGame.grid[x][y] = this->grid[x][y];
-                    }
-                  }
+                  tempGame = *this;
 
                   tempGame.swipe(k);
                   fitnessValuesGrid[k][i][j][l][m][n] += tempGame.compute_fitness();
@@ -767,7 +745,6 @@ int Game_AI::get_direction_6() //profondeur 6
 
     return (direction);
   }
-
   return (-1); // a changer
 }
 
@@ -785,4 +762,5 @@ int Game_AI::compute_fitness() const
     }
   }
   return (fitness);
+  // return(classicScore);
 }
