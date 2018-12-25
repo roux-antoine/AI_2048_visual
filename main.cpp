@@ -9,7 +9,7 @@
 #include "Genetic_learning.h"
 #include "Learning_stats.h"
 #include "Neural_net.h"
-// #include "Game_neural.h"
+#include "Game_neural.h"
 
 #include <iostream>
 #include <random>
@@ -131,17 +131,21 @@ void test_one_speed()
 
 void test_neural()
 {
+  int gridSize = 4;
+  int searchDepth = 2;
   std::vector<int> sizes = {16, 9, 1};
-  std::vector<int> nonLinearities = {1, 2}; //tester relu et tanh
+  std::vector<int> nonLinearities = {1, 0};
 
   Neural_net myNeuralNet(4, 3, sizes, nonLinearities);
 
-  std::vector<int> toto = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  // std::vector<int> inputVector = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  // myNeuralNet.print();
+  // float toto = myNeuralNet.forward_pass(inputVector);
+  // std::cout << "toto: " << toto << '\n';
 
-  myNeuralNet.print();
-  float tata = myNeuralNet.forward_pass(toto);
+  Game_neural myGame(gridSize, searchDepth, myNeuralNet);
+  myGame.play();
 
-  std::cout << "tata: " << tata << '\n';
 }
 
 

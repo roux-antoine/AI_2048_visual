@@ -36,6 +36,7 @@ public:
   std::vector<std::vector<int>> biases;
   std::vector<std::vector<int>> layers;
 
+  Neural_net();
   Neural_net(int givenGridSize, int givenNbrLayers, std::vector<int> givenLayersSizes, std::vector<int> givenNonLinearities);
   void print() const;
   float forward_pass(std::vector<int> inputVector);
