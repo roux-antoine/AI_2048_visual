@@ -184,13 +184,6 @@ int Game_AI::get_direction_2() //profondeur 2
 
   if (nbrPossibleMoves > 0)
   {
-     //    // uncomment below to test a variation of the direction decision
-     // if (possibleMoves[0] || possibleMoves[1] || possibleMoves[3])
-     // //if can swipe up, left or down, do not swipe right
-     // {
-     //   possibleMoves[2] = false; //we un-possiblize the right swipe -> gives better performances ?
-     // }
-
     for (int k = 0; k < 4 ; k++)
     {
       if (possibleMoves[k])
@@ -199,13 +192,6 @@ int Game_AI::get_direction_2() //profondeur 2
         {
           Game_AI tempGame(size, myAI);
 
-          // for (int l = 0; l<size; l++ )
-          // {
-          //     for (int m = 0; m<size; m++ )
-          //     {
-          //         tempGame.grid[m][l] = this->grid[m][l];
-          //     }
-          // }
           tempGame = *this;
 
           tempGame.swipe(k);
@@ -385,12 +371,6 @@ int Game_AI::get_direction_4() //profondeur 4
 
   if (nbrPossibleMoves > 0)
   {
-    // if (possibleMoves[0] == true || possibleMoves[1] == true || possibleMoves[3] == true)
-    // //if can swipe up, left or down, do not swipe right
-    // {
-    //   possibleMoves[2] = false; //we un-possiblize the right swipe -> less powerful
-    // }
-
     for (int k = 0; k < 4 ; k++)
     {
       if (possibleMoves[k])
@@ -509,12 +489,6 @@ int Game_AI::get_direction_5() //profondeur 5
 
   if (nbrPossibleMoves > 0)
   {
-    // if (possibleMoves[0] == true || possibleMoves[1] == true || possibleMoves[3] == true)
-    // //if can swipe up, left or down, do not swipe right
-    // {
-    //   possibleMoves[2] = false; //we un-possiblize the right swipe -> less powerful
-    // }
-
     for (int k = 0; k < 4 ; k++)
     {
       if (possibleMoves[k])
@@ -689,7 +663,7 @@ int Game_AI::get_direction_6() //profondeur 6
                           tempGame.swipe(m);
                           fitnessValuesGrid[k][i][j][l][m][n] += tempGame.compute_fitness();
 
-                          if (tempGame.can_swipe(n))
+                          if (tempGame.can_swipe(n)) //the sixth swipe
                           {
                             tempGame.swipe(n);
                             fitnessValuesGrid[k][i][j][l][m][n] += tempGame.compute_fitness();

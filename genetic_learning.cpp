@@ -68,20 +68,21 @@ void Genetic_learning::execute(Learning_stats* stats)
   fitnesses.clear();
   generation.clear();
 
-  // AI_random indiv;
-  //
-  // for (int i=0; i<nbIndiv; i++)
-  // {
-  //   indiv = AI_random(gridSize, depth);
-  //   generation.push_back(indiv);
-  //   fitnesses.push_back(0);
-  // }
-
+  // uncomment below to initialize the individuals in the generation with random AIs
+  AI_random indiv;
   for (int i=0; i<nbIndiv; i++)
   {
-    generation.push_back(AI_hc(gridSize, depth));
+    indiv = AI_random(gridSize, depth);
+    generation.push_back(indiv);
     fitnesses.push_back(0);
   }
+
+  // uncomment below to initialize the individuals in the generation with hardcoded AIs
+  // for (int i=0; i<nbIndiv; i++)
+  // {
+  //   generation.push_back(AI_hc(gridSize, depth));
+  //   fitnesses.push_back(0);
+  // }
 
 
   //we launch the learning phase
@@ -108,9 +109,9 @@ void Genetic_learning::execute(Learning_stats* stats)
 
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
 
-    // reproduction(indexes);
+    reproduction(indexes);
 
-    // mutation();
+    mutation();
 
     stats->write_stats_to_file(fileName);
   }

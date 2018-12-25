@@ -149,9 +149,9 @@ int main()
 
 
 
-  time_test();
+  // time_test();
   // test_one_speed();
-  // learning_test();
+  learning_test();
 
   return 0;
 }
