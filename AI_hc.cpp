@@ -54,28 +54,31 @@ void AI_hc::fill_weights_grid()
       weightsGrid[k][3] = 4-k;
     }
 
-    weightsGrid[3][0] = 64;
-    weightsGrid[2][0] = 32;
-    weightsGrid[1][0] = 16;
-    weightsGrid[0][0] = 8;
-
-    weightsGrid[3][1] = 32;
-    weightsGrid[2][1] = 16;
-    weightsGrid[1][1] = 8;
-    weightsGrid[0][1] = 4;
-
-    weightsGrid[3][2] = 16;
-    weightsGrid[2][2] = 8;
-    weightsGrid[1][2] = 4;
-    weightsGrid[0][2] = 2;
-
-    weightsGrid[3][3] = 8;
-    weightsGrid[2][3] = 4;
-    weightsGrid[1][3] = 2;
-    weightsGrid[0][3] = 1;
+    ////
+    // uncomment below to have an AI that puts the tiles in perfect diagonal -> does not perform well
+    // weightsGrid[3][0] = 64;
+    // weightsGrid[2][0] = 32;
+    // weightsGrid[1][0] = 16;
+    // weightsGrid[0][0] = 8;
+    //
+    // weightsGrid[3][1] = 32;
+    // weightsGrid[2][1] = 16;
+    // weightsGrid[1][1] = 8;
+    // weightsGrid[0][1] = 4;
+    //
+    // weightsGrid[3][2] = 16;
+    // weightsGrid[2][2] = 8;
+    // weightsGrid[1][2] = 4;
+    // weightsGrid[0][2] = 2;
+    //
+    // weightsGrid[3][3] = 8;
+    // weightsGrid[2][3] = 4;
+    // weightsGrid[1][3] = 2;
+    // weightsGrid[0][3] = 1;
 
     ////
 
+    // uncomment below to have an AI puts some semi-ordered values (performs ok)
     // weightsGrid[3][0] = 41;
     // weightsGrid[2][0] = 35;
     // weightsGrid[1][0] = 32;

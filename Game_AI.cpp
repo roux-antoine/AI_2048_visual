@@ -19,6 +19,7 @@ void Game_AI::play()
   //main loop
   while((!this->is_finished()))
   {
+    // uncomment 3 lines below to see in terminal what happens during the game
     // this->print();
     // char a;
     // std::cin >> a;
