@@ -18,5 +18,7 @@ int index(std::vector<int> v, int value);
 
 int max_index(std::vector<int>* v);
 
+float ReLU(float value);
+
 
 #endif //TOOLS_H

@@ -1,5 +1,6 @@
 #include "tools.h"
 
+
 int my_random(int inf, int max)
 //returns a random number between inf and max (included !!) usind std::uniform_int_distribution
 {
@@ -105,4 +106,16 @@ int max_index(std::vector<int>* v)
     return idx;
   }
   else {return -1;}
+}
+
+float ReLU(float value)
+{
+  if (value > 0)
+  {
+    return value;
+  }
+  else
+  {
+    return 0;
+  }
 }

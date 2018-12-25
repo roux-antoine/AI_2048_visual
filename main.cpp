@@ -8,6 +8,8 @@
 #include "AI_random.h"
 #include "Genetic_learning.h"
 #include "Learning_stats.h"
+#include "Neural_net.h"
+// #include "Game_neural.h"
 
 #include <iostream>
 #include <random>
@@ -127,6 +129,21 @@ void test_one_speed()
 
 }
 
+void test_neural()
+{
+  std::vector<int> sizes = {16, 9, 1};
+  std::vector<int> nonLinearities = {1, 2}; //tester relu et tanh
+
+  Neural_net myNeuralNet(4, 3, sizes, nonLinearities);
+
+  std::vector<int> toto = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+  myNeuralNet.print();
+  float tata = myNeuralNet.forward_pass(toto);
+
+  std::cout << "tata: " << tata << '\n';
+}
+
 
 
 int main()
@@ -145,13 +162,11 @@ int main()
   // myGame.play();
   // myGame.print();
 
-
-
-
+  test_neural();
 
   // time_test();
   // test_one_speed();
-  learning_test();
+  // learning_test();
 
   return 0;
 }
