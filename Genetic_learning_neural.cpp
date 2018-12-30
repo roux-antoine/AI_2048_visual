@@ -48,7 +48,8 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   executes the whole learning phase
   creates generations of nbIndiv algorithms
   evaluates them on nbEvalPerIndiv games
-  selectes the best
+  selects the best
+  reproduces
   mutates
   loops
   and at the end, save stats in a txt file
@@ -58,13 +59,13 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   auto start = std::chrono::system_clock::now();
   std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
   char fileName[100];   // array to hold the result.
-  strcpy(fileName, std::ctime(&timeNow));
+  std::strcpy(fileName, std::ctime(&timeNow));
   char configFileName[100];
-  strcpy(configFileName, fileName);
+  std::strcpy(configFileName, fileName);
 
-  strcat(fileName, ".txt");
-  strcat(configFileName, "config");
-  strcat(configFileName, ".txt");
+  std::strcat(fileName, ".txt");
+  std::strcat(configFileName, "config");
+  std::strcat(configFileName, ".txt");
   write_config_to_file(configFileName);
 
   //we initialize all the variables
@@ -86,7 +87,7 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   while ((generationCounter < nbGenerations) && (!stopFlag))
   {
     generationCounter += 1;
-    printf("generation : %d sur %d\n", generationCounter, nbGenerations);
+    printf("generation: %d / %d\n", generationCounter, nbGenerations);
 
     //we choose the method to evaluate the individuals (multithread or not)
     if (nbrOfThreads > 0)

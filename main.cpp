@@ -154,9 +154,9 @@ void test_neural()
 void learning_test_neural()
 {
   int size = 4;
-  int nbGeneration = 10;
-  int nbIndiv = 16;
-  int nbEvalPerIndiv = 25;
+  int nbGeneration = 15;
+  int nbIndiv = 20;
+  int nbEvalPerIndiv = 40;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.5;
