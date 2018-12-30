@@ -20,16 +20,11 @@ void Game_neural::play()
   while((!this->is_finished()))
   {
     // uncomment 3 lines below to see in terminal what happens during the game
-    this->print();
+    // this->print();
     // char a;
     // std::cin >> a;
     int direction = get_direction(depth);
     // printf("%d\n", direction);
-
-    // if (direction == -1)
-    // {
-    //   /* code */
-    // }
 
     if (this->can_swipe(direction))
     {
@@ -87,13 +82,16 @@ int Game_neural::get_direction_1() //depth 1
   and chooses the direction that gives the best fitness
 */
 {
+  double inf = std::numeric_limits<double>::infinity();
+
   // we simulate the possible moves
   int fitnessValuesGrid[4]; //the size = 4 because 4 possible moves (not related to size of grid)
+  //for an unknown reason, if the fitnessValuesGrid is of type double it does not work...
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
     {
-      fitnessValuesGrid[k] = 0;
+      fitnessValuesGrid[k] = -inf;
     }
   }
 
@@ -133,7 +131,7 @@ int Game_neural::get_direction_1() //depth 1
 
     //now we need to choose the best direction according to the fitnessValuesGrid
 
-    int maxArray[4] = {0, 0, 0, 0};
+    double maxArray[4] = {-inf, -inf, -inf, -inf};
     for (int k = 0; k < 4; k++)
     // we find the max of fitnessValuesGrid, with respect to the first move
     {
@@ -146,7 +144,7 @@ int Game_neural::get_direction_1() //depth 1
       }
     }
 
-    int maxValue = 0;
+    double maxValue = -inf;
     int direction = 0;
     for (int k = 0; k < 4; k++)
     {
@@ -168,13 +166,16 @@ int Game_neural::get_direction_2() //depth 2
   and chooses the direction that gives the best fitness
 */
 {
+  double inf = std::numeric_limits<double>::infinity();
+
   // we simulate the possible moves
   int fitnessValuesGrid[4][4]; //the size = 4 because 4 possible moves (not related to size of grid)
+  //for an unknown reason, if the fitnessValuesGrid is of type double it does not work...
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
     {
-      fitnessValuesGrid[k][i] = 0;
+      fitnessValuesGrid[k][i] = -inf;
     }
   }
 
@@ -212,8 +213,8 @@ int Game_neural::get_direction_2() //depth 2
     }
 
     //now we need to choose the best direction according to the fitnessValuesGrid
+    double maxArray[4] = {-inf, -inf, -inf, -inf};
 
-    int maxArray[4] = {0, 0, 0, 0};
     for (int k = 0; k < 4; k++)
     // we find the max of fitnessValuesGrid, with respect to the first move
     {
@@ -226,7 +227,8 @@ int Game_neural::get_direction_2() //depth 2
       }
     }
 
-    int maxValue = 0;
+    // int maxValue = 0;
+    double maxValue = -inf;
     int direction = 0;
     for (int k = 0; k < 4; k++)
     {
@@ -249,16 +251,18 @@ int Game_neural::get_direction_3() //depth 3
   and chooses the direction that gives the best fitness
 */
 {
+  double inf = std::numeric_limits<double>::infinity();
 
   // we simulate the possible moves
   int fitnessValuesGrid[4][4][4];
+  //for an unknown reason, if the fitnessValuesGrid is of type double it does not work...
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
     {
       for (int j = 0; j < 4; j++)
       {
-            fitnessValuesGrid[k][i][j] = 0;
+            fitnessValuesGrid[k][i][j] = -inf;
       }
     }
   }
@@ -308,7 +312,7 @@ int Game_neural::get_direction_3() //depth 3
 
     //now we need to choose the direction according to the fitnessValuesGrid
 
-    int maxArray[4] = {0, 0, 0, 0};
+    double maxArray[4] = {-inf, -inf, -inf, -inf};
     for (int k = 0; k < 4; k++)
     // we find the max of fitnessValuesGrid, with respect to the first move
     {
@@ -324,7 +328,7 @@ int Game_neural::get_direction_3() //depth 3
       }
     }
 
-    int maxValue = 0;
+    double maxValue = -inf;
     int direction = 0;
     for (int k = 0; k < 4; k++)
     {
@@ -348,9 +352,11 @@ int Game_neural::get_direction_4() //depth 4
   and chooses the direction that gives the best fitness
 */
 {
+  double inf = std::numeric_limits<double>::infinity();
 
   // we simulate the possible moves
   int fitnessValuesGrid[4][4][4][4];
+  //for an unknown reason, if the fitnessValuesGrid is of type double it does not work...
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
@@ -359,7 +365,7 @@ int Game_neural::get_direction_4() //depth 4
       {
         for (int l = 0; l < 4; l++)
         {
-          fitnessValuesGrid[k][i][j][l] = 0;
+          fitnessValuesGrid[k][i][j][l] = -inf;
         }
       }
     }
@@ -418,7 +424,7 @@ int Game_neural::get_direction_4() //depth 4
 
     //now we need to choose the direction according to the fitnessValuesGrid
 
-    int maxArray[4] = {0, 0, 0, 0};
+    double maxArray[4] = {-inf, -inf, -inf, -inf};
     for (int k = 0; k < 4; k++)
     // we find the max of fitnessValuesGrid, with respect to the first move
     {
@@ -439,7 +445,7 @@ int Game_neural::get_direction_4() //depth 4
       }
     }
 
-    int maxValue = 0;
+    double maxValue = -inf;
     int direction = 0;
     for (int k = 0; k < 4; k++)
     {
@@ -463,9 +469,11 @@ int Game_neural::get_direction_5() //depth 5
   and chooses the direction that gives the best fitness
 */
 {
+  double inf = std::numeric_limits<double>::infinity();
 
   // we simulate the possible moves
   int fitnessValuesGrid[4][4][4][4][4];
+  //for an unknown reason, if the fitnessValuesGrid is of type double it does not work...
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
@@ -476,7 +484,7 @@ int Game_neural::get_direction_5() //depth 5
         {
           for (int m = 0; m < 4; m++)
           {
-            fitnessValuesGrid[k][i][j][l][m] = 0;
+            fitnessValuesGrid[k][i][j][l][m] = -inf;
           }
         }
       }
@@ -546,7 +554,7 @@ int Game_neural::get_direction_5() //depth 5
 
     //now we need to choose the direction according to the fitnessValuesGrid
 
-    int maxArray[4] = {0, 0, 0, 0};
+    double maxArray[4] = {-inf, -inf, -inf, -inf};
     for (int k = 0; k < 4; k++)
     // we find the max of fitnessValuesGrid, with respect to the first move
     {
@@ -568,7 +576,7 @@ int Game_neural::get_direction_5() //depth 5
       }
     }
 
-    int maxValue = 0;
+    double maxValue = -inf;
     int direction = 0;
     for (int k = 0; k < 4; k++)
     {
@@ -592,9 +600,11 @@ int Game_neural::get_direction_6() //depth 6
   and chooses the direction that gives the best fitness
 */
 {
+  double inf = std::numeric_limits<double>::infinity();
 
   // we simulate the possible moves
   int fitnessValuesGrid[4][4][4][4][4][4];
+  //for an unknown reason, if the fitnessValuesGrid is of type double it does not work...
   for (int k = 0; k < 4; k++)
   {
     for (int i = 0; i < 4; i++)
@@ -607,7 +617,7 @@ int Game_neural::get_direction_6() //depth 6
           {
             for (int n = 0; n < 4; n++)
             {
-              fitnessValuesGrid[k][i][j][l][m][n] = 0;
+              fitnessValuesGrid[k][i][j][l][m][n] = -inf;
             }
           }
         }
@@ -687,7 +697,7 @@ int Game_neural::get_direction_6() //depth 6
 
     //now we need to choose the direction according to the fitnessValuesGrid
 
-    int maxArray[4] = {0, 0, 0, 0};
+    double maxArray[4] = {-inf, -inf, -inf, -inf};
     for (int k = 0; k < 4; k++)
     // we find the max of fitnessValuesGrid, with respect to the first move
     {
@@ -712,7 +722,7 @@ int Game_neural::get_direction_6() //depth 6
       }
     }
 
-    int maxValue = 0;
+    double maxValue = -inf;
     int direction = 0;
     for (int k = 0; k < 4; k++)
     {
@@ -745,7 +755,7 @@ int Game_neural::compute_fitness()
 
 
   float fitness = myNeuralNet.forward_pass(gridFlattened);
-  std::cout << fitness << '\n';  
+  // std::cout << fitness << '\n';
   return (fitness);
   // return(classicScore);
 }

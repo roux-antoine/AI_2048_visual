@@ -145,6 +145,7 @@ void test_neural()
 
   Game_neural myGame(gridSize, searchDepth, myNeuralNet);
   myGame.play();
+  myGame.print();
 
 }
 

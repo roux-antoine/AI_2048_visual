@@ -4,6 +4,7 @@
 
 #include "Neural_net.h"
 #include "Game.h"
+#include <limits>
 
 class Game_neural : public Game
 {
