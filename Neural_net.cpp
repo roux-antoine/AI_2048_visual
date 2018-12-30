@@ -36,7 +36,7 @@ Neural_net::Neural_net(int givenGridSize, int givenNbrLayers, std::vector<int> g
     }
   }
 
-  // creating the layers
+  // creating the biases
   for (int k = 0; k < nbrLayers-1; k++)
   {
     biases.push_back(std::vector<int>(layersSizes[k+1],0));
@@ -47,7 +47,7 @@ Neural_net::Neural_net(int givenGridSize, int givenNbrLayers, std::vector<int> g
   {
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
-      biases[k][i] = my_random(-50, 50); //arbitrary parameter, has no influence
+      biases[k][i] = my_random(-50, 50); //arbitrary parameter, has no influence (maybe it has...)
     }
   }
 
@@ -56,14 +56,11 @@ Neural_net::Neural_net(int givenGridSize, int givenNbrLayers, std::vector<int> g
   {
     layers.push_back(std::vector<int>(layersSizes[k+1],0));
   }
-
-
 }
 
 Neural_net::Neural_net()
 /*
-  Constructor that randomly initializes the weights in the layers
-  We should make sure that all the dimensions match
+  Constructor that initializes the weights in the layers with the usual hardcoded ones
 */
 {
   gridSize = 4;
@@ -84,17 +81,36 @@ Neural_net::Neural_net()
     weights.push_back(temp);
   }
 
-  // initializing the weights randomly
+  // initializing the weights with the hardcoded ones -> TODO: trouver comment mettre ceux habituels
+  // for (int k = 0; k < gridSize; k++)
+  // {
+  //   weights[0][k][0] = 13+k;
+  // }
+  // for (int k = 0; k < gridSize; k++)
+  // {
+  //   weights[0][k][1] = 12-k;
+  // }
+  // for (int k = 0; k < gridSize; k++)
+  // {
+  //   weights[0][k][2] = 5+k;
+  // }
+  // for (int k = 0; k < gridSize; k++)
+  // {
+  //   weights[0][k][3] = 4-k;
+  // }
+
   for (int k = 0; k < nbrLayers-1; k++)
   {
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
       for (int j = 0; j < layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
       {
-        weights[k][i][j] = my_random(-50, 50); //arbitrary parameter, has no influence
+        weights[k][i][j] = i+j;
+        // weights[k][i][j] = my_random(0,16);
       }
     }
   }
+  ////////
 
   // creating the layers
   for (int k = 0; k < nbrLayers-1; k++)
@@ -102,12 +118,12 @@ Neural_net::Neural_net()
     biases.push_back(std::vector<int>(layersSizes[k+1],0));
   }
 
-  // initializing the biases randomly
+  // initializing the biases as 0
   for (int k = 0; k < nbrLayers-1; k++)
   {
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
-      biases[k][i] = my_random(-50, 50); //arbitrary parameter, has no influence
+      biases[k][i] = 0;
     }
   }
 
@@ -116,8 +132,6 @@ Neural_net::Neural_net()
   {
     layers.push_back(std::vector<int>(layersSizes[k+1],0));
   }
-
-
 }
 
 

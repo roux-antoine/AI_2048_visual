@@ -137,7 +137,9 @@ void test_neural()
   std::vector<int> sizes = {16, 9, 1};
   std::vector<int> nonLinearities = {1, 0};
 
-  Neural_net myNeuralNet(4, 3, sizes, nonLinearities);
+  // Neural_net myNeuralNet(4, 3, sizes, nonLinearities);
+  Neural_net myNeuralNet;
+  myNeuralNet.print();
 
   // std::vector<int> inputVector = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   // myNeuralNet.print();
@@ -153,8 +155,8 @@ void learning_test_neural()
 {
   int size = 4;
   int nbGeneration = 10;
-  int nbIndiv = 8;
-  int nbEvalPerIndiv = 20;
+  int nbIndiv = 16;
+  int nbEvalPerIndiv = 25;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.5;
@@ -166,7 +168,6 @@ void learning_test_neural()
   int nbrLayers = 2;
   std::vector<int> sizes = {16, 1};
   std::vector<int> nonLinearities = {0};
-
 
   Learning_stats stats;
 

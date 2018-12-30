@@ -274,14 +274,22 @@ void Genetic_learning_neural::reproduction(std::vector<int> indexes)
       parent2 = indexes.at(my_random(0, indexesSize-1));
     }
 
-    for (int m = 0; k < nn_nbrLayers-1; k++)
+    for (int m = 0; m < nn_nbrLayers-1; m++)
     {
-      for (int i = 0; i < nn_layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
+      for (int i = 0; i < nn_layersSizes[m+1]; i++)
       {
-        for (int j = 0; j < nn_layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
+        for (int j = 0; j < nn_layersSizes[m]; j++)
         {
           generation[k].weights[m][i][j] = trunc(0.5 * (generation[parent1].weights[m][i][j] + generation[parent2].weights[m][i][j]));
         }
+      }
+    }
+    for (int m = 0; m < nn_nbrLayers-1; m++)
+    {
+      for (int i = 0; i < nn_layersSizes[m+1]; i++)
+      {
+        // std::cout << m << " " << i << '\n';
+        generation[k].biases[m][i] = trunc(0.5 * (generation[parent1].biases[m][i] + generation[parent2].biases[m][i]));
       }
     }
   }
@@ -297,14 +305,22 @@ void Genetic_learning_neural::mutation()
     if (my_random(1, trunc(1/mutationProba)) == 1)
     {
       // in this case we add a small noise to the grid, proportional to the tile values
-      for (int m = 0; k < nn_nbrLayers-1; k++)
+      for (int m = 0; m < nn_nbrLayers-1; m++)
       {
-        for (int i = 0; i < nn_layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
+        for (int i = 0; i < nn_layersSizes[m+1]; i++)
         {
-          for (int j = 0; j < nn_layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
+          for (int j = 0; j < nn_layersSizes[m]; j++)
           {
             generation[k].weights[m][i][j] += 0.20 * my_random(-1,1) * generation[k].weights[m][i][j];
           }
+        }
+      }
+
+      for (int m = 0; m < nn_nbrLayers-1; m++)
+      {
+        for (int i = 0; i < nn_layersSizes[m+1]; i++)
+        {
+          generation[k].biases[m][i] = 0.20 * my_random(-1,1) * generation[k].biases[m][i];
         }
       }
     }
@@ -313,7 +329,7 @@ void Genetic_learning_neural::mutation()
 
 Neural_net Genetic_learning_neural::get_best_neural_net()
 /*
-  returns the best Neural net
+  returns the best neural net
 */
 {
   return generation[max_index(&fitnesses)];
