@@ -1,4 +1,3 @@
-
 #ifndef Game_neural_H
 #define Game_neural_H
 

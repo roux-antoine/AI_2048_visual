@@ -249,26 +249,3 @@ float Neural_net::forward_pass(std::vector<int> inputVector)
 // 1 x n = 1 x 16 * 16 x n
 //
 // exemple de givenLayersSizes : [16, 9, 1]
-
-
-
-
-// todo : à vérifier
-// Biases vector:
-// 23 13 3 33 48 25 4 23 2
-// Neurons vector:
-// 0 0 0 0 0 0 0 0 0
-// Non linearity: ReLU
-//
-//
-// Layer n°1
-// Weights matrix:
-// 10 17 20 21 14 18 0 42 9
-// Biases vector:
-// 7
-// Neurons vector:
-// 0
-// Non linearity: Linear
-//
-//
-// 16221

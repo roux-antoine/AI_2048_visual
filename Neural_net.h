@@ -22,8 +22,8 @@
 class Neural_net
 {
 private:
-  int nbrLayers;
   int gridSize;
+  int nbrLayers;
   std::vector<int> layersSizes;
   std::vector<int> nonLinearities;
 

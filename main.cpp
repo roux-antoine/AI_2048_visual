@@ -7,6 +7,7 @@
 #include "AI_hc.h"
 #include "AI_random.h"
 #include "Genetic_learning.h"
+#include "Genetic_learning_neural.h"
 #include "Learning_stats.h"
 #include "Neural_net.h"
 #include "Game_neural.h"
@@ -146,7 +147,39 @@ void test_neural()
   Game_neural myGame(gridSize, searchDepth, myNeuralNet);
   myGame.play();
   myGame.print();
+}
 
+void learning_test_neural()
+{
+  int size = 4;
+  int nbGeneration = 10;
+  int nbIndiv = 8;
+  int nbEvalPerIndiv = 20;
+  float selectionRateBest = 0.3;
+  float selectionRateOthers = 0.05;
+  float mutationProba = 0.5;
+  int nbrOfThreads = 4;
+  int depth = 2;
+  // int nbrLayers = 3;
+  // std::vector<int> sizes = {16, 9, 1};
+  // std::vector<int> nonLinearities = {1, 0};
+  int nbrLayers = 2;
+  std::vector<int> sizes = {16, 1};
+  std::vector<int> nonLinearities = {0};
+
+
+  Learning_stats stats;
+
+  Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth, nbrLayers, sizes, nonLinearities);
+
+  auto start = std::chrono::system_clock::now();
+  learning.execute(&stats);
+  auto end = std::chrono::system_clock::now();
+  std::chrono::duration<double> elapsed_seconds = end-start;
+
+  printf("\n");
+
+  std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
 
@@ -167,11 +200,12 @@ int main()
   // myGame.play();
   // myGame.print();
 
-  test_neural();
-
   // time_test();
   // test_one_speed();
   // learning_test();
+
+  // test_neural();
+  learning_test_neural();
 
   return 0;
 }
