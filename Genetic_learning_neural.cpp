@@ -1,20 +1,9 @@
 #include "Genetic_learning_neural.h"
 
-Genetic_learning_neural::Genetic_learning_neural()
-{
-  gridSize = 4;
-  nbGenerations = 15;
-  nbIndiv = 25;
-  nbEvalPerIndiv = 30;
-  selectionRateBest = 0.3;
-  selectionRateOthers = 0.1;
-  mutationProba = 0.05;
-  nbrOfThreads = 2;
-  stopFlag = false;
-  depth = 2;
-}
-
 Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT, int givenDepth, int nn_nbrL, std::vector<int> nn_layersS, std::vector<int> nn_nonL)
+/*
+  Constructor that sets initializationMode to 0, so that the generation will be initialized with random neural nets
+*/
 {
   gridSize = gridS;
   nbGenerations = nbG;
@@ -29,6 +18,38 @@ Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, in
   nn_nbrLayers = nn_nbrL;
   nn_layersSizes = nn_layersS;
   nn_nonLinearities = nn_nonL;
+  initializationMode = 0;
+
+  if (trunc(nbIndiv*selectionRateBest) < 1)
+  //in that case, the selection phase fails -> we make the parameters compatible
+  {
+      nbIndiv = (int)(1/selectionRateBest);
+  }
+  if (nbrOfThreads > nbIndiv)
+  {
+      nbrOfThreads = nbIndiv;
+  }
+}
+
+Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT, int givenDepth)
+/*
+  Constructor that sets initializationMode to 1, so that the generation will be initialized with the usual hardcoded neural nets
+*/
+{
+  gridSize = gridS;
+  nbGenerations = nbG;
+  nbIndiv = nbI;
+  nbEvalPerIndiv = nbE;
+  selectionRateBest = selectionR;
+  selectionRateOthers = selectionO;
+  mutationProba = mutationP;
+  nbrOfThreads = nbrOfT;
+  stopFlag = false;
+  depth = givenDepth;
+  nn_nbrLayers = 2;
+  nn_layersSizes = {16, 1};
+  nn_nonLinearities = {0};
+  initializationMode = 1;
 
   if (trunc(nbIndiv*selectionRateBest) < 1)
   //in that case, the selection phase fails -> we make the parameters compatible
@@ -72,13 +93,22 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   fitnesses.clear();
   generation.clear();
 
-  // uncomment below to initialize the individuals in the generation with random Neural_nets
-  Neural_net indiv(gridSize, nn_nbrLayers, nn_layersSizes, nn_nonLinearities);
-  for (int i=0; i<nbIndiv; i++)
+  // initializing the individuals in the generation with
+  if (initializationMode == 0) //aka with random neural nets
   {
-    indiv = Neural_net(gridSize, nn_nbrLayers, nn_layersSizes, nn_nonLinearities);
-    generation.push_back(indiv);
-    fitnesses.push_back(0);
+    for (int i=0; i<nbIndiv; i++)
+    {
+      generation.push_back(Neural_net(gridSize, nn_nbrLayers, nn_layersSizes, nn_nonLinearities));
+      fitnesses.push_back(0);
+    }
+  }
+  else //aka with the hardcoded neural net
+  {
+    for (int i=0; i<nbIndiv; i++)
+    {
+      generation.push_back(Neural_net());
+      fitnesses.push_back(0);
+    }
   }
 
 
@@ -99,7 +129,7 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
       evaluation_non_threaded();
     }
 
-    //// TODO ////TODO
+    //// TODO ////
     //we save the stats to a txt file
     stats->append_best_fitness(get_best_fitness());
     stats->append_average_fitness(get_average_fitness());
@@ -164,7 +194,7 @@ void Genetic_learning_neural::evaluation_thread_base(int start, int end)
 
       game.play();
 
-      currentFitness += double_sum(game.grid); //TODO: regarder si ce truc a un sens
+      currentFitness += double_sum(game.grid); //we say that the best algos are the one that achieve the highest sum of the tiles at the end of the game
     }
     fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // average score of the individual
   }
@@ -285,6 +315,7 @@ void Genetic_learning_neural::reproduction(std::vector<int> indexes)
         }
       }
     }
+
     for (int m = 0; m < nn_nbrLayers-1; m++)
     {
       for (int i = 0; i < nn_layersSizes[m+1]; i++)

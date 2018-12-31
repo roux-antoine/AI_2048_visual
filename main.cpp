@@ -154,9 +154,9 @@ void test_neural()
 void learning_test_neural()
 {
   int size = 4;
-  int nbGeneration = 15;
-  int nbIndiv = 20;
-  int nbEvalPerIndiv = 40;
+  int nbGeneration = 10;
+  int nbIndiv = 10;
+  int nbEvalPerIndiv = 20;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.5;
@@ -172,6 +172,7 @@ void learning_test_neural()
   Learning_stats stats;
 
   Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth, nbrLayers, sizes, nonLinearities);
+  // Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth);
 
   auto start = std::chrono::system_clock::now();
   learning.execute(&stats);

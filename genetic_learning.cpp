@@ -55,13 +55,13 @@ void Genetic_learning::execute(Learning_stats* stats)
   auto start = std::chrono::system_clock::now();
   std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
   char fileName[100];   // array to hold the result.
-  strcpy(fileName, std::ctime(&timeNow));
+  std::strcpy(fileName, std::ctime(&timeNow));
   char configFileName[100];
-  strcpy(configFileName, fileName);
+  std::strcpy(configFileName, fileName);
 
-  strcat(fileName, ".txt");
-  strcat(configFileName, "config");
-  strcat(configFileName, ".txt");
+  std::strcat(fileName, ".txt");
+  std::strcat(configFileName, "config");
+  std::strcat(configFileName, ".txt");
   write_config_to_file(configFileName);
 
   //we initialize all the variables

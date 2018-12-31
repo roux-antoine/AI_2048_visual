@@ -5,6 +5,7 @@
 #include <vector>
 #include <math.h>
 #include <thread>
+#include <cstring>
 
 #include "AI.h"
 #include "AI_random.h"
@@ -12,6 +13,7 @@
 #include "Game_AI.h"
 #include "Learning_stats.h"
 #include "tools.h"
+
 
 class Genetic_learning
 {
