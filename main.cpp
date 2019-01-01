@@ -155,19 +155,22 @@ void learning_test_neural()
 {
   int size = 4;
   int nbGeneration = 10;
-  int nbIndiv = 10;
-  int nbEvalPerIndiv = 20;
+  int nbIndiv = 15;
+  int nbEvalPerIndiv = 25;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.5;
   int nbrOfThreads = 4;
   int depth = 2;
-  // int nbrLayers = 3;
-  // std::vector<int> sizes = {16, 9, 1};
-  // std::vector<int> nonLinearities = {1, 0};
-  int nbrLayers = 2;
-  std::vector<int> sizes = {16, 1};
-  std::vector<int> nonLinearities = {0};
+
+  // int nbrLayers = 2;
+  // std::vector<int> sizes = {16, 1};
+  // std::vector<int> nonLinearities = {0};
+
+  int nbrLayers = 3;
+  std::vector<int> sizes = {16, 9, 1};
+  std::vector<int> nonLinearities = {1, 0};
+
 
   Learning_stats stats;
 

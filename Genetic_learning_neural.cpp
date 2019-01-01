@@ -84,7 +84,7 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   char configFileName[100];
   std::strcpy(configFileName, fileName);
 
-  std::strcat(fileName, ".txt");
+  std::strcat(fileName, ".csv");
   std::strcat(configFileName, "config");
   std::strcat(configFileName, ".txt");
   write_config_to_file(configFileName);
