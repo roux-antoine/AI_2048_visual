@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
+#include <fstream>
 #include "tools.h"
 
 
@@ -40,6 +41,7 @@ public:
   Neural_net(int givenGridSize, int givenNbrLayers, std::vector<int> givenLayersSizes, std::vector<int> givenNonLinearities);
   void print() const;
   float forward_pass(std::vector<int> inputVector);
+  void save_to_file(char* fileName) const;
 
 
   // TODO faire des getters pour les attributs privés

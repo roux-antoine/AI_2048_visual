@@ -79,14 +79,18 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   //we get the time tag to save the stats
   auto start = std::chrono::system_clock::now();
   std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
-  char fileName[100];   // array to hold the result.
-  std::strcpy(fileName, std::ctime(&timeNow));
+  char statsFileName[100];   // array to hold the result.
+  std::strcpy(statsFileName, std::ctime(&timeNow));
   char configFileName[100];
-  std::strcpy(configFileName, fileName);
+  std::strcpy(configFileName, statsFileName);
+  char resultFileName[100];
+  std::strcpy(resultFileName, statsFileName);
 
-  std::strcat(fileName, ".csv");
-  std::strcat(configFileName, "config");
-  std::strcat(configFileName, ".txt");
+  std::strcat(statsFileName, "_stats.csv");
+  // std::strcat(configFileName, "_config");
+  // std::strcat(configFileName, ".txt");
+  std::strcat(configFileName, "_config.txt");
+  std::strcat(resultFileName, "_result.txt");
   write_config_to_file(configFileName);
 
   //we initialize all the variables
@@ -129,11 +133,11 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
       evaluation_non_threaded();
     }
 
-    //// TODO ////
+    generation[max_index(&fitnesses)].save_to_file(resultFileName); //saving the best neural net to a file
+
     //we save the stats to a txt file
     stats->append_best_fitness(get_best_fitness());
     stats->append_average_fitness(get_average_fitness());
-    // stats->append_best_fitness_grids(get_best_neural_net().weightsGrid);
 
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
 
@@ -141,7 +145,7 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
 
     mutation();
 
-    stats->write_stats_to_file(fileName);
+    stats->write_stats_to_file(statsFileName);
   }
 }
 

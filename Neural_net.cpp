@@ -257,9 +257,60 @@ float Neural_net::forward_pass(std::vector<int> inputVector)
 }
 
 
-// la première matrice est de taille 16 x 1er element du vecteur
-//
-// pour faire le calcul, on fait : a2 = a1 * matrice
-// 1 x n = 1 x 16 * 16 x n
-//
-// exemple de givenLayersSizes : [16, 9, 1]
+void Neural_net::save_to_file(char* fileName) const
+/*
+  writes the neural net weights etc to a file (same structure as the print function)
+*/
+{
+  std::ofstream myFile;
+
+  myFile.open(fileName);
+
+  for (int k = 0; k < nbrLayers-1; k++)
+  {
+    myFile << "LAYER N°" << k << "\n";
+    myFile << "Weights matrix: \n";
+    for (int i = 0; i < layersSizes[k+1]; i++)
+    {
+      for (int j = 0; j < layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
+      {
+        myFile << weights[k][i][j] << " ";
+      }
+      myFile << '\n';
+    }
+    myFile << "Biases vector: \n";
+    for (int i = 0; i < layersSizes[k+1]; i++)
+    {
+      myFile << biases[k][i] << ' ';
+    }
+    myFile << '\n';
+    myFile << "Neurons vector: \n";
+    for (int i = 0; i < layersSizes[k+1]; i++)
+    {
+      myFile << layers[k][i] << ' ';
+    }
+    myFile << '\n';
+    myFile << "Non linearity: \n";
+    if (nonLinearities[k] == 0)
+    {
+      myFile << "Linear" << '\n';
+    }
+    else if (nonLinearities[k] == 1)
+    {
+      myFile << "ReLU" << '\n';
+    }
+    else if (nonLinearities[k] == 2)
+    {
+      myFile << "tanh" << '\n';
+    }
+    else
+    {
+      myFile << "Non supported non linearity" << '\n';
+    }
+    myFile << '\n';
+  }
+
+  myFile.close();
+
+
+}

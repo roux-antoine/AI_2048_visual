@@ -105,7 +105,7 @@ void Genetic_learning::execute(Learning_stats* stats)
     //we save the stats to a txt file
     stats->append_best_fitness(get_best_fitness());
     stats->append_average_fitness(get_average_fitness());
-    stats->append_best_fitness_grids(get_best_AI().weightsGrid);
+    // stats->append_best_fitness_grids(get_best_AI().weightsGrid);
 
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
 
