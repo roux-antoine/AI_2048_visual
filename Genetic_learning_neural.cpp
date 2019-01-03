@@ -1,6 +1,6 @@
 #include "Genetic_learning_neural.h"
 
-Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT, int givenDepth, int nn_nbrL, std::vector<int> nn_layersS, std::vector<int> nn_nonL)
+Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfT, int givenDepth, std::vector<int> nn_layersS, std::vector<int> nn_nonL)
 /*
   Constructor that sets initializationMode to 0, so that the generation will be initialized with random neural nets
 */
@@ -15,7 +15,7 @@ Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, in
   nbrOfThreads = nbrOfT;
   stopFlag = false;
   depth = givenDepth;
-  nn_nbrLayers = nn_nbrL;
+  nn_nbrLayers = nn_layersS.size();
   nn_layersSizes = nn_layersS;
   nn_nonLinearities = nn_nonL;
   initializationMode = 0;
@@ -87,8 +87,6 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   std::strcpy(resultFileName, statsFileName);
 
   std::strcat(statsFileName, "_stats.csv");
-  // std::strcat(configFileName, "_config");
-  // std::strcat(configFileName, ".txt");
   std::strcat(configFileName, "_config.txt");
   std::strcat(resultFileName, "_result.txt");
   write_config_to_file(configFileName);
@@ -102,7 +100,7 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   {
     for (int i=0; i<nbIndiv; i++)
     {
-      generation.push_back(Neural_net(gridSize, nn_nbrLayers, nn_layersSizes, nn_nonLinearities));
+      generation.push_back(Neural_net(gridSize, nn_layersSizes, nn_nonLinearities));
       fitnesses.push_back(0);
     }
   }

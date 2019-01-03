@@ -44,8 +44,8 @@ private:
 
 public:
   // Genetic_learning_neural();
-  Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads, int givenDepth, int nn_nbrL, std::vector<int> nn_layersS, std::vector<int> nn_nonL);
-  Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads, int givenDepth); 
+  Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads, int givenDepth, std::vector<int> nn_layersS, std::vector<int> nn_nonL);
+  Genetic_learning_neural(int gridS, int nbG, int nbI, int nbE, double selectionR, double selectionO, double mutationP, int nbrOfThreads, int givenDepth);
   void execute(Learning_stats* stats);
   Neural_net get_best_neural_net();
   int get_best_fitness();

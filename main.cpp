@@ -163,18 +163,15 @@ void learning_test_neural()
   int nbrOfThreads = 4;
   int depth = 2;
 
-  // int nbrLayers = 2;
-  // std::vector<int> sizes = {16, 1};
-  // std::vector<int> nonLinearities = {0};
+  std::vector<int> layersSizes = {16, 1};
+  std::vector<int> nonLinearities = {0};
 
-  int nbrLayers = 3;
-  std::vector<int> sizes = {16, 9, 1};
-  std::vector<int> nonLinearities = {1, 0};
-
+  // std::vector<int> layersSizes = {16, 9, 1};
+  // std::vector<int> nonLinearities = {1, 0};
 
   Learning_stats stats;
 
-  Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth, nbrLayers, sizes, nonLinearities);
+  Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth, layersSizes, nonLinearities);
   // Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth);
 
   auto start = std::chrono::system_clock::now();

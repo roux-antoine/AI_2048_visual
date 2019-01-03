@@ -1,13 +1,13 @@
 #include "Neural_net.h"
 
-Neural_net::Neural_net(int givenGridSize, int givenNbrLayers, std::vector<int> givenLayersSizes, std::vector<int> givenNonLinearities)
+Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std::vector<int> givenNonLinearities)
 /*
   Constructor that randomly initializes the weights in the layers
   We should make sure that all the dimensions match
 */
 {
   gridSize = givenGridSize;
-  nbrLayers = givenNbrLayers;
+  nbrLayers = givenLayersSizes.size();
   layersSizes = givenLayersSizes;
   nonLinearities = givenNonLinearities;
 
