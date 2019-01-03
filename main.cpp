@@ -156,7 +156,7 @@ void learning_test_neural()
   int size = 4;
   int nbGeneration = 10;
   int nbIndiv = 15;
-  int nbEvalPerIndiv = 25;
+  int nbEvalPerIndiv = 10;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.5;
@@ -171,8 +171,8 @@ void learning_test_neural()
 
   Learning_stats stats;
 
-  Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth, layersSizes, nonLinearities);
-  // Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth);
+  // Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth, layersSizes, nonLinearities);
+  Genetic_learning_neural learning(size, nbGeneration, nbIndiv, nbEvalPerIndiv, selectionRateBest, selectionRateOthers, mutationProba, nbrOfThreads, depth);
 
   auto start = std::chrono::system_clock::now();
   learning.execute(&stats);
@@ -189,8 +189,8 @@ void learning_test_neural()
 int main()
 {
 
-  Game_player myGame(4);
-  myGame.play();
+  // Game_player myGame(4);
+  // myGame.play();
 
   // AI_hc myAI(4);
   // Game_AI myGame(4, myAI);
@@ -207,7 +207,7 @@ int main()
   // learning_test();
 
   // test_neural();
-  // learning_test_neural();
+  learning_test_neural();
 
   return 0;
 }

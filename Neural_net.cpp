@@ -3,7 +3,6 @@
 Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std::vector<int> givenNonLinearities)
 /*
   Constructor that randomly initializes the weights in the layers
-  We should make sure that all the dimensions match
 */
 {
   gridSize = givenGridSize;
@@ -11,6 +10,15 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
   layersSizes = givenLayersSizes;
   nonLinearities = givenNonLinearities;
 
+  // Making sure that all the dimensions match -> this should be a proper exception...
+  if (nbrLayers != nonLinearities.size()+1)
+  {
+    std::cout << "NBR OF LAYERS AND NON-LINEARITIES DO NOT MATCH" << '\n';
+  }
+  if (givenLayersSizes[0] != gridSize*gridSize)
+  {
+    std::cout << "SIZE OF FIRST LAYER DOES NOT MATCH GRID SIZE" << '\n';
+  }
 
   // creating the weights
   std::vector<std::vector<int> > temp;
@@ -81,35 +89,38 @@ Neural_net::Neural_net()
     weights.push_back(temp);
   }
 
-  // initializing the weights with the hardcoded ones -> TODO: trouver comment mettre ceux habituels
-  // for (int k = 0; k < gridSize; k++)
-  // {
-  //   weights[0][k][0] = 13+k;
-  // }
-  // for (int k = 0; k < gridSize; k++)
-  // {
-  //   weights[0][k][1] = 12-k;
-  // }
-  // for (int k = 0; k < gridSize; k++)
-  // {
-  //   weights[0][k][2] = 5+k;
-  // }
-  // for (int k = 0; k < gridSize; k++)
-  // {
-  //   weights[0][k][3] = 4-k;
-  // }
 
-  for (int k = 0; k < nbrLayers-1; k++)
+  //initializing the weights with the usual hardcoded ones (snake shape)
+  for (int k = 0; k < gridSize; k++)
   {
-    for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
-    {
-      for (int j = 0; j < layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
-      {
-        weights[k][i][j] = i+j;
-        // weights[k][i][j] = my_random(0,16);
-      }
-    }
+    weights[0][0][k] = 13+k;
   }
+  for (int k = 0; k < gridSize; k++)
+  {
+    weights[0][0][k+4] = 12-k;
+  }
+  for (int k = 0; k < gridSize; k++)
+  {
+    weights[0][0][k+8] = 5+k;
+  }
+  for (int k = 0; k < gridSize; k++)
+  {
+    weights[0][0][k+12] = 4-k;
+  }
+
+
+  //// initializing the weights with the ones in stairs shape
+  // for (int k = 0; k < nbrLayers-1; k++)
+  // {
+  //   for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
+  //   {
+  //     for (int j = 0; j < layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
+  //     {
+  //       weights[k][i][j] = i+j;
+  //       // weights[k][i][j] = my_random(0,16);
+  //     }
+  //   }
+  // }
   ////////
 
   // creating the layers
