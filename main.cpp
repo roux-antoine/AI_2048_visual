@@ -189,8 +189,8 @@ void learning_test_neural()
 int main()
 {
 
-  // Game_player myGame(4);
-  // myGame.play();
+  Game_player myGame(4);
+  myGame.play();
 
   // AI_hc myAI(4);
   // Game_AI myGame(4, myAI);
@@ -207,7 +207,7 @@ int main()
   // learning_test();
 
   // test_neural();
-  learning_test_neural();
+  // learning_test_neural();
 
   return 0;
 }
