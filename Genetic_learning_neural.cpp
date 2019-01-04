@@ -81,14 +81,20 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   std::time_t timeNow = std::chrono::system_clock::to_time_t(start);
   char statsFileName[100];   // array to hold the result.
   std::strcpy(statsFileName, std::ctime(&timeNow));
+  for (int k = 0; k < 100; k++) //'cleaning' the filename
+  {
+    if (statsFileName[k] == ' ' || statsFileName[k] == '\n')
+    {
+      statsFileName[k] = '_';
+    }
+  }
   char configFileName[100];
   std::strcpy(configFileName, statsFileName);
   char resultFileName[100];
   std::strcpy(resultFileName, statsFileName);
-
-  std::strcat(statsFileName, "_stats.csv");
-  std::strcat(configFileName, "_config.txt");
-  std::strcat(resultFileName, "_result.txt");
+  std::strcat(statsFileName, "stats.csv");
+  std::strcat(configFileName, "config.txt");
+  std::strcat(resultFileName, "result.txt");
   write_config_to_file(configFileName);
 
   //we initialize all the variables
@@ -112,7 +118,6 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
       fitnesses.push_back(0);
     }
   }
-
 
   //we launch the learning phase
   int generationCounter = 0;
@@ -407,9 +412,19 @@ void Genetic_learning_neural::write_config_to_file(char* filename)
   myFile << "float mutationProba = " << mutationProba << ";\n";
   myFile << "int nbrOfThreads = " << nbrOfThreads << ";\n";
   myFile << "int depth = " << depth << ";\n";
-  myFile << "int nn_nbrLayers =" << nn_nbrLayers << ";\n";
-  // myFile << "std::vector<int> nn_layersSizes =" << nn_layersSizes << ";\n";
-  // myFile << "std::vector<int> nn_nonLinearities =" << nn_nonLinearities << ";\n";
+  myFile << "int nn_nbrLayers = " << nn_nbrLayers << ";\n";
+  myFile << "std::vector<int> nn_layersSizes = {" ;
+  for (int k = 0; k < nn_layersSizes.size()-1; k++)
+  {
+    myFile << nn_layersSizes[k] << ", ";
+  }
+  myFile << nn_layersSizes[nn_layersSizes.size()-1] << "}" << "\n";
+  myFile << "std::vector<int> nn_nonLinearities = {" ;
+  for (int k = 0; k < nn_nonLinearities.size()-1; k++)
+  {
+    myFile << nn_nonLinearities[k] << ", ";
+  }
+  myFile << nn_nonLinearities[nn_nonLinearities.size()-1] << "}" << '\n';
 
   myFile.close();
 }
