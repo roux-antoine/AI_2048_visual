@@ -155,7 +155,7 @@ void learning_test_neural()
 {
   int size = 4;
   int nbGeneration = 12;
-  int nbIndiv = 256;
+  int nbIndiv = 128;
   int nbEvalPerIndiv = 40;
   float selectionRateBest = 0.3;
   float selectionRateOthers = 0.05;

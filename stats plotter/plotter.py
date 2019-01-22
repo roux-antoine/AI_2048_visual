@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from matplotlib import colors as mcolors
 import numpy as np
 import pandas as pd
-# from os import listdir
 import os
 from os.path import isfile, join
 

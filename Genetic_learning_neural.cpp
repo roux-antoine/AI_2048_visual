@@ -406,6 +406,7 @@ void Genetic_learning_neural::write_config_to_file(char* filename)
 
   myFile << "int size = " << gridSize << ";\n";
   myFile << "int nbIndiv = " << nbIndiv << ";\n";
+  myFile << "int nbGeneration = " << nbGenerations << ";\n";
   myFile << "int nbEvalPerIndiv = " << nbEvalPerIndiv << ";\n";
   myFile << "float selectionRateBest = " << selectionRateBest << ";\n";
   myFile << "float selectionRateOthers = " << selectionRateOthers << ";\n";
