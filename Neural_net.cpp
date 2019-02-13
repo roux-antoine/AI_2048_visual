@@ -39,7 +39,7 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
     {
       for (int j = 0; j < layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
       {
-        weights[k][i][j] = my_random(-50, 50); //arbitrary parameter, has no influence
+        weights[k][i][j] = my_random(-20, 20); //arbitrary parameter, has no influence (maybe it has...)
       }
     }
   }
@@ -55,14 +55,14 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
   {
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
-      biases[k][i] = my_random(-50, 50); //arbitrary parameter, has no influence (maybe it has...)
+      biases[k][i] = my_random(-20, 20); //arbitrary parameter, has no influence (maybe it has...)
     }
   }
 
   // creating the layers
   for (int k = 0; k < nbrLayers-1; k++)
   {
-    layers.push_back(std::vector<int>(layersSizes[k+1],0));
+    layers.push_back(std::vector<int>(layersSizes[k+1], 0));
   }
 }
 

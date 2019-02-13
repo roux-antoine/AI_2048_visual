@@ -118,13 +118,9 @@ void test_one_speed()
   int depth = 2;
 
   AI_hc myAI(size, depth);
-
   int startTime = clock();
-
   Game_AI myGame(size, myAI);
-
   myGame.play();
-
   printf("Time : %f secondes\n", (double(clock() - startTime)/CLOCKS_PER_SEC));
   myGame.print();
 
@@ -136,15 +132,8 @@ void test_neural()
   int searchDepth = 2;
   std::vector<int> sizes = {16, 9, 1};
   std::vector<int> nonLinearities = {1, 0};
-
-  // Neural_net myNeuralNet(4, 3, sizes, nonLinearities);
   Neural_net myNeuralNet;
   myNeuralNet.print();
-
-  // std::vector<int> inputVector = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-  // myNeuralNet.print();
-  // float toto = myNeuralNet.forward_pass(inputVector);
-  // std::cout << "toto: " << toto << '\n';
 
   Game_neural myGame(gridSize, searchDepth, myNeuralNet);
   myGame.play();
@@ -155,19 +144,22 @@ void learning_test_neural()
 {
   int size = 4;
   int nbGeneration = 12;
-  int nbIndiv = 128;
+  int nbIndiv = 64;
   int nbEvalPerIndiv = 40;
-  float selectionRateBest = 0.3;
-  float selectionRateOthers = 0.05;
-  float mutationProba = 0.5;
+  float selectionRateBest = 0.1;
+  float selectionRateOthers = 0.02;
+  float mutationProba = 0.4;
   int nbrOfThreads = 4;
   int depth = 2;
 
-  std::vector<int> layersSizes = {16, 1};
-  std::vector<int> nonLinearities = {0};
+  // std::vector<int> layersSizes = {16, 1};
+  // std::vector<int> nonLinearities = {0};
 
   // std::vector<int> layersSizes = {16, 9, 1};
   // std::vector<int> nonLinearities = {1, 0};
+
+  std::vector<int> layersSizes = {16, 9, 3, 1};
+  std::vector<int> nonLinearities = {1, 0, 0};
 
   Learning_stats stats;
 
@@ -179,9 +171,7 @@ void learning_test_neural()
   auto end = std::chrono::system_clock::now();
   std::chrono::duration<double> elapsed_seconds = end-start;
 
-  printf("\n");
-
-  std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+  std::cout << "\nElapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
 
@@ -207,7 +197,11 @@ int main()
   // learning_test();
 
   // test_neural();
-  learning_test_neural();
+  for(int i = 0; i < 10; i++)
+  {
+    learning_test_neural();
+  }
+
 
 
   return 0;

@@ -124,8 +124,8 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   while ((generationCounter < nbGenerations) && (!stopFlag))
   {
     generationCounter += 1;
-    printf("generation: %d / %d\n", generationCounter, nbGenerations);
-
+    std::cout << "Generation: " << generationCounter << "/" << nbGenerations << '\n';
+    std::cout << "   Evaluation" << '\n';
     //we choose the method to evaluate the individuals (multithread or not)
     if (nbrOfThreads > 0)
     {
@@ -141,11 +141,11 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
     //we save the stats to a txt file
     stats->append_best_fitness(get_best_fitness());
     stats->append_average_fitness(get_average_fitness());
-
+    std::cout << "   Selection" << '\n';
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
-
+    std::cout << "   Reproduction" << '\n';
     reproduction(indexes);
-
+    std::cout << "   Mutation" << '\n';
     mutation();
 
     stats->write_stats_to_file(statsFileName);

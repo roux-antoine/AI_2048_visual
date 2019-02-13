@@ -40,18 +40,31 @@ for k in range(2, 9):
 avg_16_1 = avg_16_1 / 8
 
 avg_16_9_1_0_0 = pd.read_csv('16-9-1-0-0_1_stats.csv')["Average fitnesses"]
-for k in range(2, 5):
+for k in range(2, 10):
     avg_16_9_1_0_0 += pd.read_csv('16-9-1-0-0_' + str(k) + '_stats.csv')["Average fitnesses"]
-avg_16_9_1_0_0 = avg_16_9_1_0_0 / 4
+avg_16_9_1_0_0 = avg_16_9_1_0_0 / 9
 
 avg_16_9_1_1_0 = pd.read_csv('16-9-1-1-0_1_stats.csv')["Average fitnesses"]
-for k in range(1, 6):
+for k in range(2, 13):
     avg_16_9_1_1_0 += pd.read_csv('16-9-1-1-0_' + str(k) + '_stats.csv')["Average fitnesses"]
-avg_16_9_1_1_0 = avg_16_9_1_1_0 / 5
+avg_16_9_1_1_0 = avg_16_9_1_1_0 / 12
+
+
+avg_16_9_3_1_1_0_0 = pd.read_csv('16-9-3-1-1-0-0_1_stats.csv')["Average fitnesses"]
+for k in range(2, 9):
+    avg_16_9_3_1_1_0_0 += pd.read_csv('16-9-3-1-1-0-0_' + str(k) + '_stats.csv')["Average fitnesses"]
+avg_16_9_3_1_1_0_0 = avg_16_9_3_1_1_0_0 / 8
+
+# avg_16_9_3_1_1_1_0 = pd.read_csv('16-9-3-1-1-1-0_1_stats.csv')["Average fitnesses"]
+# for k in range(2, 2):
+#     avg_16_9_3_1_1_1_0 += pd.read_csv('16-9-3-1-1-1-0_' + str(k) + '_stats.csv')["Average fitnesses"]
+# avg_16_9_3_1_1_1_0 = avg_16_9_3_1_1_1_0 / 1
 
 plt.plot(avg_16_1, label='avg_16_1')
 plt.plot(avg_16_9_1_0_0, label='avg_16_9_1_0_0')
 plt.plot(avg_16_9_1_1_0, label='avg_16_9_1_1_0')
+plt.plot(avg_16_9_3_1_1_0_0, label='avg_16_9_3_1_1_0_0')
+# plt.plot(avg_16_9_3_1_1_1_0, label='avg_16_9_3_1_1_1_0')
 
 plt.legend()
 plt.grid()
@@ -75,7 +88,7 @@ plt.show()
 
 #################
 
-for k in range(1, 5):
+for k in range(1, 10):
     avg = pd.read_csv('16-9-1-0-0_'+ str(k) + '_stats.csv')["Average fitnesses"]
     plt.plot(avg, label=k)
 
@@ -88,7 +101,7 @@ plt.show()
 
 #################
 
-for k in range(1, 6):
+for k in range(1, 13):
     avg = pd.read_csv('16-9-1-1-0_'+ str(k) + '_stats.csv')["Average fitnesses"]
     plt.plot(avg, label=k)
 
@@ -98,3 +111,27 @@ plt.xlabel('generation')
 plt.ylabel('average final score')
 plt.title('Structure 16-9-1-1-0')
 plt.show()
+
+#################
+
+for k in range(1, 9):
+    avg = pd.read_csv('16-9-3-1-1-0-0_'+ str(k) + '_stats.csv')["Average fitnesses"]
+    plt.plot(avg, label=k)
+
+plt.legend()
+plt.grid()
+plt.xlabel('generation')
+plt.ylabel('average final score')
+plt.title('Structure 16-9-3-1-1-0-0')
+plt.show()
+
+# for k in range(1, 2):
+#     avg = pd.read_csv('16-9-3-1-1-1-0_'+ str(k) + '_stats.csv')["Average fitnesses"]
+#     plt.plot(avg, label=k)
+#
+# plt.legend()
+# plt.grid()
+# plt.xlabel('generation')
+# plt.ylabel('average final score')
+# plt.title('Structure 16-9-3-1-1-1-0')
+# plt.show()

@@ -24,8 +24,6 @@ void Game_neural::play()
     // char a;
     // std::cin >> a;
     int direction = get_direction(depth);
-    // printf("%d\n", direction);
-
     if (this->can_swipe(direction))
     {
       this->swipe(direction);
@@ -77,7 +75,7 @@ int Game_neural::get_direction(int depth)
 
 int Game_neural::get_direction_1() //depth 1
 /*
-  chooses the directon in which to swipe
+  chooses the direction in which to swipe
   decides by computing the fitnesses of all the possible grids with one swipe in advance
   and chooses the direction that gives the best fitness
 */
@@ -161,7 +159,7 @@ int Game_neural::get_direction_1() //depth 1
 
 int Game_neural::get_direction_2() //depth 2
 /*
-  chooses the directon in which to swipe
+  chooses the direction in which to swipe
   decides by computing the fitnesses of all the possible grids with two swipes in advance
   and chooses the direction that gives the best fitness
 */
@@ -229,7 +227,7 @@ int Game_neural::get_direction_2() //depth 2
 
     // int maxValue = 0;
     double maxValue = -inf;
-    int direction = 0;
+    int direction = -1;
     for (int k = 0; k < 4; k++)
     {
       if (maxArray[k] > maxValue)
@@ -246,7 +244,7 @@ int Game_neural::get_direction_2() //depth 2
 
 int Game_neural::get_direction_3() //depth 3
 /*
-  chooses the directon in which to swipe
+  chooses the direction in which to swipe
   decides by computing the fitnesses of all the possible grids with three swipes in advance
   and chooses the direction that gives the best fitness
 */
@@ -347,7 +345,7 @@ int Game_neural::get_direction_3() //depth 3
 
 int Game_neural::get_direction_4() //depth 4
 /*
-  chooses the directon in which to swipe
+  chooses the direction in which to swipe
   decides by computing the fitnesses of all the possible grids with four swipes in advance
   and chooses the direction that gives the best fitness
 */
@@ -464,7 +462,7 @@ int Game_neural::get_direction_4() //depth 4
 
 int Game_neural::get_direction_5() //depth 5
 /*
-  chooses the directon in which to swipe
+  chooses the direction in which to swipe
   decides by computing the fitnesses of all the possible grids with five swipes in advance
   and chooses the direction that gives the best fitness
 */
@@ -595,7 +593,7 @@ int Game_neural::get_direction_5() //depth 5
 
 int Game_neural::get_direction_6() //depth 6
 /*
-  chooses the directon in which to swipe
+  chooses the direction in which to swipe
   decides by computing the fitnesses of all the possible grids with six swipes in advance
   and chooses the direction that gives the best fitness
 */

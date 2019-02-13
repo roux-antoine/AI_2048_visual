@@ -36,17 +36,17 @@ colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', '#FFA500', '#FFC0CB', '#808080', '#
 ##########
 
 avg_12 = pd.read_csv('12gen_1_stats.csv')["Average fitnesses"]
-for k in range(2, 5):
+for k in range(2, 10):
     avg_12 += pd.read_csv('12gen_' + str(k) + '_stats.csv')["Average fitnesses"]
-avg_12 = avg_12 / 4
+avg_12 = avg_12 / 9
 
 avg_24 = pd.read_csv('24gen_1_stats.csv')["Average fitnesses"]
-for k in range(2, 5):
+for k in range(2, 11):
     avg_24 += pd.read_csv('24gen_' + str(k) + '_stats.csv')["Average fitnesses"]
-avg_24 = avg_24 / 4
+avg_24 = avg_24 / 10
 
 avg_36 = pd.read_csv('36gen_1_stats.csv')["Average fitnesses"]
-for k in range(1, 11):
+for k in range(2, 11):
     avg_36 += pd.read_csv('36gen_' + str(k) + '_stats.csv')["Average fitnesses"]
 avg_36 = avg_36 / 10
 
@@ -63,7 +63,7 @@ plt.show()
 
 #################
 
-for k in range(1, 5):
+for k in range(1, 10):
     avg = pd.read_csv('12gen_'+ str(k) + '_stats.csv')["Average fitnesses"]
     plt.plot(avg, label=k)
 
@@ -76,7 +76,7 @@ plt.show()
 
 #################@
 
-for k in range(1, 5):
+for k in range(1, 11):
     avg = pd.read_csv('24gen_'+ str(k) + '_stats.csv')["Average fitnesses"]
     plt.plot(avg, label=k)
 
