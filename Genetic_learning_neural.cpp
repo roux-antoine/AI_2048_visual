@@ -64,7 +64,6 @@ Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, in
 
 
 void Genetic_learning_neural::execute(Learning_stats* stats)
-// void Genetic_learning_neural::execute()
 /*
   executes the whole learning phase
   creates generations of nbIndiv algorithms
