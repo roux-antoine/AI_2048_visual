@@ -31,8 +31,8 @@ void learning_test_neural()
 {
   int size = 4;
   int nbGeneration = 12;
-  int nbIndiv = 64;
-  int nbEvalPerIndiv = 40;
+  int nbIndiv = 40;
+  int nbEvalPerIndiv = 20;
   float selectionRateBest = 0.1;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.4;
@@ -42,11 +42,11 @@ void learning_test_neural()
   // std::vector<int> layersSizes = {16, 1};
   // std::vector<int> nonLinearities = {0};
 
-  std::vector<int> layersSizes = {16, 9, 1};
-  std::vector<int> nonLinearities = {1, 0};
-
-  // std::vector<int> layersSizes = {16, 9, 3, 1};
-  // std::vector<int> nonLinearities = {1, 0, 0};
+  // std::vector<int> layersSizes = {16, 9, 1};
+  // std::vector<int> nonLinearities = {1, 0};
+  //
+  std::vector<int> layersSizes = {16, 9, 3, 1};
+  std::vector<int> nonLinearities = {1, 0, 0};
 
   Learning_stats stats;
 

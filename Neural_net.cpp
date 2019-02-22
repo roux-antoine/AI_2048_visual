@@ -21,13 +21,13 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
   }
 
   // creating the weights
-  std::vector<std::vector<int> > temp;
+  std::vector<std::vector<float> > temp;
   for (int k = 0 ; k < nbrLayers-1 ; k++)
   {
     temp.clear();
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
-      temp.push_back(std::vector<int>(layersSizes[k], 0));
+      temp.push_back(std::vector<float>(layersSizes[k], 0));
     }
     weights.push_back(temp);
   }
@@ -39,7 +39,7 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
     {
       for (int j = 0; j < layersSizes[k]; j++) //le deuxième correspond à la largeur de la matrice
       {
-        weights[k][i][j] = my_random(-20, 20); //arbitrary parameter, has no influence (maybe it has...)
+        weights[k][i][j] = (float)my_random(-10, 10) / 10; //arbitrary parameter, has no influence (maybe it has...)
       }
     }
   }
@@ -47,7 +47,7 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
   // creating the biases
   for (int k = 0; k < nbrLayers-1; k++)
   {
-    biases.push_back(std::vector<int>(layersSizes[k+1],0));
+    biases.push_back(std::vector<float>(layersSizes[k+1],0));
   }
 
   // initializing the biases randomly
@@ -55,14 +55,14 @@ Neural_net::Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std
   {
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
-      biases[k][i] = my_random(-20, 20); //arbitrary parameter, has no influence (maybe it has...)
+      biases[k][i] = (float)my_random(-10, 10) / 10; //arbitrary parameter, has no influence (maybe it has...)
     }
   }
 
   // creating the layers
   for (int k = 0; k < nbrLayers-1; k++)
   {
-    layers.push_back(std::vector<int>(layersSizes[k+1], 0));
+    layers.push_back(std::vector<float>(layersSizes[k+1], 0));
   }
 }
 
@@ -78,13 +78,13 @@ Neural_net::Neural_net()
 
 
   // creating the weights
-  std::vector<std::vector<int> > temp;
+  std::vector<std::vector<float> > temp;
   for (int k = 0 ; k < nbrLayers-1 ; k++)
   {
     temp.clear();
     for (int i = 0; i < layersSizes[k+1]; i++) //le premier correspond à la hauteur de la matrice
     {
-      temp.push_back(std::vector<int>(layersSizes[k], 0));
+      temp.push_back(std::vector<float>(layersSizes[k], 0));
     }
     weights.push_back(temp);
   }
@@ -126,7 +126,7 @@ Neural_net::Neural_net()
   // creating the layers
   for (int k = 0; k < nbrLayers-1; k++)
   {
-    biases.push_back(std::vector<int>(layersSizes[k+1],0));
+    biases.push_back(std::vector<float>(layersSizes[k+1],0));
   }
 
   // initializing the biases as 0
@@ -141,7 +141,7 @@ Neural_net::Neural_net()
   // creating the layers
   for (int k = 0; k < nbrLayers-1; k++)
   {
-    layers.push_back(std::vector<int>(layersSizes[k+1],0));
+    layers.push_back(std::vector<float>(layersSizes[k+1],0));
   }
 }
 
@@ -214,6 +214,7 @@ float Neural_net::forward_pass(std::vector<int> inputVector)
     for (int j = 0; j < layersSizes[0]; j++)
     {
       temp += inputVector[j] * weights[0][i][j];
+      // std::cout << temp << '\n';
     }
     temp += biases[0][i];
     if (nonLinearities[0] == 0)
@@ -264,6 +265,9 @@ float Neural_net::forward_pass(std::vector<int> inputVector)
 
     }
   }
+
+  // std::cout << layers[nbrLayers-2][0] << '\n';
+
   return layers[nbrLayers-2][0];
 }
 

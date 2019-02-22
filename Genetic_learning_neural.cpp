@@ -22,6 +22,7 @@ Genetic_learning_neural::Genetic_learning_neural(int gridS, int nbG, int nbI, in
 
   if (trunc(nbIndiv*selectionRateBest) < 1)
   //in that case, the selection phase fails -> we make the parameters compatible
+  // TODO: does not seem to work
   {
       nbIndiv = (int)(1/selectionRateBest);
   }
@@ -317,7 +318,7 @@ void Genetic_learning_neural::reproduction(std::vector<int> indexes)
       {
         for (int j = 0; j < nn_layersSizes[m]; j++)
         {
-          generation[k].weights[m][i][j] = trunc(0.5 * (generation[parent1].weights[m][i][j] + generation[parent2].weights[m][i][j]));
+          generation[k].weights[m][i][j] = 0.5 * (generation[parent1].weights[m][i][j] + generation[parent2].weights[m][i][j]);
         }
       }
     }
@@ -327,7 +328,7 @@ void Genetic_learning_neural::reproduction(std::vector<int> indexes)
       for (int i = 0; i < nn_layersSizes[m+1]; i++)
       {
         // std::cout << m << " " << i << '\n';
-        generation[k].biases[m][i] = trunc(0.5 * (generation[parent1].biases[m][i] + generation[parent2].biases[m][i]));
+        generation[k].biases[m][i] = 0.5 * (generation[parent1].biases[m][i] + generation[parent2].biases[m][i]);
       }
     }
   }

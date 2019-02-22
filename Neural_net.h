@@ -33,9 +33,13 @@ private:
 
 public:
 
-  std::vector<std::vector<std::vector<int>>> weights;
-  std::vector<std::vector<int>> biases;
-  std::vector<std::vector<int>> layers;
+  // std::vector<std::vector<std::vector<int>>> weights;
+  // std::vector<std::vector<int>> biases;
+  // std::vector<std::vector<int>> layers;
+
+  std::vector<std::vector<std::vector<float>>> weights;
+  std::vector<std::vector<float>> biases;
+  std::vector<std::vector<float>> layers;
 
   Neural_net();
   Neural_net(int givenGridSize, std::vector<int> givenLayersSizes, std::vector<int> givenNonLinearities);
