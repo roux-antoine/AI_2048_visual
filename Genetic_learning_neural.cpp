@@ -124,8 +124,8 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
   while ((generationCounter < nbGenerations) && (!stopFlag))
   {
     generationCounter += 1;
-    std::cout << "Generation: " << generationCounter << "/" << nbGenerations << '\n';
-    std::cout << "   Evaluation" << '\n';
+    std::cout << BOLDBLACK << "Generation: " << generationCounter << "/" << nbGenerations << RESET << std::endl;
+    // std::cout << "   Evaluation" << '\n';
     //we choose the method to evaluate the individuals (multithread or not)
     if (nbrOfThreads > 0)
     {
@@ -141,11 +141,14 @@ void Genetic_learning_neural::execute(Learning_stats* stats)
     //we save the stats to a txt file
     stats->append_best_fitness(get_best_fitness());
     stats->append_average_fitness(get_average_fitness());
-    std::cout << "   Selection" << '\n';
+
+    play_N_games_and_print_best();
+
+    // std::cout << "   Selection" << '\n';
     std::vector<int> indexes = selection(); //indexes is a vector of the numbers of the chosen ones
-    std::cout << "   Reproduction" << '\n';
+    // std::cout << "   Reproduction" << '\n';
     reproduction(indexes);
-    std::cout << "   Mutation" << '\n';
+    // std::cout << "   Mutation" << '\n';
     mutation();
 
     stats->write_stats_to_file(statsFileName);
@@ -230,7 +233,7 @@ void Genetic_learning_neural::evaluation_non_threaded()
 
       game.play();
 
-      currentFitness += double_sum(game.grid);
+      currentFitness += game.get_my_score();
     }
     fitnesses[k] = (int)trunc(currentFitness / nbEvalPerIndiv); // average score of the individual
   }
@@ -428,4 +431,25 @@ void Genetic_learning_neural::write_config_to_file(char* filename)
   myFile << nn_nonLinearities[nn_nonLinearities.size()-1] << "}" << '\n';
 
   myFile.close();
+}
+
+void Genetic_learning_neural::play_N_games_and_print_best()
+{
+  std::vector<Game_neural> vecOfGames;
+  std::vector<int> vecOfScores;
+  int nbrGamesToEvaluate = nbEvalPerIndiv;
+
+  for (int k=0; k<nbrGamesToEvaluate; k++)
+  {
+    vecOfGames.push_back(Game_neural(gridSize, depth, get_best_neural_net()));
+  }
+
+  for (int k=0; k<nbrGamesToEvaluate; k++)
+  {
+    vecOfGames[k].play();
+    vecOfScores.push_back(vecOfGames[k].get_my_score());
+  }
+
+  vecOfGames[max_index(&vecOfScores)].print();
+  std::cout << "Score: " << vecOfScores[max_index(&vecOfScores)] << "\n\n";
 }

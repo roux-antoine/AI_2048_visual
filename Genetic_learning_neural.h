@@ -41,6 +41,7 @@ private:
   void reproduction(std::vector<int>);
   void mutation();
   void write_config_to_file(char* filename);
+  void play_N_games_and_print_best();
 
 public:
   // Genetic_learning_neural();

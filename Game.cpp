@@ -21,23 +21,72 @@ void Game::print() const
     {
       if (grid[k][i] == 0)
       {
-        printf(".    ");
+        // printf(".    ");
+        std::cout << BLACK << ".    " << RESET << std::endl;
       }
       else if (grid[k][i] / 10 < 0.5)
       {
-        printf("%d    ", grid[k][i]);
+        // printf("%d    ", grid[k][i]);
+        if (grid[k][i] == 2)
+        {
+          std::cout << BLACK << grid[k][i] << "    " << RESET;
+        }
+        else if (grid[k][i] == 4)
+        {
+          std::cout << RED << grid[k][i] << "    " << RESET;
+        }
+        else
+        {
+          std::cout << GREEN << grid[k][i] << "    " << RESET;
+        }
       }
       else if (grid[k][i] / 100 < 0.5)
       {
-        printf("%d   ", grid[k][i]);
+        // printf("%d   ", grid[k][i]);
+        if (grid[k][i] == 16)
+        {
+          std::cout << YELLOW << grid[k][i] << "   " << RESET;
+        }
+        else if (grid[k][i] == 32)
+        {
+          std::cout << BLUE << grid[k][i] << "   " << RESET;
+        }
+        else
+        {
+          std::cout << MAGENTA << grid[k][i] << "   " << RESET;
+        }
       }
       else if (grid[k][i] / 1000 < 0.5)
       {
-        printf("%d  ", grid[k][i]);
+        // printf("%d  ", grid[k][i]);
+        if (grid[k][i] == 128)
+        {
+          std::cout << CYAN << grid[k][i] << "  " << RESET;
+        }
+        else if (grid[k][i] == 256)
+        {
+          std::cout << BOLDBLACK << grid[k][i] << "  " << RESET;
+        }
+        else
+        {
+          std::cout << BOLDRED << grid[k][i] << "  " << RESET;
+        }
       }
       else if (grid[k][i] / 10000 < 0.5)
       {
-        printf("%d ", grid[k][i]);
+        // printf("%d ", grid[k][i]);
+        if (grid[k][i] == 1024)
+        {
+          std::cout << BOLDGREEN << grid[k][i] << " " << RESET;
+        }
+        else if (grid[k][i] == 2048)
+        {
+          std::cout << BOLDYELLOW << grid[k][i] << " " << RESET;
+        }
+        else
+        {
+          std::cout << BOLDBLUE << grid[k][i] << " " << RESET;
+        }
       }
 
 
@@ -578,4 +627,12 @@ int Game::get_classic_score()
 */
 {
   return (classicScore);
+}
+
+int Game::get_my_score()
+/*
+  getter for the score I use (ie sum of tiles)
+*/
+{
+  return (double_sum(grid));
 }

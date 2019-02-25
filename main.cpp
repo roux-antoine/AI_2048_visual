@@ -31,8 +31,8 @@ void learning_test_neural()
 {
   int size = 4;
   int nbGeneration = 12;
-  int nbIndiv = 40;
-  int nbEvalPerIndiv = 20;
+  int nbIndiv = 20;
+  int nbEvalPerIndiv = 30;
   float selectionRateBest = 0.1;
   float selectionRateOthers = 0.05;
   float mutationProba = 0.4;
